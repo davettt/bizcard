@@ -15,7 +15,9 @@ export interface CardData {
   linkedin?: string
   twitter?: string
   instagram?: string
+  github?: string
   image?: string
+  logo?: string
   backText?: string
   includeBack?: boolean
 }
@@ -31,6 +33,7 @@ export interface EmailSignatureData {
   linkedin?: string
   twitter?: string
   instagram?: string
+  github?: string
 }
 
 export type PrintSize = '3.5x2' | '3.5x2.5' | '3x2' | '2.5x2'
