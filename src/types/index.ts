@@ -20,6 +20,7 @@ export interface CardData {
   logo?: string
   backText?: string
   includeBack?: boolean
+  fontScale?: number // 0.8 to 1.2, default 1.0
 }
 
 export interface EmailSignatureData {
