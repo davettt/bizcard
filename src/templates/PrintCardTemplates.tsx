@@ -8,25 +8,47 @@ interface TemplateProps {
 }
 
 // Professional typography system with tighter spacing
-const typography = {
-  name: { fontSize: '22px', fontWeight: '700', letterSpacing: '0.02em' },
-  title: { fontSize: '12px', fontWeight: '500', letterSpacing: '0.05em' },
-  company: { fontSize: '13px', fontWeight: '600', letterSpacing: '0.01em' },
-  contact: { fontSize: '10px', fontWeight: '400', lineHeight: '1.5' },
-  large: { fontSize: '26px', fontWeight: '800', letterSpacing: '-0.01em' },
-}
+// Scale parameter allows adjusting font sizes (0.8x to 1.2x)
+const getTypography = (scale: number = 1.0) => ({
+  name: {
+    fontSize: `${22 * scale}px`,
+    fontWeight: '700',
+    letterSpacing: '0.02em',
+  },
+  title: {
+    fontSize: `${12 * scale}px`,
+    fontWeight: '500',
+    letterSpacing: '0.05em',
+  },
+  company: {
+    fontSize: `${13 * scale}px`,
+    fontWeight: '600',
+    letterSpacing: '0.01em',
+  },
+  contact: {
+    fontSize: `${10 * scale}px`,
+    fontWeight: '400',
+    lineHeight: '1.5',
+  },
+  large: {
+    fontSize: `${26 * scale}px`,
+    fontWeight: '800',
+    letterSpacing: '-0.01em',
+  },
+  back: { fontSize: `${11 * scale}px`, lineHeight: '1.7' },
+})
 
 // 1. MINIMAL - Clean, centered, small logo, professional headshot
 export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
+  const typography = getTypography(data.fontScale || 1.0)
+
   if (isBack && data.includeBack && data.backText) {
     return (
       <div
         className="card-template minimal-back"
         style={{ background: colors[0], color: colors[2] }}
       >
-        <div style={{ fontSize: '11px', lineHeight: '1.7' }}>
-          {data.backText}
-        </div>
+        <div style={{ ...typography.back }}>{data.backText}</div>
       </div>
     )
   }
@@ -97,6 +119,8 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
 
 // 2. MODERN - Split layout, full-bleed image, geometric accent
 export const ModernTemplate = ({ data, colors, isBack }: TemplateProps) => {
+  const typography = getTypography(data.fontScale || 1.0)
+
   if (isBack && data.includeBack && data.backText) {
     return (
       <div
@@ -104,7 +128,7 @@ export const ModernTemplate = ({ data, colors, isBack }: TemplateProps) => {
         style={{ background: colors[0], color: colors[2] }}
       >
         <div className="geometric-accent" style={{ background: colors[1] }} />
-        <div style={{ fontSize: '11px', lineHeight: '1.7', padding: '28px' }}>
+        <div style={{ ...typography.back, padding: '28px' }}>
           {data.backText}
         </div>
       </div>
@@ -180,15 +204,15 @@ export const ProfessionalTemplate = ({
   colors,
   isBack,
 }: TemplateProps) => {
+  const typography = getTypography(data.fontScale || 1.0)
+
   if (isBack && data.includeBack && data.backText) {
     return (
       <div
         className="card-template professional-back"
         style={{ background: colors[0], color: colors[2] }}
       >
-        <div style={{ fontSize: '11px', lineHeight: '1.7' }}>
-          {data.backText}
-        </div>
+        <div style={{ ...typography.back }}>{data.backText}</div>
       </div>
     )
   }
@@ -269,13 +293,17 @@ export const ProfessionalTemplate = ({
 
 // 4. ELEGANT - Maximum white space, refined typography
 export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
+  const typography = getTypography(data.fontScale || 1.0)
+
   if (isBack && data.includeBack && data.backText) {
     return (
       <div
         className="card-template elegant-back"
         style={{ background: colors[0], borderTop: `3px solid ${colors[1]}` }}
       >
-        <div style={{ fontSize: '11px', lineHeight: '1.8', color: colors[2] }}>
+        <div
+          style={{ ...typography.back, lineHeight: '1.8', color: colors[2] }}
+        >
           {data.backText}
         </div>
       </div>
@@ -337,13 +365,20 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
 
 // 5. BOLD - Dark, striking, modern
 export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
+  const typography = getTypography(data.fontScale || 1.0)
+
   if (isBack && data.includeBack && data.backText) {
     return (
       <div
         className="card-template bold-back"
         style={{ background: colors[0], color: colors[2] }}
       >
-        <div style={{ fontSize: '12px', lineHeight: '1.7' }}>
+        <div
+          style={{
+            fontSize: `${12 * (data.fontScale || 1.0)}px`,
+            lineHeight: '1.7',
+          }}
+        >
           {data.backText}
         </div>
       </div>
@@ -406,15 +441,15 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
 
 // 6. CLASSIC - Traditional, centered, circular headshot
 export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
+  const typography = getTypography(data.fontScale || 1.0)
+
   if (isBack && data.includeBack && data.backText) {
     return (
       <div
         className="card-template classic-back"
         style={{ background: colors[3], color: colors[0] }}
       >
-        <div style={{ fontSize: '11px', lineHeight: '1.7' }}>
-          {data.backText}
-        </div>
+        <div style={{ ...typography.back }}>{data.backText}</div>
       </div>
     )
   }
@@ -501,6 +536,8 @@ export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
 
 // 7. CREATIVE - Asymmetric, dynamic, modern
 export const CreativeTemplate = ({ data, colors, isBack }: TemplateProps) => {
+  const typography = getTypography(data.fontScale || 1.0)
+
   if (isBack && data.includeBack && data.backText) {
     return (
       <div
@@ -510,9 +547,7 @@ export const CreativeTemplate = ({ data, colors, isBack }: TemplateProps) => {
           color: colors[2],
         }}
       >
-        <div style={{ fontSize: '11px', lineHeight: '1.7' }}>
-          {data.backText}
-        </div>
+        <div style={{ ...typography.back }}>{data.backText}</div>
       </div>
     )
   }
@@ -592,13 +627,15 @@ export const CreativeTemplate = ({ data, colors, isBack }: TemplateProps) => {
 
 // 8. SIMPLE - Ultra minimal, text only
 export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
+  const typography = getTypography(data.fontScale || 1.0)
+
   if (isBack && data.includeBack && data.backText) {
     return (
       <div
         className="card-template simple-back"
         style={{ background: colors[0], color: colors[2] }}
       >
-        <div style={{ fontSize: '11px', lineHeight: '1.8' }}>
+        <div style={{ ...typography.back, lineHeight: '1.8' }}>
           {data.backText}
         </div>
       </div>

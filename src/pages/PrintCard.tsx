@@ -8,6 +8,7 @@ import Input from '../components/Input'
 import ImageUpload from '../components/ImageUpload'
 import ColorPicker from '../components/ColorPicker'
 import Button from '../components/Button'
+import FontSizeControl from '../components/FontSizeControl'
 import './PrintCard.css'
 
 const PrintCard = () => {
@@ -23,8 +24,13 @@ const PrintCard = () => {
     phone: '',
     website: '',
     address: '',
+    linkedin: '',
+    twitter: '',
+    instagram: '',
+    github: '',
     includeBack: false,
     backText: '',
+    fontScale: 1.0,
   })
 
   const [selectedTemplate, setSelectedTemplate] =
@@ -35,7 +41,7 @@ const PrintCard = () => {
 
   const handleInputChange = (
     field: keyof CardData,
-    value: string | boolean
+    value: string | boolean | number
   ) => {
     setCardData(prev => ({ ...prev, [field]: value }))
   }
@@ -126,11 +132,41 @@ const PrintCard = () => {
                 onChange={val => handleInputChange('website', val)}
                 placeholder="www.example.com"
               />
+              <Input
+                label="LinkedIn"
+                value={cardData.linkedin || ''}
+                onChange={val => handleInputChange('linkedin', val)}
+                placeholder="https://linkedin.com/in/username"
+              />
+              <Input
+                label="Twitter"
+                value={cardData.twitter || ''}
+                onChange={val => handleInputChange('twitter', val)}
+                placeholder="https://twitter.com/username"
+              />
+              <Input
+                label="Instagram"
+                value={cardData.instagram || ''}
+                onChange={val => handleInputChange('instagram', val)}
+                placeholder="https://instagram.com/username"
+              />
+              <Input
+                label="GitHub"
+                value={cardData.github || ''}
+                onChange={val => handleInputChange('github', val)}
+                placeholder="https://github.com/username"
+              />
 
               <ImageUpload
                 label="Profile Image"
                 onImageSelect={img => handleInputChange('image', img)}
                 currentImage={cardData.image}
+              />
+
+              <ImageUpload
+                label="Company Logo (Optional)"
+                onImageSelect={img => handleInputChange('logo', img)}
+                currentImage={cardData.logo}
               />
 
               <div className="checkbox-group">
@@ -190,6 +226,14 @@ const PrintCard = () => {
                   </button>
                 ))}
               </div>
+            </div>
+
+            <div className="form-card">
+              <h2>Typography</h2>
+              <FontSizeControl
+                value={cardData.fontScale || 1.0}
+                onChange={val => handleInputChange('fontScale', val)}
+              />
             </div>
 
             <ColorPicker

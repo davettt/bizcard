@@ -42,7 +42,7 @@ const generateAccessibleColors = (): string[] => {
   ) // 60-90% sat, adjusted lightness
 
   // Text color - ensure proper contrast
-  let textColor = getBestTextColor(background)
+  const textColor = getBestTextColor(background)
 
   // Secondary accent (complementary to primary)
   const secondary = hslToHex(
