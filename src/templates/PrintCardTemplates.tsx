@@ -1,4 +1,4 @@
-import { CardData, TemplateId } from '../types'
+import { CardData } from '../types'
 import './PrintCardTemplates.css'
 
 interface TemplateProps {
@@ -325,26 +325,4 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
       </div>
     </div>
   )
-}
-
-export const templateComponents: Record<TemplateId, React.FC<TemplateProps>> = {
-  minimal: MinimalTemplate,
-  classic: ClassicTemplate,
-  modern: ModernTemplate,
-  elegant: ElegantTemplate,
-  bold: BoldTemplate,
-  creative: CreativeTemplate,
-  professional: ProfessionalTemplate,
-  simple: SimpleTemplate,
-}
-
-export const templateNames: Record<TemplateId, string> = {
-  minimal: 'Minimal',
-  classic: 'Classic',
-  modern: 'Modern',
-  elegant: 'Elegant',
-  bold: 'Bold',
-  creative: 'Creative',
-  professional: 'Professional',
-  simple: 'Simple',
 }

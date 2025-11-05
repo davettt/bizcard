@@ -1,10 +1,7 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CardData, ColorPalette, PrintSize, TemplateId } from '../types'
-import {
-  templateComponents,
-  templateNames,
-} from '../templates/PrintCardTemplates'
+import { templateComponents, templateNames } from '../templates/printCardConfig'
 import { printSizes } from '../utils/printSizes'
 import { exportToPDF } from '../utils/exportPDF'
 import Input from '../components/Input'

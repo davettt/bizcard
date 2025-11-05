@@ -1,4 +1,4 @@
-import { EmailSignatureData, EmailTemplateId } from '../types'
+import { EmailSignatureData } from '../types'
 
 interface EmailTemplateProps {
   data: EmailSignatureData
@@ -462,21 +462,4 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
       </tr>
     </table>
   )
-}
-
-export const emailTemplateComponents: Record<
-  EmailTemplateId,
-  React.FC<EmailTemplateProps>
-> = {
-  simple: SimpleEmailTemplate,
-  modern: ModernEmailTemplate,
-  professional: ProfessionalEmailTemplate,
-  creative: CreativeEmailTemplate,
-}
-
-export const emailTemplateNames: Record<EmailTemplateId, string> = {
-  simple: 'Simple',
-  modern: 'Modern',
-  professional: 'Professional',
-  creative: 'Creative',
 }

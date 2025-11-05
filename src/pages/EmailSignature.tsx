@@ -4,7 +4,7 @@ import { EmailSignatureData, ColorPalette, EmailTemplateId } from '../types'
 import {
   emailTemplateComponents,
   emailTemplateNames,
-} from '../templates/EmailTemplates'
+} from '../templates/emailTemplateConfig'
 import { exportEmailSignatureHTML } from '../utils/exportHTML'
 import Input from '../components/Input'
 import ColorPicker from '../components/ColorPicker'
