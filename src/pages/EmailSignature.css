@@ -1,0 +1,23 @@
+.email-signature-page {
+  min-height: 100vh;
+  padding: 2rem 0 4rem;
+  background: var(--background);
+}
+
+.signature-preview {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+  }
+}

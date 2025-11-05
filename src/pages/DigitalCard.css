@@ -1,0 +1,20 @@
+.digital-card-page {
+  min-height: 100vh;
+  padding: 2rem 0 4rem;
+  background: var(--background);
+}
+
+.info-box {
+  background: rgba(37, 99, 235, 0.1);
+  border-left: 4px solid var(--primary);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-box p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}

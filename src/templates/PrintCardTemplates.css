@@ -1,0 +1,200 @@
+.card-template {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Images */
+.card-image {
+  width: 100%;
+  height: auto;
+  max-height: 40%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.card-image-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 1rem;
+}
+
+.card-image-small {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+.card-image-rounded {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+/* Typography */
+.card-template h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+.title {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.company {
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.9;
+}
+
+.contact-info {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.contact-info p {
+  margin: 0.15rem 0;
+}
+
+/* Minimal Template */
+.minimal {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.minimal-back,
+.simple-back,
+.elegant-back {
+  justify-content: center;
+  align-items: center;
+}
+
+/* Classic Template */
+.classic {
+  padding: 0;
+}
+
+.classic-header {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.classic-body {
+  flex: 1;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* Modern Template */
+.modern {
+  flex-direction: row;
+  padding: 0;
+}
+
+.modern-left {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modern-right {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Elegant Template */
+.elegant {
+  justify-content: center;
+}
+
+.divider {
+  height: 2px;
+  width: 60px;
+  margin: 0.75rem 0;
+}
+
+/* Bold Template */
+.bold {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.bold-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Creative Template */
+.creative {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.creative-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Professional Template */
+.professional {
+  flex-direction: row;
+  padding: 0;
+}
+
+.professional-sidebar {
+  width: 35%;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.professional-main {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Simple Template */
+.simple {
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+/* Back Templates */
+.back-content {
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
