@@ -16,19 +16,19 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 32px 24px;
+  padding: 28px 22px;
 }
 
 .minimal-logo {
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   object-fit: contain;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .minimal-headshot {
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid;
@@ -39,7 +39,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 40px;
+  padding: 36px;
 }
 
 /* MODERN TEMPLATE - Split layout with full-bleed image */
@@ -92,25 +92,25 @@
 
 /* PROFESSIONAL TEMPLATE - Traditional business card */
 .professional-template {
-  padding: 24px;
+  padding: 20px;
 }
 
 .professional-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .professional-logo {
-  width: 70px;
-  height: 70px;
+  width: 65px;
+  height: 65px;
   object-fit: contain;
 }
 
 .professional-headshot {
-  width: 80px;
-  height: 80px;
+  width: 75px;
+  height: 75px;
   border-radius: 8px;
   object-fit: cover;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -125,33 +125,41 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 36px;
+  padding: 32px;
 }
 
 /* ELEGANT TEMPLATE - Maximum white space, refined */
 .elegant-template {
   justify-content: center;
-  padding: 36px 32px;
+  padding: 32px 28px;
   text-align: left;
 }
 
 .elegant-logo {
-  width: 55px;
-  height: 55px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+}
+
+.elegant-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 16px;
 }
 
 .elegant-back {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 38px;
+  padding: 34px;
 }
 
 /* BOLD TEMPLATE - Dark, striking, modern */
 .bold-template {
-  padding: 32px 28px;
+  padding: 28px 24px;
   justify-content: center;
   position: relative;
 }
@@ -165,16 +173,24 @@
 }
 
 .bold-logo {
-  width: 65px;
-  height: 65px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
+}
+
+.bold-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 14px;
 }
 
 .bold-back {
   justify-content: center;
   text-align: center;
-  padding: 36px;
+  padding: 32px;
 }
 
 /* CLASSIC TEMPLATE - Traditional centered with header */
@@ -190,8 +206,8 @@
 }
 
 .classic-headshot {
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -204,17 +220,17 @@
 }
 
 .classic-logo {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   object-fit: contain;
-  margin: 0 auto 12px;
+  margin: 0 auto 10px;
 }
 
 .classic-back {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 36px;
+  padding: 32px;
 }
 
 /* CREATIVE TEMPLATE - Asymmetric, dynamic */
@@ -273,22 +289,30 @@
 
 /* SIMPLE TEMPLATE - Ultra minimal */
 .simple-template {
-  padding: 36px 32px;
+  padding: 32px 28px;
   justify-content: center;
 }
 
 .simple-logo {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   object-fit: contain;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+}
+
+.simple-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
 }
 
 .simple-back {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 38px;
+  padding: 34px;
 }
 
 /* Back side common styles */
