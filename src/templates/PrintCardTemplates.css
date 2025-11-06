@@ -125,6 +125,14 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+.professional-pattern {
+  width: 100px;
+  height: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
 .professional-divider {
   width: 50px;
   height: 2px;
@@ -157,6 +165,17 @@
   border-radius: 8px;
   object-fit: cover;
   margin-bottom: 10px;
+}
+
+.elegant-watermark {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .elegant-back {
@@ -194,6 +213,19 @@
   border-radius: 8px;
   object-fit: cover;
   margin-bottom: 10px;
+}
+
+.bold-pattern {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .bold-back {
@@ -310,6 +342,18 @@
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 10px;
+}
+
+.simple-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .simple-back {

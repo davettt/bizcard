@@ -248,9 +248,6 @@ export const ProfessionalTemplate = ({
     )
   }
 
-  // Show logo or image on the right side
-  const showVisual = data.logo || data.image
-
   return (
     <div
       className="card-template professional-template"
@@ -325,13 +322,28 @@ export const ProfessionalTemplate = ({
           </div>
         )}
       </div>
-      {showVisual && data.image && !data.logo && (
-        <div className="professional-image-side">
-          <img
-            src={data.image}
-            alt={data.name}
-            className="professional-headshot-large"
-          />
+      {/* Right panel: show image when available */}
+      {data.image && (
+        <div
+          className="professional-image-side"
+          style={{ position: 'relative' }}
+        >
+          {/* When both logo and image: show image as decorative pattern */}
+          {data.logo ? (
+            <img
+              src={data.image}
+              alt=""
+              className="professional-pattern"
+              style={{ opacity: 0.15 }}
+            />
+          ) : (
+            /* When only image (no logo): show as primary headshot */
+            <img
+              src={data.image}
+              alt={data.name}
+              className="professional-headshot-large"
+            />
+          )}
         </div>
       )}
     </div>
@@ -357,17 +369,34 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
-  // Show logo if available, otherwise show smaller image
+  // When both logo and image: logo primary, image as decorative watermark
   const showLogo = data.logo
-  const showImage = !data.logo && data.image
+  const showDecorativeImage = data.logo && data.image
 
   return (
     <div
       className="card-template elegant-template"
-      style={{ background: colors[0], borderTop: `3px solid ${colors[1]}` }}
+      style={{
+        background: colors[0],
+        borderTop: `3px solid ${colors[1]}`,
+        position: 'relative',
+      }}
     >
+      {/* Decorative watermark image in bottom-right when both logo and image provided */}
+      {showDecorativeImage && (
+        <img
+          src={data.image}
+          alt=""
+          className="elegant-watermark"
+          style={{ opacity: 0.08 }}
+        />
+      )}
+
+      {/* Primary logo */}
       {showLogo && <img src={data.logo} alt="Logo" className="elegant-logo" />}
-      {showImage && (
+
+      {/* If only image (no logo), show it as primary */}
+      {!showLogo && data.image && (
         <img src={data.image} alt={data.name} className="elegant-image-small" />
       )}
       <h1
@@ -375,7 +404,7 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
           ...typography.name,
           color: colors[2],
           marginBottom: '3px',
-          marginTop: showLogo || showImage ? '6px' : '0',
+          marginTop: showLogo || data.image ? '6px' : '0',
         }}
       >
         {data.name}
@@ -449,18 +478,32 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
-  // Show logo if available, otherwise show smaller image
+  // When both logo and image: logo primary, image as decorative pattern
   const showLogo = data.logo
-  const showImage = !data.logo && data.image
+  const showDecorativeImage = data.logo && data.image
 
   return (
     <div
       className="card-template bold-template"
-      style={{ background: colors[0] }}
+      style={{ background: colors[0], position: 'relative' }}
     >
       <div className="bold-accent" style={{ background: colors[1] }} />
+
+      {/* Decorative pattern image on left side when both logo and image provided */}
+      {showDecorativeImage && (
+        <img
+          src={data.image}
+          alt=""
+          className="bold-pattern"
+          style={{ opacity: 0.12 }}
+        />
+      )}
+
+      {/* Primary logo */}
       {showLogo && <img src={data.logo} alt="Logo" className="bold-logo" />}
-      {showImage && (
+
+      {/* If only image (no logo), show it as primary */}
+      {!showLogo && data.image && (
         <img src={data.image} alt={data.name} className="bold-image-small" />
       )}
       <h1
@@ -469,7 +512,7 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
           fontSize: `${23 * (data.fontScale || 1.0)}px`,
           color: colors[2],
           marginBottom: '4px',
-          marginTop: showLogo || showImage ? '6px' : '0',
+          marginTop: showLogo || data.image ? '6px' : '0',
           fontWeight: '800',
         }}
       >
@@ -751,17 +794,30 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
-  // Show logo if available, otherwise show smaller image
+  // When both logo and image: logo primary, image as centered watermark
   const showLogo = data.logo
-  const showImage = !data.logo && data.image
+  const showDecorativeImage = data.logo && data.image
 
   return (
     <div
       className="card-template simple-template"
-      style={{ background: colors[0] }}
+      style={{ background: colors[0], position: 'relative' }}
     >
+      {/* Centered watermark image when both logo and image provided */}
+      {showDecorativeImage && (
+        <img
+          src={data.image}
+          alt=""
+          className="simple-watermark"
+          style={{ opacity: 0.06 }}
+        />
+      )}
+
+      {/* Primary logo */}
       {showLogo && <img src={data.logo} alt="Logo" className="simple-logo" />}
-      {showImage && (
+
+      {/* If only image (no logo), show it as primary */}
+      {!showLogo && data.image && (
         <img src={data.image} alt={data.name} className="simple-image-small" />
       )}
       <h1
@@ -769,7 +825,7 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
           ...typography.name,
           color: colors[2],
           marginBottom: '3px',
-          marginTop: showLogo || showImage ? '8px' : '0',
+          marginTop: showLogo || data.image ? '8px' : '0',
         }}
       >
         {data.name}
