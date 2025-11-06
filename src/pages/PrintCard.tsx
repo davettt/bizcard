@@ -46,6 +46,36 @@ const PrintCard = () => {
     setCardData(prev => ({ ...prev, [field]: value }))
   }
 
+  const fillTestData = () => {
+    // Sample logo (simple colored square as data URI)
+    const testLogo =
+      'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect width="100" height="100" fill="%234A90E2"/%3E%3Ctext x="50" y="55" font-family="Arial" font-size="40" fill="white" text-anchor="middle"%3ELG%3C/text%3E%3C/svg%3E'
+
+    // Sample image (placeholder pattern)
+    const testImage =
+      'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Cdefs%3E%3ClinearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"%3E%3Cstop offset="0%25" style="stop-color:%23FF6B6B;stop-opacity:1" /%3E%3Cstop offset="100%25" style="stop-color:%234ECDC4;stop-opacity:1" /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width="200" height="200" fill="url(%23grad)"/%3E%3Ccircle cx="100" cy="100" r="60" fill="white" opacity="0.3"/%3E%3C/svg%3E'
+
+    setCardData({
+      name: 'Sarah Anderson',
+      title: 'Senior Product Designer',
+      company: 'TechVision Inc.',
+      email: 'sarah.anderson@techvision.com',
+      phone: '+1 (555) 123-4567',
+      website: 'www.sarahdesigns.io',
+      address: '123 Innovation Drive, San Francisco, CA 94103',
+      linkedin: 'linkedin.com/in/sarahanderson',
+      twitter: 'twitter.com/sarahdesigns',
+      instagram: 'instagram.com/sarah.creates',
+      github: 'github.com/sarahanderson',
+      logo: testLogo,
+      image: testImage,
+      includeBack: true,
+      backText:
+        'Passionate about creating intuitive user experiences that solve real problems. Available for freelance projects and consulting.',
+      fontScale: 1.0,
+    })
+  }
+
   const handleExport = async () => {
     if (!frontRef.current || !selectedPalette) {
       alert('Please complete all required fields and select a color palette')
@@ -90,6 +120,30 @@ const PrintCard = () => {
         <div className="content-grid">
           {/* Form Section */}
           <div className="form-section">
+            <div
+              style={{
+                marginBottom: '20px',
+                padding: '16px',
+                background: '#f0f9ff',
+                borderRadius: '8px',
+                border: '1px solid #bae6fd',
+              }}
+            >
+              <Button onClick={fillTestData} variant="secondary" fullWidth>
+                🧪 Fill Test Data
+              </Button>
+              <p
+                style={{
+                  margin: '8px 0 0 0',
+                  fontSize: '13px',
+                  color: '#0369a1',
+                  textAlign: 'center',
+                }}
+              >
+                Quickly populate all fields with sample data for testing
+              </p>
+            </div>
+
             <div className="form-card">
               <h2>Card Information</h2>
               <Input
