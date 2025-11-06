@@ -71,10 +71,12 @@ const DigitalCard = () => {
   return (
     <div className="digital-card-page">
       <div className="page-header">
-        <button onClick={() => navigate('/')} className="back-btn">
-          ← Back to Home
-        </button>
-        <h1>Create Digital Business Card</h1>
+        <div className="container">
+          <button onClick={() => navigate('/')} className="back-btn">
+            ← Back to Home
+          </button>
+          <h1>Create Digital Business Card</h1>
+        </div>
       </div>
 
       <div className="container">

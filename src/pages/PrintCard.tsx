@@ -111,10 +111,12 @@ const PrintCard = () => {
   return (
     <div className="print-card-page">
       <div className="page-header">
-        <button onClick={() => navigate('/')} className="back-btn">
-          ← Back to Home
-        </button>
-        <h1>Create Print Business Card</h1>
+        <div className="container">
+          <button onClick={() => navigate('/')} className="back-btn">
+            ← Back to Home
+          </button>
+          <h1>Create Print Business Card</h1>
+        </div>
       </div>
 
       <div className="container">

@@ -81,10 +81,12 @@ const EmailSignature = () => {
   return (
     <div className="email-signature-page">
       <div className="page-header">
-        <button onClick={() => navigate('/')} className="back-btn">
-          ← Back to Home
-        </button>
-        <h1>Create Email Signature</h1>
+        <div className="container">
+          <button onClick={() => navigate('/')} className="back-btn">
+            ← Back to Home
+          </button>
+          <h1>Create Email Signature</h1>
+        </div>
       </div>
 
       <div className="container">
