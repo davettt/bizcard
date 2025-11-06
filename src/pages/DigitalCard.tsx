@@ -34,6 +34,26 @@ const DigitalCard = () => {
     setCardData(prev => ({ ...prev, [field]: value }))
   }
 
+  const fillTestData = () => {
+    // Sample image (placeholder pattern)
+    const testImage =
+      'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Cdefs%3E%3ClinearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"%3E%3Cstop offset="0%25" style="stop-color:%23FF6B6B;stop-opacity:1" /%3E%3Cstop offset="100%25" style="stop-color:%234ECDC4;stop-opacity:1" /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width="200" height="200" fill="url(%23grad)"/%3E%3Ccircle cx="100" cy="100" r="60" fill="white" opacity="0.3"/%3E%3C/svg%3E'
+
+    setCardData({
+      name: 'Sarah Anderson',
+      title: 'Senior Product Designer',
+      company: 'TechVision Inc.',
+      email: 'sarah.anderson@techvision.com',
+      phone: '+1 (555) 123-4567',
+      website: 'www.sarahdesigns.io',
+      linkedin: 'linkedin.com/in/sarahanderson',
+      twitter: 'twitter.com/sarahdesigns',
+      instagram: 'instagram.com/sarah.creates',
+      github: 'github.com/sarahanderson',
+      image: testImage,
+    })
+  }
+
   const handleExport = async () => {
     if (!cardRef.current || !selectedPalette) {
       alert('Please complete all required fields and select a color palette')
@@ -83,6 +103,29 @@ const DigitalCard = () => {
         <div className="content-grid">
           {/* Form Section */}
           <div className="form-section">
+            <div
+              style={{
+                marginBottom: '20px',
+                padding: '16px',
+                background: '#f0fdf4',
+                borderRadius: '8px',
+                border: '1px solid #bbf7d0',
+              }}
+            >
+              <Button onClick={fillTestData} variant="secondary" fullWidth>
+                🧪 Fill Test Data
+              </Button>
+              <p
+                style={{
+                  margin: '8px 0 0 0',
+                  fontSize: '13px',
+                  color: '#15803d',
+                }}
+              >
+                Quickly populate all fields with sample data to preview the
+                design
+              </p>
+            </div>
             <div className="form-card">
               <h2>Card Information</h2>
               <Input
