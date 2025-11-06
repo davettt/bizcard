@@ -325,18 +325,13 @@ export const ProfessionalTemplate = ({
       {/* Right panel: show image when available */}
       {data.image && (
         <div className="professional-image-side">
-          {/* When both logo and image: show small repeated icons */}
+          {/* When both logo and image: show single large centered decorative image */}
           {data.logo ? (
-            <div className="professional-icons">
-              {[0, 1, 2].map(i => (
-                <img
-                  key={i}
-                  src={data.image}
-                  alt=""
-                  className="professional-icon"
-                />
-              ))}
-            </div>
+            <img
+              src={data.image}
+              alt=""
+              className="professional-decorative-image"
+            />
           ) : (
             /* When only image (no logo): show as primary headshot */
             <img
@@ -490,13 +485,14 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
     >
       <div className="bold-accent" style={{ background: colors[1] }} />
 
-      {/* Repeated small icons along left side when both logo and image provided */}
+      {/* Medium decorative image top-right with bold border when both logo and image provided */}
       {showDecorativeImage && (
-        <div className="bold-icons">
-          {[0, 1, 2].map(i => (
-            <img key={i} src={data.image} alt="" className="bold-icon" />
-          ))}
-        </div>
+        <img
+          src={data.image}
+          alt=""
+          className="bold-decorative-image"
+          style={{ borderColor: colors[1] }}
+        />
       )}
 
       {/* Primary logo */}
@@ -801,8 +797,15 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
   return (
     <div
       className="card-template simple-template"
-      style={{ background: colors[0] }}
+      style={{ background: colors[0], position: 'relative' }}
     >
+      {/* Fade pattern on right when both logo and image provided */}
+      {showDecorativeImage && (
+        <div className="simple-fade-pattern">
+          <img src={data.image} alt="" className="simple-pattern-image" />
+        </div>
+      )}
+
       {/* Primary logo */}
       {showLogo && <img src={data.logo} alt="Logo" className="simple-logo" />}
 
@@ -861,18 +864,6 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
             instagram={data.instagram}
             github={data.github}
             color={colors[1]}
-          />
-        </div>
-      )}
-
-      {/* Small centered badge at bottom when both logo and image provided */}
-      {showDecorativeImage && (
-        <div style={{ marginTop: '10px' }}>
-          <img
-            src={data.image}
-            alt=""
-            className="simple-badge"
-            style={{ borderColor: colors[1] }}
           />
         </div>
       )}
