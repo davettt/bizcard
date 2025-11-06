@@ -324,18 +324,19 @@ export const ProfessionalTemplate = ({
       </div>
       {/* Right panel: show image when available */}
       {data.image && (
-        <div
-          className="professional-image-side"
-          style={{ position: 'relative' }}
-        >
-          {/* When both logo and image: show image as decorative pattern */}
+        <div className="professional-image-side">
+          {/* When both logo and image: show small repeated icons */}
           {data.logo ? (
-            <img
-              src={data.image}
-              alt=""
-              className="professional-pattern"
-              style={{ opacity: 0.15 }}
-            />
+            <div className="professional-icons">
+              {[0, 1, 2].map(i => (
+                <img
+                  key={i}
+                  src={data.image}
+                  alt=""
+                  className="professional-icon"
+                />
+              ))}
+            </div>
           ) : (
             /* When only image (no logo): show as primary headshot */
             <img
@@ -369,7 +370,7 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
-  // When both logo and image: logo primary, image as decorative watermark
+  // When both logo and image: logo primary, image as decorative badge
   const showLogo = data.logo
   const showDecorativeImage = data.logo && data.image
 
@@ -382,13 +383,13 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
         position: 'relative',
       }}
     >
-      {/* Decorative watermark image in bottom-right when both logo and image provided */}
+      {/* Small decorative badge in bottom-right when both logo and image provided */}
       {showDecorativeImage && (
         <img
           src={data.image}
           alt=""
-          className="elegant-watermark"
-          style={{ opacity: 0.08 }}
+          className="elegant-badge"
+          style={{ borderColor: colors[1] }}
         />
       )}
 
@@ -489,14 +490,13 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
     >
       <div className="bold-accent" style={{ background: colors[1] }} />
 
-      {/* Decorative pattern image on left side when both logo and image provided */}
+      {/* Repeated small icons along left side when both logo and image provided */}
       {showDecorativeImage && (
-        <img
-          src={data.image}
-          alt=""
-          className="bold-pattern"
-          style={{ opacity: 0.12 }}
-        />
+        <div className="bold-icons">
+          {[0, 1, 2].map(i => (
+            <img key={i} src={data.image} alt="" className="bold-icon" />
+          ))}
+        </div>
       )}
 
       {/* Primary logo */}
@@ -794,25 +794,15 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
-  // When both logo and image: logo primary, image as centered watermark
+  // When both logo and image: logo primary, image as small badge
   const showLogo = data.logo
   const showDecorativeImage = data.logo && data.image
 
   return (
     <div
       className="card-template simple-template"
-      style={{ background: colors[0], position: 'relative' }}
+      style={{ background: colors[0] }}
     >
-      {/* Centered watermark image when both logo and image provided */}
-      {showDecorativeImage && (
-        <img
-          src={data.image}
-          alt=""
-          className="simple-watermark"
-          style={{ opacity: 0.06 }}
-        />
-      )}
-
       {/* Primary logo */}
       {showLogo && <img src={data.logo} alt="Logo" className="simple-logo" />}
 
@@ -871,6 +861,18 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
             instagram={data.instagram}
             github={data.github}
             color={colors[1]}
+          />
+        </div>
+      )}
+
+      {/* Small centered badge at bottom when both logo and image provided */}
+      {showDecorativeImage && (
+        <div style={{ marginTop: '10px' }}>
+          <img
+            src={data.image}
+            alt=""
+            className="simple-badge"
+            style={{ borderColor: colors[1] }}
           />
         </div>
       )}
