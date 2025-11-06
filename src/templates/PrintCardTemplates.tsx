@@ -1,5 +1,6 @@
 import { CardData } from '../types'
 import SocialLinks from '../components/SocialLinks'
+import SocialHandles from '../components/SocialHandles'
 import './PrintCardTemplates.css'
 
 interface TemplateProps {
@@ -79,6 +80,18 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
         style={{ background: colors[0], color: colors[2] }}
       >
         <div style={{ ...typography.back }}>{data.backText}</div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '16px' }}>
+            <SocialHandles
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[1]}
+              textColor={colors[2]}
+            />
+          </div>
+        )}
       </div>
     )
   }
@@ -184,6 +197,18 @@ export const ModernTemplate = ({ data, colors, isBack }: TemplateProps) => {
         <div className="geometric-accent" style={{ background: colors[1] }} />
         <div style={{ ...typography.back, padding: '28px' }}>
           {data.backText}
+          {(data.linkedin || data.twitter || data.instagram || data.github) && (
+            <div style={{ marginTop: '16px' }}>
+              <SocialHandles
+                linkedin={data.linkedin}
+                twitter={data.twitter}
+                instagram={data.instagram}
+                github={data.github}
+                color={colors[1]}
+                textColor={colors[2]}
+              />
+            </div>
+          )}
         </div>
       </div>
     )
@@ -286,6 +311,18 @@ export const ProfessionalTemplate = ({
         style={{ background: colors[0], color: colors[2] }}
       >
         <div style={{ ...typography.back }}>{data.backText}</div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '16px' }}>
+            <SocialHandles
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[1]}
+              textColor={colors[2]}
+            />
+          </div>
+        )}
       </div>
     )
   }
@@ -407,6 +444,18 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
         >
           {data.backText}
         </div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '16px' }}>
+            <SocialHandles
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[1]}
+              textColor={colors[2]}
+            />
+          </div>
+        )}
       </div>
     )
   }
@@ -520,6 +569,18 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
         >
           {data.backText}
         </div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '16px' }}>
+            <SocialHandles
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[1]}
+              textColor={colors[2]}
+            />
+          </div>
+        )}
       </div>
     )
   }
@@ -626,6 +687,18 @@ export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
         style={{ background: colors[3], color: colors[0] }}
       >
         <div style={{ ...typography.back }}>{data.backText}</div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '16px' }}>
+            <SocialHandles
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[1]}
+              textColor={colors[0]}
+            />
+          </div>
+        )}
       </div>
     )
   }
@@ -741,6 +814,18 @@ export const CreativeTemplate = ({ data, colors, isBack }: TemplateProps) => {
         }}
       >
         <div style={{ ...typography.back }}>{data.backText}</div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '16px' }}>
+            <SocialHandles
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[2]}
+              textColor={colors[2]}
+            />
+          </div>
+        )}
       </div>
     )
   }
@@ -850,6 +935,18 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
         <div style={{ ...typography.back, lineHeight: '1.8' }}>
           {data.backText}
         </div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '16px' }}>
+            <SocialHandles
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[1]}
+              textColor={colors[2]}
+            />
+          </div>
+        )}
       </div>
     )
   }
