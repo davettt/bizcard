@@ -60,3 +60,5 @@ export type TemplateId =
   | 'simple'
 
 export type EmailTemplateId = 'simple' | 'modern' | 'professional' | 'creative'
+
+export type DigitalFormatId = 'portrait' | 'banner' | 'square' | 'mobile'

@@ -1,7 +1,11 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CardData, ColorPalette, TemplateId } from '../types'
-import { templateComponents, templateNames } from '../templates/printCardConfig'
+import { CardData, ColorPalette, DigitalFormatId } from '../types'
+import {
+  digitalFormatComponents,
+  digitalFormatNames,
+  digitalFormatDescriptions,
+} from '../templates/digitalCardConfig'
 import { exportToHTML, imageToBase64 } from '../utils/exportHTML'
 import Input from '../components/Input'
 import ImageUpload from '../components/ImageUpload'
@@ -25,8 +29,8 @@ const DigitalCard = () => {
     instagram: '',
   })
 
-  const [selectedTemplate, setSelectedTemplate] =
-    useState<TemplateId>('minimal')
+  const [selectedFormat, setSelectedFormat] =
+    useState<DigitalFormatId>('portrait')
   const [selectedPalette, setSelectedPalette] = useState<ColorPalette>()
   const [isExporting, setIsExporting] = useState(false)
 
@@ -80,7 +84,7 @@ const DigitalCard = () => {
     }
   }
 
-  const TemplateComponent = templateComponents[selectedTemplate]
+  const FormatComponent = digitalFormatComponents[selectedFormat]
   const colors = selectedPalette?.colors || [
     '#000000',
     '#333333',
@@ -195,17 +199,22 @@ const DigitalCard = () => {
             </div>
 
             <div className="form-card">
-              <h2>Template</h2>
-              <div className="template-grid">
-                {(Object.keys(templateNames) as TemplateId[]).map(id => (
-                  <button
-                    key={id}
-                    className={`template-option ${selectedTemplate === id ? 'selected' : ''}`}
-                    onClick={() => setSelectedTemplate(id)}
-                  >
-                    {templateNames[id]}
-                  </button>
-                ))}
+              <h2>Format</h2>
+              <div className="format-grid">
+                {(Object.keys(digitalFormatNames) as DigitalFormatId[]).map(
+                  id => (
+                    <button
+                      key={id}
+                      className={`format-option ${selectedFormat === id ? 'selected' : ''}`}
+                      onClick={() => setSelectedFormat(id)}
+                    >
+                      <div className="format-name">{digitalFormatNames[id]}</div>
+                      <div className="format-desc">
+                        {digitalFormatDescriptions[id]}
+                      </div>
+                    </button>
+                  )
+                )}
               </div>
             </div>
 
@@ -219,12 +228,8 @@ const DigitalCard = () => {
           <div className="preview-section">
             <h2>Preview</h2>
             <div className="preview-container">
-              <div
-                ref={cardRef}
-                className="card-preview"
-                style={{ aspectRatio: '3.5/2' }}
-              >
-                <TemplateComponent data={cardData} colors={colors} />
+              <div ref={cardRef} className="card-preview">
+                <FormatComponent data={cardData} colors={colors} />
               </div>
             </div>
 
