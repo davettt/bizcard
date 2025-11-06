@@ -24,6 +24,19 @@ const getFontFamily = (fontFamily: string | undefined) => {
   return fontFamily
 }
 
+// Helper to get responsive padding based on font scale
+// When font increases, padding decreases to prevent overflow
+const getResponsivePadding = (
+  fontScale: number = 1.0,
+  basePadding: number = 28
+) => {
+  // Inverse relationship: larger font = smaller padding
+  // At scale 0.8, padding increases by 20%
+  // At scale 1.2, padding decreases by 20%
+  const paddingMultiplier = 1.4 - fontScale * 0.4
+  return Math.round(basePadding * paddingMultiplier)
+}
+
 // Professional typography system with tighter spacing
 // Scale parameter allows adjusting font sizes (0.8x to 1.2x)
 const getTypography = (scale: number = 1.0) => ({
@@ -74,6 +87,8 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
   const showLogo = data.logo
   const showImage = !data.logo && data.image
 
+  const padding = getResponsivePadding(data.fontScale, 28)
+
   return (
     <div
       className="card-template minimal-template"
@@ -81,6 +96,7 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
         background: colors[0],
         borderRadius: getBorderRadius(data.cornerStyle, '8px'),
         fontFamily: getFontFamily(data.fontFamily),
+        padding: `${padding}px ${Math.round(padding * 0.79)}px`,
       }}
     >
       {showLogo && <img src={data.logo} alt="Logo" className="minimal-logo" />}
@@ -398,6 +414,7 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
   // When both logo and image: logo primary, image as decorative badge
   const showLogo = data.logo
   const showDecorativeImage = data.logo && data.image
+  const padding = getResponsivePadding(data.fontScale, 32)
 
   return (
     <div
@@ -408,6 +425,7 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
         position: 'relative',
         borderRadius: getBorderRadius(data.cornerStyle, '8px'),
         fontFamily: getFontFamily(data.fontFamily),
+        padding: `${padding}px ${Math.round(padding * 0.88)}px`,
       }}
     >
       {/* Small decorative badge in bottom-right when both logo and image provided */}
@@ -509,6 +527,7 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
   // When both logo and image: logo primary, image as decorative pattern
   const showLogo = data.logo
   const showDecorativeImage = data.logo && data.image
+  const padding = getResponsivePadding(data.fontScale, 26)
 
   return (
     <div
@@ -518,6 +537,7 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
         position: 'relative',
         borderRadius: getBorderRadius(data.cornerStyle, '8px'),
         fontFamily: getFontFamily(data.fontFamily),
+        padding: `${padding}px ${Math.round(padding * 1.23)}px`,
       }}
     >
       <div className="bold-accent" style={{ background: colors[1] }} />
@@ -612,6 +632,7 @@ export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
 
   // Show logo or small image at top
   const showVisual = data.logo || data.image
+  const padding = getResponsivePadding(data.fontScale, 28)
 
   return (
     <div
@@ -621,6 +642,7 @@ export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
         borderLeft: `4px solid ${colors[1]}`,
         borderRadius: getBorderRadius(data.cornerStyle, '8px'),
         fontFamily: getFontFamily(data.fontFamily),
+        padding: `${padding}px ${Math.round(padding * 0.86)}px`,
       }}
     >
       {data.logo && <img src={data.logo} alt="Logo" className="classic-logo" />}
@@ -835,6 +857,7 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
   // When both logo and image: logo primary, image as small badge
   const showLogo = data.logo
   const showDecorativeImage = data.logo && data.image
+  const padding = getResponsivePadding(data.fontScale, 32)
 
   return (
     <div
@@ -844,6 +867,7 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
         position: 'relative',
         borderRadius: getBorderRadius(data.cornerStyle, '8px'),
         fontFamily: getFontFamily(data.fontFamily),
+        padding: `${padding}px ${Math.round(padding * 0.88)}px`,
       }}
     >
       {/* Fade pattern on right when both logo and image provided */}
