@@ -217,20 +217,23 @@
   margin-bottom: 10px;
 }
 
-.bold-decorative-image {
+.bold-decorative-overlay {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 75px;
-  height: 75px;
-  border-radius: 0;
+  bottom: 0;
+  right: 0;
+  width: 140px;
+  height: 140px;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bold-decorative-image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-top: 8px solid;
-  border-right: 8px solid;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
-  border-left: 2px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-  z-index: 1;
+  opacity: 0.25;
+  mix-blend-mode: luminosity;
+  transform: scale(1.2);
 }
 
 .bold-back {
@@ -358,11 +361,11 @@
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
-  mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.35) 0%, transparent 80%);
+  mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.5) 0%, transparent 75%);
   -webkit-mask-image: linear-gradient(
     to left,
-    rgba(0, 0, 0, 0.35) 0%,
-    transparent 80%
+    rgba(0, 0, 0, 0.5) 0%,
+    transparent 75%
   );
 }
 
@@ -370,7 +373,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.65;
+  opacity: 0.85;
 }
 
 .simple-back {

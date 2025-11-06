@@ -311,6 +311,34 @@ const PrintCard = () => {
               </div>
             </div>
 
+            <div className="form-card">
+              <h2>Font Family</h2>
+              <select
+                value={cardData.fontFamily || 'system'}
+                onChange={e => handleInputChange('fontFamily', e.target.value)}
+                className="font-select"
+              >
+                <option value="system">System Default</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="'Helvetica Neue', Helvetica, sans-serif">
+                  Helvetica
+                </option>
+                <option value="'Times New Roman', Times, serif">
+                  Times New Roman
+                </option>
+                <option value="Georgia, serif">Georgia</option>
+                <option value="'Courier New', Courier, monospace">
+                  Courier New
+                </option>
+                <option value="Verdana, sans-serif">Verdana</option>
+                <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                <option value="'Palatino Linotype', 'Book Antiqua', Palatino, serif">
+                  Palatino
+                </option>
+                <option value="Impact, sans-serif">Impact</option>
+              </select>
+            </div>
+
             <ColorPicker
               onSelectPalette={setSelectedPalette}
               selectedPalette={selectedPalette}

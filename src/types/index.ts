@@ -22,6 +22,7 @@ export interface CardData {
   includeBack?: boolean
   fontScale?: number // 0.8 to 1.2, default 1.0
   cornerStyle?: 'rounded' | 'square' // default 'rounded'
+  fontFamily?: string // custom font family
 }
 
 export interface EmailSignatureData {

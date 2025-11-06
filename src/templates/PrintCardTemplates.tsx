@@ -16,6 +16,14 @@ const getBorderRadius = (
   return cornerStyle === 'square' ? '0' : defaultRadius
 }
 
+// Helper to get font family
+const getFontFamily = (fontFamily: string | undefined) => {
+  if (!fontFamily || fontFamily === 'system') {
+    return "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+  }
+  return fontFamily
+}
+
 // Professional typography system with tighter spacing
 // Scale parameter allows adjusting font sizes (0.8x to 1.2x)
 const getTypography = (scale: number = 1.0) => ({
@@ -69,25 +77,19 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
   return (
     <div
       className="card-template minimal-template"
-      style={{ background: colors[0] }}
+      style={{
+        background: colors[0],
+        borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+        fontFamily: getFontFamily(data.fontFamily),
+      }}
     >
-      {showLogo && (
-        <img
-          src={data.logo}
-          alt="Logo"
-          className="minimal-logo"
-          style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-        />
-      )}
+      {showLogo && <img src={data.logo} alt="Logo" className="minimal-logo" />}
       {showImage && (
         <img
           src={data.image}
           alt={data.name}
           className="minimal-image-small"
-          style={{
-            borderColor: colors[1],
-            borderRadius: getBorderRadius(data.cornerStyle, '50%'),
-          }}
+          style={{ borderColor: colors[1] }}
         />
       )}
       <h1
@@ -172,15 +174,16 @@ export const ModernTemplate = ({ data, colors, isBack }: TemplateProps) => {
   }
 
   return (
-    <div className="card-template modern-template">
+    <div
+      className="card-template modern-template"
+      style={{
+        borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+        fontFamily: getFontFamily(data.fontFamily),
+      }}
+    >
       {data.image && (
         <div className="modern-image-panel" style={{ background: colors[3] }}>
-          <img
-            src={data.image}
-            alt={data.name}
-            className="modern-image"
-            style={{ borderRadius: getBorderRadius(data.cornerStyle, '0') }}
-          />
+          <img src={data.image} alt={data.name} className="modern-image" />
         </div>
       )}
       <div
@@ -189,12 +192,7 @@ export const ModernTemplate = ({ data, colors, isBack }: TemplateProps) => {
       >
         <div className="geometric-accent" style={{ background: colors[1] }} />
         {data.logo && (
-          <img
-            src={data.logo}
-            alt="Logo"
-            className="modern-logo"
-            style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-          />
+          <img src={data.logo} alt="Logo" className="modern-logo" />
         )}
         <h1
           style={{
@@ -279,16 +277,15 @@ export const ProfessionalTemplate = ({
   return (
     <div
       className="card-template professional-template"
-      style={{ background: colors[0] }}
+      style={{
+        background: colors[0],
+        borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+        fontFamily: getFontFamily(data.fontFamily),
+      }}
     >
       <div className="professional-content">
         {data.logo && (
-          <img
-            src={data.logo}
-            alt="Logo"
-            className="professional-logo-top"
-            style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-          />
+          <img src={data.logo} alt="Logo" className="professional-logo-top" />
         )}
         <h1
           style={{
@@ -364,7 +361,6 @@ export const ProfessionalTemplate = ({
               src={data.image}
               alt=""
               className="professional-decorative-image"
-              style={{ borderRadius: getBorderRadius(data.cornerStyle, '0') }}
             />
           ) : (
             /* When only image (no logo): show as primary headshot */
@@ -372,7 +368,6 @@ export const ProfessionalTemplate = ({
               src={data.image}
               alt={data.name}
               className="professional-headshot-large"
-              style={{ borderRadius: getBorderRadius(data.cornerStyle, '8px') }}
             />
           )}
         </div>
@@ -411,6 +406,8 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
         background: colors[0],
         borderTop: `3px solid ${colors[1]}`,
         position: 'relative',
+        borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+        fontFamily: getFontFamily(data.fontFamily),
       }}
     >
       {/* Small decorative badge in bottom-right when both logo and image provided */}
@@ -419,31 +416,16 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
           src={data.image}
           alt=""
           className="elegant-badge"
-          style={{
-            borderColor: colors[1],
-            borderRadius: getBorderRadius(data.cornerStyle, '6px'),
-          }}
+          style={{ borderColor: colors[1] }}
         />
       )}
 
       {/* Primary logo */}
-      {showLogo && (
-        <img
-          src={data.logo}
-          alt="Logo"
-          className="elegant-logo"
-          style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-        />
-      )}
+      {showLogo && <img src={data.logo} alt="Logo" className="elegant-logo" />}
 
       {/* If only image (no logo), show it as primary */}
       {!showLogo && data.image && (
-        <img
-          src={data.image}
-          alt={data.name}
-          className="elegant-image-small"
-          style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-        />
+        <img src={data.image} alt={data.name} className="elegant-image-small" />
       )}
       <h1
         style={{
@@ -531,41 +513,28 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
   return (
     <div
       className="card-template bold-template"
-      style={{ background: colors[0], position: 'relative' }}
+      style={{
+        background: colors[0],
+        position: 'relative',
+        borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+        fontFamily: getFontFamily(data.fontFamily),
+      }}
     >
       <div className="bold-accent" style={{ background: colors[1] }} />
 
-      {/* Medium decorative image top-right with bold border when both logo and image provided */}
+      {/* Large prominent decorative image overlapping bottom-right when both logo and image provided */}
       {showDecorativeImage && (
-        <img
-          src={data.image}
-          alt=""
-          className="bold-decorative-image"
-          style={{
-            borderColor: colors[1],
-            borderRadius: getBorderRadius(data.cornerStyle, '0'),
-          }}
-        />
+        <div className="bold-decorative-overlay">
+          <img src={data.image} alt="" className="bold-decorative-image" />
+        </div>
       )}
 
       {/* Primary logo */}
-      {showLogo && (
-        <img
-          src={data.logo}
-          alt="Logo"
-          className="bold-logo"
-          style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-        />
-      )}
+      {showLogo && <img src={data.logo} alt="Logo" className="bold-logo" />}
 
       {/* If only image (no logo), show it as primary */}
       {!showLogo && data.image && (
-        <img
-          src={data.image}
-          alt={data.name}
-          className="bold-image-small"
-          style={{ borderRadius: getBorderRadius(data.cornerStyle, '8px') }}
-        />
+        <img src={data.image} alt={data.name} className="bold-image-small" />
       )}
       <h1
         style={{
@@ -650,25 +619,17 @@ export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
       style={{
         background: colors[0],
         borderLeft: `4px solid ${colors[1]}`,
+        borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+        fontFamily: getFontFamily(data.fontFamily),
       }}
     >
-      {data.logo && (
-        <img
-          src={data.logo}
-          alt="Logo"
-          className="classic-logo"
-          style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-        />
-      )}
+      {data.logo && <img src={data.logo} alt="Logo" className="classic-logo" />}
       {!data.logo && data.image && (
         <img
           src={data.image}
           alt={data.name}
           className="classic-image-small"
-          style={{
-            border: `2px solid ${colors[1]}`,
-            borderRadius: getBorderRadius(data.cornerStyle, '50%'),
-          }}
+          style={{ border: `2px solid ${colors[1]}` }}
         />
       )}
       <h1
@@ -763,15 +724,16 @@ export const CreativeTemplate = ({ data, colors, isBack }: TemplateProps) => {
   }
 
   return (
-    <div className="card-template creative-template">
+    <div
+      className="card-template creative-template"
+      style={{
+        borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+        fontFamily: getFontFamily(data.fontFamily),
+      }}
+    >
       {data.image && (
         <div className="creative-image-bg">
-          <img
-            src={data.image}
-            alt={data.name}
-            className="creative-image"
-            style={{ borderRadius: getBorderRadius(data.cornerStyle, '0') }}
-          />
+          <img src={data.image} alt={data.name} className="creative-image" />
           <div
             className="creative-overlay"
             style={{
@@ -782,12 +744,7 @@ export const CreativeTemplate = ({ data, colors, isBack }: TemplateProps) => {
       )}
       <div className="creative-content">
         {data.logo && (
-          <img
-            src={data.logo}
-            alt="Logo"
-            className="creative-logo"
-            style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-          />
+          <img src={data.logo} alt="Logo" className="creative-logo" />
         )}
         <h1
           style={{
@@ -882,7 +839,12 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
   return (
     <div
       className="card-template simple-template"
-      style={{ background: colors[0], position: 'relative' }}
+      style={{
+        background: colors[0],
+        position: 'relative',
+        borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+        fontFamily: getFontFamily(data.fontFamily),
+      }}
     >
       {/* Fade pattern on right when both logo and image provided */}
       {showDecorativeImage && (
@@ -892,23 +854,11 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
       )}
 
       {/* Primary logo */}
-      {showLogo && (
-        <img
-          src={data.logo}
-          alt="Logo"
-          className="simple-logo"
-          style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-        />
-      )}
+      {showLogo && <img src={data.logo} alt="Logo" className="simple-logo" />}
 
       {/* If only image (no logo), show it as primary */}
       {!showLogo && data.image && (
-        <img
-          src={data.image}
-          alt={data.name}
-          className="simple-image-small"
-          style={{ borderRadius: getBorderRadius(data.cornerStyle, '50%') }}
-        />
+        <img src={data.image} alt={data.name} className="simple-image-small" />
       )}
       <h1
         style={{
