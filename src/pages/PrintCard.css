@@ -118,6 +118,56 @@
   font-weight: 600;
 }
 
+.corner-style-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.corner-option {
+  padding: 1rem;
+  background: var(--background);
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.corner-option:hover {
+  border-color: var(--primary);
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.corner-option.selected {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+
+.corner-preview {
+  width: 60px;
+  height: 40px;
+  background: var(--border);
+  transition: background 0.2s ease;
+}
+
+.corner-preview.rounded {
+  border-radius: 8px;
+}
+
+.corner-preview.square {
+  border-radius: 0;
+}
+
+.corner-option.selected .corner-preview {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 .preview-section {
   position: sticky;
   top: 2rem;

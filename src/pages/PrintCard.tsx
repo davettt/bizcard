@@ -73,6 +73,7 @@ const PrintCard = () => {
       backText:
         'Passionate about creating intuitive user experiences that solve real problems. Available for freelance projects and consulting.',
       fontScale: 1.0,
+      cornerStyle: 'rounded',
     })
   }
 
@@ -288,6 +289,26 @@ const PrintCard = () => {
                 value={cardData.fontScale || 1.0}
                 onChange={val => handleInputChange('fontScale', val)}
               />
+            </div>
+
+            <div className="form-card">
+              <h2>Corner Style</h2>
+              <div className="corner-style-grid">
+                <button
+                  className={`corner-option ${!cardData.cornerStyle || cardData.cornerStyle === 'rounded' ? 'selected' : ''}`}
+                  onClick={() => handleInputChange('cornerStyle', 'rounded')}
+                >
+                  <div className="corner-preview rounded"></div>
+                  <span>Rounded</span>
+                </button>
+                <button
+                  className={`corner-option ${cardData.cornerStyle === 'square' ? 'selected' : ''}`}
+                  onClick={() => handleInputChange('cornerStyle', 'square')}
+                >
+                  <div className="corner-preview square"></div>
+                  <span>Square</span>
+                </button>
+              </div>
             </div>
 
             <ColorPicker
