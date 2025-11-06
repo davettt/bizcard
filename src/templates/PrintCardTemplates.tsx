@@ -1,4 +1,5 @@
 import { CardData } from '../types'
+import SocialLinks from '../components/SocialLinks'
 import './PrintCardTemplates.css'
 
 interface TemplateProps {
@@ -38,7 +39,7 @@ const getTypography = (scale: number = 1.0) => ({
   back: { fontSize: `${11 * scale}px`, lineHeight: '1.7' },
 })
 
-// 1. MINIMAL - Clean, centered, small logo, professional headshot
+// 1. MINIMAL - Clean, centered, compact layout
 export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
   const typography = getTypography(data.fontScale || 1.0)
 
@@ -53,17 +54,21 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
+  // Show logo if available, otherwise show smaller image
+  const showLogo = data.logo
+  const showImage = !data.logo && data.image
+
   return (
     <div
       className="card-template minimal-template"
       style={{ background: colors[0] }}
     >
-      {data.logo && <img src={data.logo} alt="Logo" className="minimal-logo" />}
-      {data.image && (
+      {showLogo && <img src={data.logo} alt="Logo" className="minimal-logo" />}
+      {showImage && (
         <img
           src={data.image}
           alt={data.name}
-          className="minimal-headshot"
+          className="minimal-image-small"
           style={{ borderColor: colors[1] }}
         />
       )}
@@ -71,7 +76,7 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
         style={{
           ...typography.name,
           color: colors[2],
-          marginTop: '12px',
+          marginTop: showLogo || showImage ? '8px' : '0',
           marginBottom: '0',
         }}
       >
@@ -82,7 +87,7 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
           ...typography.title,
           color: colors[1],
           textTransform: 'uppercase',
-          marginTop: '4px',
+          marginTop: '3px',
           marginBottom: '0',
         }}
       >
@@ -93,7 +98,7 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
           style={{
             ...typography.company,
             color: colors[2],
-            marginTop: '4px',
+            marginTop: '2px',
             marginBottom: '0',
             opacity: 0.8,
           }}
@@ -105,14 +110,27 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
         style={{
           ...typography.contact,
           color: colors[2],
-          marginTop: '10px',
+          marginTop: '8px',
           opacity: 0.9,
         }}
       >
         {data.email && <div style={{ marginBottom: '1px' }}>{data.email}</div>}
         {data.phone && <div style={{ marginBottom: '1px' }}>{data.phone}</div>}
-        {data.website && <div>{data.website}</div>}
+        {data.website && (
+          <div style={{ marginBottom: '1px' }}>{data.website}</div>
+        )}
       </div>
+      {(data.linkedin || data.twitter || data.instagram || data.github) && (
+        <div style={{ marginTop: '8px' }}>
+          <SocialLinks
+            linkedin={data.linkedin}
+            twitter={data.twitter}
+            instagram={data.instagram}
+            github={data.github}
+            color={colors[1]}
+          />
+        </div>
+      )}
     </div>
   )
 }
@@ -191,14 +209,27 @@ export const ModernTemplate = ({ data, colors, isBack }: TemplateProps) => {
           {data.phone && (
             <div style={{ marginBottom: '1px' }}>{data.phone}</div>
           )}
-          {data.website && <div>{data.website}</div>}
+          {data.website && (
+            <div style={{ marginBottom: '1px' }}>{data.website}</div>
+          )}
         </div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '8px' }}>
+            <SocialLinks
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[1]}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-// 3. PROFESSIONAL - Traditional business card, clean layout
+// 3. PROFESSIONAL - Two-column layout with left content, right image/logo
 export const ProfessionalTemplate = ({
   data,
   colors,
@@ -217,29 +248,23 @@ export const ProfessionalTemplate = ({
     )
   }
 
+  // Show logo or image on the right side
+  const showVisual = data.logo || data.image
+
   return (
     <div
       className="card-template professional-template"
       style={{ background: colors[0] }}
     >
-      <div className="professional-header">
+      <div className="professional-content">
         {data.logo && (
-          <img src={data.logo} alt="Logo" className="professional-logo" />
+          <img src={data.logo} alt="Logo" className="professional-logo-top" />
         )}
-        {data.image && (
-          <img
-            src={data.image}
-            alt={data.name}
-            className="professional-headshot"
-          />
-        )}
-      </div>
-      <div className="professional-body">
         <h1
           style={{
             ...typography.name,
             color: colors[2],
-            marginTop: '0',
+            marginTop: data.logo ? '8px' : '0',
             marginBottom: '0',
           }}
         >
@@ -261,7 +286,7 @@ export const ProfessionalTemplate = ({
             style={{
               ...typography.company,
               color: colors[2],
-              marginTop: '4px',
+              marginTop: '2px',
               marginBottom: '0',
               opacity: 0.8,
             }}
@@ -273,8 +298,8 @@ export const ProfessionalTemplate = ({
           className="professional-divider"
           style={{
             background: colors[1],
-            marginTop: '10px',
-            marginBottom: '10px',
+            marginTop: '8px',
+            marginBottom: '8px',
           }}
         />
         <div style={{ ...typography.contact, color: colors[2], opacity: 0.9 }}>
@@ -284,14 +309,36 @@ export const ProfessionalTemplate = ({
           {data.phone && (
             <div style={{ marginBottom: '1px' }}>{data.phone}</div>
           )}
-          {data.website && <div>{data.website}</div>}
+          {data.website && (
+            <div style={{ marginBottom: '1px' }}>{data.website}</div>
+          )}
         </div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '8px' }}>
+            <SocialLinks
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[1]}
+            />
+          </div>
+        )}
       </div>
+      {showVisual && data.image && !data.logo && (
+        <div className="professional-image-side">
+          <img
+            src={data.image}
+            alt={data.name}
+            className="professional-headshot-large"
+          />
+        </div>
+      )}
     </div>
   )
 }
 
-// 4. ELEGANT - Maximum white space, refined typography
+// 4. ELEGANT - Left-aligned, refined typography, compact
 export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
   const typography = getTypography(data.fontScale || 1.0)
 
@@ -310,21 +357,25 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
+  // Show logo if available, otherwise show smaller image
+  const showLogo = data.logo
+  const showImage = !data.logo && data.image
+
   return (
     <div
       className="card-template elegant-template"
       style={{ background: colors[0], borderTop: `3px solid ${colors[1]}` }}
     >
-      {data.logo && <img src={data.logo} alt="Logo" className="elegant-logo" />}
-      {data.image && (
-        <img src={data.image} alt={data.name} className="elegant-image" />
+      {showLogo && <img src={data.logo} alt="Logo" className="elegant-logo" />}
+      {showImage && (
+        <img src={data.image} alt={data.name} className="elegant-image-small" />
       )}
       <h1
         style={{
           ...typography.name,
           color: colors[2],
-          marginBottom: '6px',
-          marginTop: '0',
+          marginBottom: '3px',
+          marginTop: showLogo || showImage ? '6px' : '0',
         }}
       >
         {data.name}
@@ -335,7 +386,7 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
           color: colors[1],
           letterSpacing: '0.1em',
           textTransform: 'uppercase',
-          marginBottom: '3px',
+          marginBottom: '2px',
           marginTop: '0',
         }}
       >
@@ -346,7 +397,7 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
           style={{
             ...typography.company,
             color: colors[3],
-            marginBottom: '14px',
+            marginBottom: '8px',
             marginTop: '0',
             fontWeight: '400',
           }}
@@ -357,13 +408,26 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
       <div style={{ ...typography.contact, color: colors[2], opacity: 0.85 }}>
         {data.email && <div style={{ marginBottom: '1px' }}>{data.email}</div>}
         {data.phone && <div style={{ marginBottom: '1px' }}>{data.phone}</div>}
-        {data.website && <div>{data.website}</div>}
+        {data.website && (
+          <div style={{ marginBottom: '1px' }}>{data.website}</div>
+        )}
       </div>
+      {(data.linkedin || data.twitter || data.instagram || data.github) && (
+        <div style={{ marginTop: '8px' }}>
+          <SocialLinks
+            linkedin={data.linkedin}
+            twitter={data.twitter}
+            instagram={data.instagram}
+            github={data.github}
+            color={colors[1]}
+          />
+        </div>
+      )}
     </div>
   )
 }
 
-// 5. BOLD - Dark, striking, modern
+// 5. BOLD - Dark, striking, centered, compact
 export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
   const typography = getTypography(data.fontScale || 1.0)
 
@@ -385,22 +449,28 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
+  // Show logo if available, otherwise show smaller image
+  const showLogo = data.logo
+  const showImage = !data.logo && data.image
+
   return (
     <div
       className="card-template bold-template"
       style={{ background: colors[0] }}
     >
       <div className="bold-accent" style={{ background: colors[1] }} />
-      {data.logo && <img src={data.logo} alt="Logo" className="bold-logo" />}
-      {data.image && (
-        <img src={data.image} alt={data.name} className="bold-image" />
+      {showLogo && <img src={data.logo} alt="Logo" className="bold-logo" />}
+      {showImage && (
+        <img src={data.image} alt={data.name} className="bold-image-small" />
       )}
       <h1
         style={{
-          ...typography.large,
+          ...typography.name,
+          fontSize: `${23 * (data.fontScale || 1.0)}px`,
           color: colors[2],
-          marginBottom: '6px',
-          marginTop: '0',
+          marginBottom: '4px',
+          marginTop: showLogo || showImage ? '6px' : '0',
+          fontWeight: '800',
         }}
       >
         {data.name}
@@ -411,7 +481,7 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
           color: colors[1],
           textTransform: 'uppercase',
           letterSpacing: '0.08em',
-          marginBottom: '4px',
+          marginBottom: '2px',
           marginTop: '0',
         }}
       >
@@ -422,7 +492,7 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
           style={{
             ...typography.company,
             color: colors[3],
-            marginBottom: '12px',
+            marginBottom: '8px',
             marginTop: '0',
             fontWeight: '600',
           }}
@@ -433,13 +503,26 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
       <div style={{ ...typography.contact, color: colors[2], opacity: 0.95 }}>
         {data.email && <div style={{ marginBottom: '1px' }}>{data.email}</div>}
         {data.phone && <div style={{ marginBottom: '1px' }}>{data.phone}</div>}
-        {data.website && <div>{data.website}</div>}
+        {data.website && (
+          <div style={{ marginBottom: '1px' }}>{data.website}</div>
+        )}
       </div>
+      {(data.linkedin || data.twitter || data.instagram || data.github) && (
+        <div style={{ marginTop: '8px' }}>
+          <SocialLinks
+            linkedin={data.linkedin}
+            twitter={data.twitter}
+            instagram={data.instagram}
+            github={data.github}
+            color={colors[1]}
+          />
+        </div>
+      )}
     </div>
   )
 }
 
-// 6. CLASSIC - Traditional, centered, circular headshot
+// 6. CLASSIC - Traditional centered layout with accent border
 export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
   const typography = getTypography(data.fontScale || 1.0)
 
@@ -454,82 +537,95 @@ export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
+  // Show logo or small image at top
+  const showVisual = data.logo || data.image
+
   return (
-    <div className="card-template classic-template">
-      <div
-        className="classic-header"
-        style={{ background: colors[1], padding: '16px 0' }}
+    <div
+      className="card-template classic-template"
+      style={{
+        background: colors[0],
+        borderLeft: `4px solid ${colors[1]}`,
+      }}
+    >
+      {data.logo && <img src={data.logo} alt="Logo" className="classic-logo" />}
+      {!data.logo && data.image && (
+        <img
+          src={data.image}
+          alt={data.name}
+          className="classic-image-small"
+          style={{ border: `2px solid ${colors[1]}` }}
+        />
+      )}
+      <h1
+        style={{
+          ...typography.name,
+          color: colors[2],
+          textAlign: 'center',
+          marginBottom: '3px',
+          marginTop: showVisual ? '8px' : '0',
+        }}
       >
-        {data.image && (
-          <img
-            src={data.image}
-            alt={data.name}
-            className="classic-headshot"
-            style={{ border: `3px solid ${colors[0]}` }}
-          />
-        )}
-      </div>
-      <div
-        className="classic-body"
-        style={{ background: colors[0], padding: '16px 20px' }}
+        {data.name}
+      </h1>
+      <p
+        style={{
+          ...typography.title,
+          color: colors[1],
+          textAlign: 'center',
+          textTransform: 'uppercase',
+          marginBottom: '2px',
+          marginTop: '0',
+        }}
       >
-        {data.logo && (
-          <img src={data.logo} alt="Logo" className="classic-logo" />
-        )}
-        <h1
-          style={{
-            ...typography.name,
-            color: colors[2],
-            textAlign: 'center',
-            marginBottom: '4px',
-            marginTop: '0',
-          }}
-        >
-          {data.name}
-        </h1>
+        {data.title}
+      </p>
+      {data.company && (
         <p
           style={{
-            ...typography.title,
-            color: colors[1],
+            ...typography.company,
+            color: colors[2],
+            opacity: 0.8,
             textAlign: 'center',
-            textTransform: 'uppercase',
-            marginBottom: '3px',
+            marginBottom: '8px',
             marginTop: '0',
           }}
         >
-          {data.title}
+          {data.company}
         </p>
-        {data.company && (
-          <p
-            style={{
-              ...typography.company,
-              color: colors[2],
-              opacity: 0.8,
-              textAlign: 'center',
-              marginBottom: '10px',
-              marginTop: '0',
-            }}
-          >
-            {data.company}
-          </p>
+      )}
+      <div
+        className="classic-divider"
+        style={{
+          background: colors[1],
+          margin: '8px auto',
+        }}
+      />
+      <div
+        style={{
+          ...typography.contact,
+          color: colors[2],
+          opacity: 0.9,
+          textAlign: 'center',
+        }}
+      >
+        {data.email && <div style={{ marginBottom: '1px' }}>{data.email}</div>}
+        {data.phone && <div style={{ marginBottom: '1px' }}>{data.phone}</div>}
+        {data.website && (
+          <div style={{ marginBottom: '1px' }}>{data.website}</div>
         )}
-        <div
-          style={{
-            ...typography.contact,
-            color: colors[2],
-            opacity: 0.9,
-            textAlign: 'center',
-          }}
-        >
-          {data.email && (
-            <div style={{ marginBottom: '1px' }}>{data.email}</div>
-          )}
-          {data.phone && (
-            <div style={{ marginBottom: '1px' }}>{data.phone}</div>
-          )}
-          {data.website && <div>{data.website}</div>}
-        </div>
       </div>
+      {(data.linkedin || data.twitter || data.instagram || data.github) && (
+        <div style={{ marginTop: '8px', textAlign: 'center' }}>
+          <SocialLinks
+            linkedin={data.linkedin}
+            twitter={data.twitter}
+            instagram={data.instagram}
+            github={data.github}
+            color={colors[1]}
+          />
+        </div>
+      )}
     </div>
   )
 }
@@ -618,14 +714,27 @@ export const CreativeTemplate = ({ data, colors, isBack }: TemplateProps) => {
           {data.phone && (
             <div style={{ marginBottom: '1px' }}>{data.phone}</div>
           )}
-          {data.website && <div>{data.website}</div>}
+          {data.website && (
+            <div style={{ marginBottom: '1px' }}>{data.website}</div>
+          )}
         </div>
+        {(data.linkedin || data.twitter || data.instagram || data.github) && (
+          <div style={{ marginTop: '8px' }}>
+            <SocialLinks
+              linkedin={data.linkedin}
+              twitter={data.twitter}
+              instagram={data.instagram}
+              github={data.github}
+              color={colors[2]}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-// 8. SIMPLE - Ultra minimal, text only
+// 8. SIMPLE - Ultra minimal, centered, clean
 export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
   const typography = getTypography(data.fontScale || 1.0)
 
@@ -642,21 +751,25 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
     )
   }
 
+  // Show logo if available, otherwise show smaller image
+  const showLogo = data.logo
+  const showImage = !data.logo && data.image
+
   return (
     <div
       className="card-template simple-template"
       style={{ background: colors[0] }}
     >
-      {data.logo && <img src={data.logo} alt="Logo" className="simple-logo" />}
-      {data.image && (
-        <img src={data.image} alt={data.name} className="simple-image" />
+      {showLogo && <img src={data.logo} alt="Logo" className="simple-logo" />}
+      {showImage && (
+        <img src={data.image} alt={data.name} className="simple-image-small" />
       )}
       <h1
         style={{
           ...typography.name,
           color: colors[2],
-          marginBottom: '4px',
-          marginTop: '0',
+          marginBottom: '3px',
+          marginTop: showLogo || showImage ? '8px' : '0',
         }}
       >
         {data.name}
@@ -667,7 +780,7 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
           color: colors[1],
           textTransform: 'uppercase',
           letterSpacing: '0.12em',
-          marginBottom: '3px',
+          marginBottom: '2px',
           marginTop: '0',
         }}
       >
@@ -679,7 +792,7 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
             ...typography.company,
             color: colors[2],
             opacity: 0.7,
-            marginBottom: '14px',
+            marginBottom: '8px',
             marginTop: '0',
             fontWeight: '400',
           }}
@@ -690,8 +803,21 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
       <div style={{ ...typography.contact, color: colors[2], opacity: 0.85 }}>
         {data.email && <div style={{ marginBottom: '1px' }}>{data.email}</div>}
         {data.phone && <div style={{ marginBottom: '1px' }}>{data.phone}</div>}
-        {data.website && <div>{data.website}</div>}
+        {data.website && (
+          <div style={{ marginBottom: '1px' }}>{data.website}</div>
+        )}
       </div>
+      {(data.linkedin || data.twitter || data.instagram || data.github) && (
+        <div style={{ marginTop: '8px' }}>
+          <SocialLinks
+            linkedin={data.linkedin}
+            twitter={data.twitter}
+            instagram={data.instagram}
+            github={data.github}
+            color={colors[1]}
+          />
+        </div>
+      )}
     </div>
   )
 }
