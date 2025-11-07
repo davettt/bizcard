@@ -223,7 +223,7 @@ const DigitalCard = () => {
                 label="Profile Image"
                 onImageSelect={img => handleInputChange('image', img)}
                 currentImage={cardData.image}
-                helpText="Formats: JPEG, PNG, GIF, WebP, or SVG. Recommended: 400×400px to 800×800px square. Portrait format works well for vertical layouts. Max 3MB."
+                helpText="Formats: JPEG, PNG, GIF, WebP, or SVG. Recommended: Square images (500×500px to 800×800px) work best - most formats display circular avatars. Max 3MB."
                 maxSizeMB={3}
               />
             </div>
