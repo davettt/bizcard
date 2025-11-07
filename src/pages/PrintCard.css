@@ -249,12 +249,12 @@
 }
 
 .card-preview {
-  width: 100%;
-  max-width: 100%;
+  /* Fixed dimensions set via inline styles - do not resize */
   display: block;
   background: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 @media (max-width: 1024px) {
