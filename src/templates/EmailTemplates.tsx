@@ -59,7 +59,9 @@ export const SimpleEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
                 </a>
               </div>
             )}
-            {data.phone && <div style={{ marginBottom: '4px' }}>{data.phone}</div>}
+            {data.phone && (
+              <div style={{ marginBottom: '4px' }}>{data.phone}</div>
+            )}
             {data.website && (
               <div style={{ marginBottom: '4px' }}>
                 <a
@@ -76,7 +78,11 @@ export const SimpleEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
               {data.linkedin && (
                 <a
                   href={data.linkedin}
-                  style={{ marginRight: '10px', color: colors[1], textDecoration: 'none' }}
+                  style={{
+                    marginRight: '10px',
+                    color: colors[1],
+                    textDecoration: 'none',
+                  }}
                 >
                   LinkedIn
                 </a>
@@ -84,13 +90,20 @@ export const SimpleEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
               {data.twitter && (
                 <a
                   href={data.twitter}
-                  style={{ marginRight: '10px', color: colors[1], textDecoration: 'none' }}
+                  style={{
+                    marginRight: '10px',
+                    color: colors[1],
+                    textDecoration: 'none',
+                  }}
                 >
                   Twitter
                 </a>
               )}
               {data.instagram && (
-                <a href={data.instagram} style={{ color: colors[1], textDecoration: 'none' }}>
+                <a
+                  href={data.instagram}
+                  style={{ color: colors[1], textDecoration: 'none' }}
+                >
                   Instagram
                 </a>
               )}
@@ -149,7 +162,9 @@ export const ModernEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
               }}
             />
           )}
-          <div style={{ fontSize: '13px', color: colors[2], lineHeight: '1.6' }}>
+          <div
+            style={{ fontSize: '13px', color: colors[2], lineHeight: '1.6' }}
+          >
             {data.email && (
               <div style={{ marginBottom: '6px' }}>
                 <a
@@ -238,7 +253,9 @@ export const ProfessionalEmailTemplate = ({
       }}
     >
       <tr>
-        <td style={{ verticalAlign: 'top', paddingRight: '20px', width: '90px' }}>
+        <td
+          style={{ verticalAlign: 'top', paddingRight: '20px', width: '90px' }}
+        >
           {data.imageUrl && (
             <img
               src={data.imageUrl}
@@ -251,7 +268,13 @@ export const ProfessionalEmailTemplate = ({
             />
           )}
         </td>
-        <td style={{ verticalAlign: 'top', borderLeft: `1px solid ${colors[3]}`, paddingLeft: '20px' }}>
+        <td
+          style={{
+            verticalAlign: 'top',
+            borderLeft: `1px solid ${colors[3]}`,
+            paddingLeft: '20px',
+          }}
+        >
           <div
             style={{
               fontWeight: 'bold',
@@ -283,10 +306,21 @@ export const ProfessionalEmailTemplate = ({
           >
             {data.company}
           </div>
-          <div style={{ fontSize: '12px', lineHeight: '1.7', color: colors[2] }}>
+          <div
+            style={{ fontSize: '12px', lineHeight: '1.7', color: colors[2] }}
+          >
             {data.email && (
               <div style={{ marginBottom: '4px' }}>
-                <span style={{ color: colors[3], fontWeight: '500', display: 'inline-block', width: '50px' }}>Email:</span>
+                <span
+                  style={{
+                    color: colors[3],
+                    fontWeight: '500',
+                    display: 'inline-block',
+                    width: '50px',
+                  }}
+                >
+                  Email:
+                </span>
                 <a
                   href={`mailto:${data.email}`}
                   style={{ color: colors[1], textDecoration: 'none' }}
@@ -297,13 +331,31 @@ export const ProfessionalEmailTemplate = ({
             )}
             {data.phone && (
               <div style={{ marginBottom: '4px' }}>
-                <span style={{ color: colors[3], fontWeight: '500', display: 'inline-block', width: '50px' }}>Phone:</span>
+                <span
+                  style={{
+                    color: colors[3],
+                    fontWeight: '500',
+                    display: 'inline-block',
+                    width: '50px',
+                  }}
+                >
+                  Phone:
+                </span>
                 <span>{data.phone}</span>
               </div>
             )}
             {data.website && (
               <div style={{ marginBottom: '4px' }}>
-                <span style={{ color: colors[3], fontWeight: '500', display: 'inline-block', width: '50px' }}>Web:</span>
+                <span
+                  style={{
+                    color: colors[3],
+                    fontWeight: '500',
+                    display: 'inline-block',
+                    width: '50px',
+                  }}
+                >
+                  Web:
+                </span>
                 <a
                   href={data.website}
                   style={{ color: colors[1], textDecoration: 'none' }}
@@ -314,7 +366,14 @@ export const ProfessionalEmailTemplate = ({
             )}
           </div>
           {(data.linkedin || data.twitter || data.instagram) && (
-            <div style={{ marginTop: '12px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+            <div
+              style={{
+                marginTop: '12px',
+                fontSize: '10px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+              }}
+            >
               {data.linkedin && (
                 <a
                   href={data.linkedin}
@@ -344,7 +403,11 @@ export const ProfessionalEmailTemplate = ({
               {data.instagram && (
                 <a
                   href={data.instagram}
-                  style={{ color: colors[1], textDecoration: 'none', fontWeight: '600' }}
+                  style={{
+                    color: colors[1],
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                  }}
                 >
                   Instagram
                 </a>
@@ -401,7 +464,14 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
           <div style={{ fontSize: '15px', marginBottom: '20px', opacity: 0.9 }}>
             {data.company}
           </div>
-          <div style={{ fontSize: '12px', lineHeight: '1.8', wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+          <div
+            style={{
+              fontSize: '12px',
+              lineHeight: '1.8',
+              wordBreak: 'break-word',
+              overflowWrap: 'break-word',
+            }}
+          >
             {data.email && (
               <div style={{ marginBottom: '6px' }}>
                 <a
@@ -412,7 +482,9 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
                 </a>
               </div>
             )}
-            {data.phone && <div style={{ marginBottom: '6px' }}>{data.phone}</div>}
+            {data.phone && (
+              <div style={{ marginBottom: '6px' }}>{data.phone}</div>
+            )}
             {data.website && (
               <div style={{ marginBottom: '6px' }}>
                 <a

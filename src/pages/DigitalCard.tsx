@@ -238,7 +238,9 @@ const DigitalCard = () => {
                       className={`format-option ${selectedFormat === id ? 'selected' : ''}`}
                       onClick={() => setSelectedFormat(id)}
                     >
-                      <div className="format-name">{digitalFormatNames[id]}</div>
+                      <div className="format-name">
+                        {digitalFormatNames[id]}
+                      </div>
                       <div className="format-desc">
                         {digitalFormatDescriptions[id]}
                       </div>
@@ -267,8 +269,9 @@ const DigitalCard = () => {
               <p>
                 💡 <strong>Tip:</strong> All exports are self-contained with
                 styles and images embedded. Use <strong>Copy Embed Code</strong>{' '}
-                to paste into your website, or <strong>Download Standalone</strong>{' '}
-                for a ready-to-host HTML file.
+                to paste into your website, or{' '}
+                <strong>Download Standalone</strong> for a ready-to-host HTML
+                file.
               </p>
             </div>
 

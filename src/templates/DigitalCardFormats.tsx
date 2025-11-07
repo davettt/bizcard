@@ -94,10 +94,7 @@ export const BannerFormat = ({ data, colors }: FormatProps) => {
     >
       {/* Left: Image */}
       {data.image && (
-        <div
-          className="banner-image-section"
-          style={{ background: colors[3] }}
-        >
+        <div className="banner-image-section" style={{ background: colors[3] }}>
           <img src={data.image} alt={data.name} className="banner-image" />
         </div>
       )}

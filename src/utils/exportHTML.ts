@@ -161,7 +161,7 @@ const extractDigitalCardStyles = (): string => {
     'banner-',
     'square-',
     'mobile-',
-    'social-link'
+    'social-link',
   ]
 
   for (let i = 0; i < styleSheets.length; i++) {

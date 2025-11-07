@@ -22,7 +22,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     const file = e.target.files?.[0]
     if (file) {
       // Validate file type (MIME type)
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']
+      const allowedTypes = [
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+        'image/gif',
+        'image/webp',
+        'image/svg+xml',
+      ]
       if (!allowedTypes.includes(file.type)) {
         alert(
           'Invalid file type. Please upload an image file (JPEG, PNG, GIF, WebP, or SVG).'
@@ -31,7 +38,14 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       }
 
       // Validate file extension as an additional check
-      const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg']
+      const allowedExtensions = [
+        '.jpg',
+        '.jpeg',
+        '.png',
+        '.gif',
+        '.webp',
+        '.svg',
+      ]
       const fileExtension = file.name.toLowerCase().match(/\.[^.]+$/)?.[0]
       if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
         alert(

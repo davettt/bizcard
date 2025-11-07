@@ -113,7 +113,7 @@ export const isValidImageDataURL = (dataURL: string): boolean => {
     'data:image/png',
     'data:image/gif',
     'data:image/webp',
-    'data:image/svg+xml'
+    'data:image/svg+xml',
   ]
 
   return validMimeTypes.some(mime => dataURL.startsWith(mime))
