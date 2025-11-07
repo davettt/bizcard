@@ -694,7 +694,7 @@ export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
               twitter={data.twitter}
               instagram={data.instagram}
               github={data.github}
-              color={colors[1]}
+              color={colors[0]}
               textColor={colors[0]}
             />
           </div>
