@@ -5,10 +5,10 @@ import {
   emailTemplateComponents,
   emailTemplateNames,
 } from '../templates/emailTemplateConfig'
-import { exportEmailSignatureHTML } from '../utils/exportHTML'
 import Input from '../components/Input'
 import ColorPicker from '../components/ColorPicker'
 import Button from '../components/Button'
+import EmailSignatureModal from '../components/EmailSignatureModal'
 import './EmailSignature.css'
 
 const EmailSignature = () => {
@@ -31,6 +31,8 @@ const EmailSignature = () => {
   const [selectedTemplate, setSelectedTemplate] =
     useState<EmailTemplateId>('simple')
   const [selectedPalette, setSelectedPalette] = useState<ColorPalette>()
+  const [showSignatureModal, setShowSignatureModal] = useState(false)
+  const [signatureHTML, setSignatureHTML] = useState('')
 
   const handleInputChange = (
     field: keyof EmailSignatureData,
@@ -55,35 +57,15 @@ const EmailSignature = () => {
     })
   }
 
-  const handleCopyToClipboard = () => {
-    if (!signatureRef.current) return
-
-    const range = document.createRange()
-    range.selectNode(signatureRef.current)
-    window.getSelection()?.removeAllRanges()
-    window.getSelection()?.addRange(range)
-
-    try {
-      document.execCommand('copy')
-      alert('Signature copied! Paste it into your email client settings.')
-    } catch (_err) {
-      alert('Failed to copy. Please try the download option instead.')
-    }
-
-    window.getSelection()?.removeAllRanges()
-  }
-
-  const handleExport = () => {
+  const handleShowSignature = () => {
     if (!signatureRef.current || !selectedPalette) {
       alert('Please complete all required fields and select a color palette')
       return
     }
 
     const htmlContent = signatureRef.current.innerHTML
-    exportEmailSignatureHTML(
-      htmlContent,
-      `email-signature-${signatureData.name.replace(/\s+/g, '-').toLowerCase()}.html`
-    )
+    setSignatureHTML(htmlContent)
+    setShowSignatureModal(true)
   }
 
   const TemplateComponent = emailTemplateComponents[selectedTemplate]
@@ -236,28 +218,16 @@ const EmailSignature = () => {
 
             <div className="info-box">
               <p>
-                💡 <strong>How to use:</strong> Copy the signature and paste it
-                into your email client's signature settings, or download the
-                HTML file.
+                💡 <strong>How to use:</strong> Click the button below to get
+                the HTML code for your email signature. You can then copy it to
+                paste into your email client's signature settings, or download
+                it as an HTML file.
               </p>
             </div>
 
             <div className="button-group">
               <Button
-                onClick={handleCopyToClipboard}
-                disabled={
-                  !signatureData.name ||
-                  !signatureData.title ||
-                  !signatureData.company ||
-                  !selectedPalette
-                }
-                variant="outline"
-                fullWidth
-              >
-                Copy to Clipboard
-              </Button>
-              <Button
-                onClick={handleExport}
+                onClick={handleShowSignature}
                 disabled={
                   !signatureData.name ||
                   !signatureData.title ||
@@ -266,12 +236,18 @@ const EmailSignature = () => {
                 }
                 fullWidth
               >
-                Download HTML
+                Get Signature HTML
               </Button>
             </div>
           </div>
         </div>
       </div>
+
+      <EmailSignatureModal
+        isOpen={showSignatureModal}
+        onClose={() => setShowSignatureModal(false)}
+        signatureHTML={signatureHTML}
+      />
     </div>
   )
 }
