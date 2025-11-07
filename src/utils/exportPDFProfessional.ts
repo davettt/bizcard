@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
+import { toPng } from 'html-to-image'
 import { PrintSize } from '../types'
 
 interface PDFDimensions {
@@ -14,6 +14,7 @@ interface PDFDimensions {
 
 /**
  * Export professional print-ready PDF with bleed and crop marks
+ * Using html-to-image library for better text spacing and layout preservation
  */
 export const exportToPDFProfessional = async (
   frontElement: HTMLElement,
@@ -33,22 +34,13 @@ export const exportToPDFProfessional = async (
     // Scale factor to convert trim size to bleed size
     const scaleForBleed = dimensions.width / dimensions.trim.width
 
-    // Capture front - preview now has fixed dimensions, just capture at high quality
-    const frontCanvas = await html2canvas(frontElement, {
-      scale: 3, // High quality capture
-      useCORS: true,
-      allowTaint: false,
+    // Capture front using html-to-image (better text handling)
+    const frontImgData = await toPng(frontElement, {
+      quality: 1.0,
+      pixelRatio: 3, // High quality 3x
+      cacheBust: true,
       backgroundColor: '#ffffff',
-      logging: false,
-      imageTimeout: 0,
-      removeContainer: true,
-      onclone: async (clonedDoc) => {
-        // Wait for fonts to load
-        await clonedDoc.fonts.ready
-      },
     })
-
-    const frontImgData = frontCanvas.toDataURL('image/png', 1.0)
 
     // Place image scaled to fill bleed area
     pdf.addImage(
@@ -66,21 +58,15 @@ export const exportToPDFProfessional = async (
 
     if (backElement) {
       pdf.addPage()
-      const backCanvas = await html2canvas(backElement, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: false,
+
+      // Capture back using html-to-image
+      const backImgData = await toPng(backElement, {
+        quality: 1.0,
+        pixelRatio: 3,
+        cacheBust: true,
         backgroundColor: '#ffffff',
-        logging: false,
-        imageTimeout: 0,
-        removeContainer: true,
-        onclone: async (clonedDoc) => {
-          // Wait for fonts to load
-          await clonedDoc.fonts.ready
-        },
       })
 
-      const backImgData = backCanvas.toDataURL('image/png', 1.0)
       pdf.addImage(
         backImgData,
         'PNG',
@@ -104,6 +90,7 @@ export const exportToPDFProfessional = async (
 
 /**
  * Export separate front/back files for DIY printing
+ * Using html-to-image library for better text spacing and layout preservation
  */
 export const exportSeparateSides = async (
   frontElement: HTMLElement,
@@ -120,20 +107,14 @@ export const exportSeparateSides = async (
       format: [dimensions.trim.height, dimensions.trim.width],
     })
 
-    const frontCanvas = await html2canvas(frontElement, {
-      scale: 3,
-      useCORS: true,
-      allowTaint: false,
+    // Capture front using html-to-image
+    const frontImgData = await toPng(frontElement, {
+      quality: 1.0,
+      pixelRatio: 3,
+      cacheBust: true,
       backgroundColor: '#ffffff',
-      logging: false,
-      imageTimeout: 0,
-      removeContainer: true,
-      onclone: async (clonedDoc) => {
-        await clonedDoc.fonts.ready
-      },
     })
 
-    const frontImgData = frontCanvas.toDataURL('image/png', 1.0)
     frontPDF.addImage(
       frontImgData,
       'PNG',
@@ -155,20 +136,14 @@ export const exportSeparateSides = async (
         format: [dimensions.trim.height, dimensions.trim.width],
       })
 
-      const backCanvas = await html2canvas(backElement, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: false,
+      // Capture back using html-to-image
+      const backImgData = await toPng(backElement, {
+        quality: 1.0,
+        pixelRatio: 3,
+        cacheBust: true,
         backgroundColor: '#ffffff',
-        logging: false,
-        imageTimeout: 0,
-        removeContainer: true,
-        onclone: async (clonedDoc) => {
-          await clonedDoc.fonts.ready
-        },
       })
 
-      const backImgData = backCanvas.toDataURL('image/png', 1.0)
       backPDF.addImage(
         backImgData,
         'PNG',
