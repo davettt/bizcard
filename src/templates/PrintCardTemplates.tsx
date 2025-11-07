@@ -77,7 +77,12 @@ export const MinimalTemplate = ({ data, colors, isBack }: TemplateProps) => {
     return (
       <div
         className="card-template minimal-back"
-        style={{ background: colors[0], color: colors[2] }}
+        style={{
+          background: colors[0],
+          color: colors[2],
+          borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+          fontFamily: getFontFamily(data.fontFamily),
+        }}
       >
         <div style={{ ...typography.back }}>{data.backText}</div>
         {(data.linkedin || data.twitter || data.instagram || data.github) && (
@@ -192,7 +197,12 @@ export const ModernTemplate = ({ data, colors, isBack }: TemplateProps) => {
     return (
       <div
         className="card-template modern-back"
-        style={{ background: colors[0], color: colors[2] }}
+        style={{
+          background: colors[0],
+          color: colors[2],
+          borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+          fontFamily: getFontFamily(data.fontFamily),
+        }}
       >
         <div className="geometric-accent" style={{ background: colors[1] }} />
         <div style={{ ...typography.back, padding: '28px' }}>
@@ -308,7 +318,12 @@ export const ProfessionalTemplate = ({
     return (
       <div
         className="card-template professional-back"
-        style={{ background: colors[0], color: colors[2] }}
+        style={{
+          background: colors[0],
+          color: colors[2],
+          borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+          fontFamily: getFontFamily(data.fontFamily),
+        }}
       >
         <div style={{ ...typography.back }}>{data.backText}</div>
         {(data.linkedin || data.twitter || data.instagram || data.github) && (
@@ -437,7 +452,12 @@ export const ElegantTemplate = ({ data, colors, isBack }: TemplateProps) => {
     return (
       <div
         className="card-template elegant-back"
-        style={{ background: colors[0], borderTop: `3px solid ${colors[1]}` }}
+        style={{
+          background: colors[0],
+          borderTop: `3px solid ${colors[1]}`,
+          borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+          fontFamily: getFontFamily(data.fontFamily),
+        }}
       >
         <div
           style={{ ...typography.back, lineHeight: '1.8', color: colors[2] }}
@@ -559,7 +579,12 @@ export const BoldTemplate = ({ data, colors, isBack }: TemplateProps) => {
     return (
       <div
         className="card-template bold-back"
-        style={{ background: colors[0], color: colors[2] }}
+        style={{
+          background: colors[0],
+          color: colors[2],
+          borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+          fontFamily: getFontFamily(data.fontFamily),
+        }}
       >
         <div
           style={{
@@ -684,7 +709,12 @@ export const ClassicTemplate = ({ data, colors, isBack }: TemplateProps) => {
     return (
       <div
         className="card-template classic-back"
-        style={{ background: colors[3], color: colors[0] }}
+        style={{
+          background: colors[3],
+          color: colors[0],
+          borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+          fontFamily: getFontFamily(data.fontFamily),
+        }}
       >
         <div style={{ ...typography.back }}>{data.backText}</div>
         {(data.linkedin || data.twitter || data.instagram || data.github) && (
@@ -811,6 +841,8 @@ export const CreativeTemplate = ({ data, colors, isBack }: TemplateProps) => {
         style={{
           background: `linear-gradient(135deg, ${colors[1]} 0%, ${colors[3]} 100%)`,
           color: colors[2],
+          borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+          fontFamily: getFontFamily(data.fontFamily),
         }}
       >
         <div style={{ ...typography.back }}>{data.backText}</div>
@@ -930,7 +962,12 @@ export const SimpleTemplate = ({ data, colors, isBack }: TemplateProps) => {
     return (
       <div
         className="card-template simple-back"
-        style={{ background: colors[0], color: colors[2] }}
+        style={{
+          background: colors[0],
+          color: colors[2],
+          borderRadius: getBorderRadius(data.cornerStyle, '8px'),
+          fontFamily: getFontFamily(data.fontFamily),
+        }}
       >
         <div style={{ ...typography.back, lineHeight: '1.8' }}>
           {data.backText}

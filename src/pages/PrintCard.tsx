@@ -4,6 +4,10 @@ import { CardData, ColorPalette, PrintSize, TemplateId } from '../types'
 import { templateComponents, templateNames } from '../templates/printCardConfig'
 import { printSizes } from '../utils/printSizes'
 import { exportToPDF } from '../utils/exportPDF'
+import {
+  exportToPDFProfessional,
+  exportSeparateSides,
+} from '../utils/exportPDFProfessional'
 import Input from '../components/Input'
 import ImageUpload from '../components/ImageUpload'
 import ColorPicker from '../components/ColorPicker'
@@ -78,7 +82,7 @@ const PrintCard = () => {
     })
   }
 
-  const handleExport = async () => {
+  const handleExport = async (exportType: 'professional' | 'diy' | 'basic') => {
     if (!frontRef.current || !selectedPalette) {
       alert('Please complete all required fields and select a color palette')
       return
@@ -88,12 +92,30 @@ const PrintCard = () => {
     try {
       const backElement =
         cardData.includeBack && backRef.current ? backRef.current : null
-      await exportToPDF(
-        frontRef.current,
-        backElement,
-        selectedSize,
-        `business-card-${cardData.name.replace(/\s+/g, '-').toLowerCase()}.pdf`
-      )
+      const fileName = `business-card-${cardData.name.replace(/\s+/g, '-').toLowerCase()}`
+
+      if (exportType === 'professional') {
+        await exportToPDFProfessional(
+          frontRef.current,
+          backElement,
+          selectedSize,
+          `${fileName}-print-ready.pdf`
+        )
+      } else if (exportType === 'diy') {
+        await exportSeparateSides(
+          frontRef.current,
+          backElement,
+          selectedSize,
+          fileName
+        )
+      } else {
+        await exportToPDF(
+          frontRef.current,
+          backElement,
+          selectedSize,
+          `${fileName}.pdf`
+        )
+      }
     } catch (_error) {
       alert('Failed to export PDF. Please try again.')
     } finally {
@@ -399,19 +421,46 @@ const PrintCard = () => {
               )}
             </div>
 
-            <Button
-              onClick={handleExport}
-              disabled={
-                !cardData.name ||
-                !cardData.title ||
-                !selectedPalette ||
-                isExporting
-              }
-              fullWidth
-              size="large"
-            >
-              {isExporting ? 'Generating PDF...' : 'Download PDF'}
-            </Button>
+            <div className="info-box" style={{ marginBottom: '1rem' }}>
+              <p style={{ fontSize: '0.875rem', margin: 0, lineHeight: '1.5' }}>
+                <strong>Professional Print:</strong> Includes bleed and crop marks
+                for professional printers.
+                <br />
+                <strong>DIY Print:</strong> Separate front/back files for services
+                like VistaPrint.
+              </p>
+            </div>
+
+            <div className="button-group" style={{ display: 'flex', gap: '0.75rem', flexDirection: 'column' }}>
+              <Button
+                onClick={() => handleExport('professional')}
+                disabled={
+                  !cardData.name ||
+                  !cardData.title ||
+                  !selectedPalette ||
+                  isExporting
+                }
+                fullWidth
+                size="large"
+              >
+                {isExporting ? 'Generating...' : '📄 Professional Print-Ready PDF'}
+              </Button>
+
+              <Button
+                onClick={() => handleExport('diy')}
+                disabled={
+                  !cardData.name ||
+                  !cardData.title ||
+                  !selectedPalette ||
+                  isExporting
+                }
+                fullWidth
+                size="large"
+                variant="secondary"
+              >
+                {isExporting ? 'Generating...' : '🏠 DIY Separate Files'}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
