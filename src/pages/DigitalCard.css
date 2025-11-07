@@ -137,6 +137,11 @@
   align-items: center;
 }
 
+.button-group {
+  display: flex;
+  gap: 1rem;
+}
+
 @media (max-width: 768px) {
   .page-header {
     padding: 1.5rem 0;
@@ -149,5 +154,9 @@
 
   .format-grid {
     grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
   }
 }

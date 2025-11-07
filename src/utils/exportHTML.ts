@@ -103,3 +103,85 @@ export const imageToBase64 = (imageUrl: string): Promise<string> => {
     img.src = imageUrl
   })
 }
+
+// Generate embeddable HTML snippet for digital cards
+export const generateEmbedCode = (element: HTMLElement): string => {
+  // Get the card HTML
+  const cardHTML = element.innerHTML
+
+  // Extract only relevant CSS rules for digital cards
+  const relevantStyles = extractDigitalCardStyles()
+
+  // Create self-contained embed code
+  const embedCode = `<!-- Digital Business Card - Paste this code into your website -->
+<div class="digital-business-card-embed">
+  <style>
+    .digital-business-card-embed {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+    ${relevantStyles}
+  </style>
+  ${cardHTML}
+</div>`
+
+  return embedCode
+}
+
+// Copy embed code to clipboard
+export const copyEmbedCode = async (element: HTMLElement): Promise<void> => {
+  const embedCode = generateEmbedCode(element)
+
+  try {
+    await navigator.clipboard.writeText(embedCode)
+  } catch (error) {
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea')
+    textArea.value = embedCode
+    textArea.style.position = 'fixed'
+    textArea.style.opacity = '0'
+    document.body.appendChild(textArea)
+    textArea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textArea)
+  }
+}
+
+const extractDigitalCardStyles = (): string => {
+  let styles = ''
+  const styleSheets = document.styleSheets
+
+  // Keywords to identify digital card related styles
+  const relevantKeywords = [
+    'digital-card',
+    'portrait-',
+    'banner-',
+    'square-',
+    'mobile-',
+    'social-link'
+  ]
+
+  for (let i = 0; i < styleSheets.length; i++) {
+    try {
+      const sheet = styleSheets[i]
+      if (sheet.cssRules) {
+        for (let j = 0; j < sheet.cssRules.length; j++) {
+          const rule = sheet.cssRules[j]
+          const cssText = rule.cssText
+
+          // Only include rules relevant to digital cards
+          if (relevantKeywords.some(keyword => cssText.includes(keyword))) {
+            styles += cssText + '\n'
+          }
+        }
+      }
+    } catch (_e) {
+      continue
+    }
+  }
+
+  return styles
+}

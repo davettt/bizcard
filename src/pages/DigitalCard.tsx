@@ -6,7 +6,7 @@ import {
   digitalFormatNames,
   digitalFormatDescriptions,
 } from '../templates/digitalCardConfig'
-import { exportToHTML, imageToBase64 } from '../utils/exportHTML'
+import { exportToHTML, imageToBase64, copyEmbedCode } from '../utils/exportHTML'
 import Input from '../components/Input'
 import ImageUpload from '../components/ImageUpload'
 import ColorPicker from '../components/ColorPicker'
@@ -33,6 +33,7 @@ const DigitalCard = () => {
     useState<DigitalFormatId>('portrait')
   const [selectedPalette, setSelectedPalette] = useState<ColorPalette>()
   const [isExporting, setIsExporting] = useState(false)
+  const [isCopying, setIsCopying] = useState(false)
 
   const handleInputChange = (field: keyof CardData, value: string) => {
     setCardData(prev => ({ ...prev, [field]: value }))
@@ -81,6 +82,29 @@ const DigitalCard = () => {
       alert('Failed to export HTML. Please try again.')
     } finally {
       setIsExporting(false)
+    }
+  }
+
+  const handleCopyEmbed = async () => {
+    if (!cardRef.current || !selectedPalette) {
+      alert('Please complete all required fields and select a color palette')
+      return
+    }
+
+    setIsCopying(true)
+    try {
+      // Convert image to base64 if exists
+      if (cardData.image) {
+        const base64Image = await imageToBase64(cardData.image)
+        cardData.image = base64Image
+      }
+
+      await copyEmbedCode(cardRef.current)
+      alert('✓ Embed code copied to clipboard! Paste it into your website.')
+    } catch (_error) {
+      alert('Failed to copy embed code. Please try again.')
+    } finally {
+      setIsCopying(false)
     }
   }
 
@@ -235,24 +259,42 @@ const DigitalCard = () => {
 
             <div className="info-box">
               <p>
-                💡 <strong>Tip:</strong> The exported HTML file will be
-                self-contained with all styles and images embedded.
+                💡 <strong>Tip:</strong> All exports are self-contained with
+                styles and images embedded. Use <strong>Copy Embed Code</strong>{' '}
+                to paste into your website, or <strong>Download Standalone</strong>{' '}
+                for a ready-to-host HTML file.
               </p>
             </div>
 
-            <Button
-              onClick={handleExport}
-              disabled={
-                !cardData.name ||
-                !cardData.title ||
-                !selectedPalette ||
-                isExporting
-              }
-              fullWidth
-              size="large"
-            >
-              {isExporting ? 'Generating HTML...' : 'Download HTML File'}
-            </Button>
+            <div className="button-group">
+              <Button
+                onClick={handleCopyEmbed}
+                disabled={
+                  !cardData.name ||
+                  !cardData.title ||
+                  !selectedPalette ||
+                  isCopying
+                }
+                fullWidth
+                size="large"
+              >
+                {isCopying ? 'Copying...' : '📋 Copy Embed Code'}
+              </Button>
+              <Button
+                onClick={handleExport}
+                disabled={
+                  !cardData.name ||
+                  !cardData.title ||
+                  !selectedPalette ||
+                  isExporting
+                }
+                fullWidth
+                size="large"
+                variant="secondary"
+              >
+                {isExporting ? 'Generating...' : '⬇ Download Standalone'}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
