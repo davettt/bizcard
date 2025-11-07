@@ -32,14 +32,10 @@ export const exportToPDFProfessional = async (
     })
 
     // Capture front at high quality
-    // Calculate pixel size at 300 DPI to maintain correct aspect ratio
-    const pixelWidth = Math.round(dimensions.trim.width * 300)
-    const pixelHeight = Math.round(dimensions.trim.height * 300)
-
+    // Don't specify width/height - let html2canvas capture the element as-is
+    // Use scale: 4 for high resolution (4x the screen size for print quality)
     const frontCanvas = await html2canvas(frontElement, {
-      width: pixelWidth,
-      height: pixelHeight,
-      scale: 1, // Already at target size
+      scale: 4,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
@@ -68,9 +64,7 @@ export const exportToPDFProfessional = async (
     if (backElement) {
       pdf.addPage()
       const backCanvas = await html2canvas(backElement, {
-        width: pixelWidth,
-        height: pixelHeight,
-        scale: 1,
+        scale: 4,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
@@ -120,14 +114,8 @@ export const exportSeparateSides = async (
       format: [dimensions.trim.height, dimensions.trim.width],
     })
 
-    // Calculate pixel size at 300 DPI
-    const pixelWidth = Math.round(dimensions.trim.width * 300)
-    const pixelHeight = Math.round(dimensions.trim.height * 300)
-
     const frontCanvas = await html2canvas(frontElement, {
-      width: pixelWidth,
-      height: pixelHeight,
-      scale: 1,
+      scale: 4,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
@@ -160,9 +148,7 @@ export const exportSeparateSides = async (
       })
 
       const backCanvas = await html2canvas(backElement, {
-        width: pixelWidth,
-        height: pixelHeight,
-        scale: 1,
+        scale: 4,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
