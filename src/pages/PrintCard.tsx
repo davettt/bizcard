@@ -218,7 +218,7 @@ const PrintCard = () => {
                 label="Profile Image"
                 onImageSelect={img => handleInputChange('image', img)}
                 currentImage={cardData.image}
-                helpText="Recommended: 500×500px square, min 300×300px. Max 5MB. Use high-quality images for best print results."
+                helpText="Formats: JPEG, PNG, GIF, WebP, or SVG. Recommended: 500×500px square, min 300×300px. Max 5MB. Use high-quality images for best print results."
                 maxSizeMB={5}
               />
 
@@ -226,7 +226,7 @@ const PrintCard = () => {
                 label="Company Logo (Optional)"
                 onImageSelect={img => handleInputChange('logo', img)}
                 currentImage={cardData.logo}
-                helpText="Recommended: Square format (e.g., 300×300px). PNG with transparent background works best. Max 2MB."
+                helpText="Formats: JPEG, PNG, GIF, WebP, or SVG. Recommended: Square format (e.g., 300×300px). PNG with transparent background works best. Max 2MB."
                 maxSizeMB={2}
               />
 
