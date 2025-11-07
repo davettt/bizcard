@@ -32,7 +32,7 @@ const Home = () => {
   return (
     <div className="home">
       <header className="home-header">
-        <h1>CardCraft</h1>
+        <h1>Business Card Generator</h1>
         <p className="tagline">
           Create professional business cards and email signatures in minutes
         </p>
