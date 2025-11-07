@@ -123,6 +123,25 @@ const PrintCard = () => {
     '#999999',
   ]
 
+  // Fixed preview dimensions (140 pixels per inch for consistent display)
+  const getPreviewDimensions = () => {
+    const scale = 140 // pixels per inch
+    switch (selectedSize) {
+      case '3.5x2':
+        return { width: 3.5 * scale, height: 2 * scale }
+      case '3.5x2.5':
+        return { width: 3.5 * scale, height: 2.5 * scale }
+      case '3x2':
+        return { width: 3 * scale, height: 2 * scale }
+      case '2.5x2':
+        return { width: 2.5 * scale, height: 2 * scale }
+      default:
+        return { width: 490, height: 280 }
+    }
+  }
+
+  const previewDims = getPreviewDimensions()
+
   return (
     <div className="print-card-page">
       <div className="page-header">
@@ -375,14 +394,8 @@ const PrintCard = () => {
                 ref={frontRef}
                 className="card-preview"
                 style={{
-                  aspectRatio:
-                    selectedSize === '3.5x2'
-                      ? '3.5/2'
-                      : selectedSize === '3.5x2.5'
-                        ? '3.5/2.5'
-                        : selectedSize === '3x2'
-                          ? '3/2'
-                          : '2.5/2',
+                  width: `${previewDims.width}px`,
+                  height: `${previewDims.height}px`,
                 }}
               >
                 <TemplateComponent data={cardData} colors={colors} />
@@ -397,14 +410,8 @@ const PrintCard = () => {
                     ref={backRef}
                     className="card-preview"
                     style={{
-                      aspectRatio:
-                        selectedSize === '3.5x2'
-                          ? '3.5/2'
-                          : selectedSize === '3.5x2.5'
-                            ? '3.5/2.5'
-                            : selectedSize === '3x2'
-                              ? '3/2'
-                              : '2.5/2',
+                      width: `${previewDims.width}px`,
+                      height: `${previewDims.height}px`,
                     }}
                   >
                     <TemplateComponent data={cardData} colors={colors} isBack />

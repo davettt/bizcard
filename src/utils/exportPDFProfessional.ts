@@ -30,50 +30,21 @@ export const exportToPDFProfessional = async (
       format: [dimensions.height, dimensions.width],
     })
 
-    // Calculate exact pixel dimensions at 300 DPI for print quality
-    const dpi = 300
-    const trimWidthPx = Math.round(dimensions.trim.width * dpi)
-    const trimHeightPx = Math.round(dimensions.trim.height * dpi)
-
     // Scale factor to convert trim size to bleed size
     const scaleForBleed = dimensions.width / dimensions.trim.width
 
-    // Capture front with explicit dimensions and text preservation
+    // Capture front - preview now has fixed dimensions, just capture at high quality
     const frontCanvas = await html2canvas(frontElement, {
-      scale: dpi / 96, // 96 is default screen DPI, scale to 300 DPI
+      scale: 3, // High quality capture
       useCORS: true,
       allowTaint: false,
       backgroundColor: '#ffffff',
       logging: false,
       imageTimeout: 0,
       removeContainer: true,
-      foreignObjectRendering: false,
       onclone: async (clonedDoc) => {
-        // Find the card preview element
-        const clonedElement = clonedDoc.querySelector('.card-preview') as HTMLElement
-        if (clonedElement) {
-          // Remove aspect-ratio and set explicit dimensions
-          clonedElement.style.aspectRatio = ''
-          clonedElement.style.width = `${trimWidthPx / (dpi / 96)}px`
-          clonedElement.style.height = `${trimHeightPx / (dpi / 96)}px`
-          clonedElement.style.transform = 'none'
-
-          // Ensure text spacing is preserved
-          const allElements = clonedElement.querySelectorAll('*')
-          allElements.forEach((el) => {
-            const htmlEl = el as HTMLElement
-            // Explicitly preserve word spacing
-            if (!htmlEl.style.wordSpacing) {
-              htmlEl.style.wordSpacing = 'normal'
-            }
-            if (!htmlEl.style.whiteSpace || htmlEl.style.whiteSpace === 'normal') {
-              htmlEl.style.whiteSpace = 'pre-wrap'
-            }
-          })
-
-          // Wait for fonts to load
-          await clonedDoc.fonts.ready
-        }
+        // Wait for fonts to load
+        await clonedDoc.fonts.ready
       },
     })
 
@@ -96,39 +67,16 @@ export const exportToPDFProfessional = async (
     if (backElement) {
       pdf.addPage()
       const backCanvas = await html2canvas(backElement, {
-        scale: dpi / 96,
+        scale: 3,
         useCORS: true,
         allowTaint: false,
         backgroundColor: '#ffffff',
         logging: false,
         imageTimeout: 0,
         removeContainer: true,
-        foreignObjectRendering: false,
         onclone: async (clonedDoc) => {
-          const clonedElement = clonedDoc.querySelector('.card-preview') as HTMLElement
-          if (clonedElement) {
-            // Remove aspect-ratio and set explicit dimensions
-            clonedElement.style.aspectRatio = ''
-            clonedElement.style.width = `${trimWidthPx / (dpi / 96)}px`
-            clonedElement.style.height = `${trimHeightPx / (dpi / 96)}px`
-            clonedElement.style.transform = 'none'
-
-            // Ensure text spacing is preserved
-            const allElements = clonedElement.querySelectorAll('*')
-            allElements.forEach((el) => {
-              const htmlEl = el as HTMLElement
-              // Explicitly preserve word spacing
-              if (!htmlEl.style.wordSpacing) {
-                htmlEl.style.wordSpacing = 'normal'
-              }
-              if (!htmlEl.style.whiteSpace || htmlEl.style.whiteSpace === 'normal') {
-                htmlEl.style.whiteSpace = 'pre-wrap'
-              }
-            })
-
-            // Wait for fonts to load
-            await clonedDoc.fonts.ready
-          }
+          // Wait for fonts to load
+          await clonedDoc.fonts.ready
         },
       })
 
@@ -166,11 +114,6 @@ export const exportSeparateSides = async (
   try {
     const dimensions = getPDFDimensions(size)
 
-    // Calculate exact pixel dimensions at 300 DPI
-    const dpi = 300
-    const trimWidthPx = Math.round(dimensions.trim.width * dpi)
-    const trimHeightPx = Math.round(dimensions.trim.height * dpi)
-
     const frontPDF = new jsPDF({
       orientation: 'landscape',
       unit: 'in',
@@ -178,35 +121,15 @@ export const exportSeparateSides = async (
     })
 
     const frontCanvas = await html2canvas(frontElement, {
-      scale: dpi / 96,
+      scale: 3,
       useCORS: true,
       allowTaint: false,
       backgroundColor: '#ffffff',
       logging: false,
       imageTimeout: 0,
       removeContainer: true,
-      foreignObjectRendering: false,
       onclone: async (clonedDoc) => {
-        const clonedElement = clonedDoc.querySelector('.card-preview') as HTMLElement
-        if (clonedElement) {
-          clonedElement.style.aspectRatio = ''
-          clonedElement.style.width = `${trimWidthPx / (dpi / 96)}px`
-          clonedElement.style.height = `${trimHeightPx / (dpi / 96)}px`
-          clonedElement.style.transform = 'none'
-
-          const allElements = clonedElement.querySelectorAll('*')
-          allElements.forEach((el) => {
-            const htmlEl = el as HTMLElement
-            if (!htmlEl.style.wordSpacing) {
-              htmlEl.style.wordSpacing = 'normal'
-            }
-            if (!htmlEl.style.whiteSpace || htmlEl.style.whiteSpace === 'normal') {
-              htmlEl.style.whiteSpace = 'pre-wrap'
-            }
-          })
-
-          await clonedDoc.fonts.ready
-        }
+        await clonedDoc.fonts.ready
       },
     })
 
@@ -233,35 +156,15 @@ export const exportSeparateSides = async (
       })
 
       const backCanvas = await html2canvas(backElement, {
-        scale: dpi / 96,
+        scale: 3,
         useCORS: true,
         allowTaint: false,
         backgroundColor: '#ffffff',
         logging: false,
         imageTimeout: 0,
         removeContainer: true,
-        foreignObjectRendering: false,
         onclone: async (clonedDoc) => {
-          const clonedElement = clonedDoc.querySelector('.card-preview') as HTMLElement
-          if (clonedElement) {
-            clonedElement.style.aspectRatio = ''
-            clonedElement.style.width = `${trimWidthPx / (dpi / 96)}px`
-            clonedElement.style.height = `${trimHeightPx / (dpi / 96)}px`
-            clonedElement.style.transform = 'none'
-
-            const allElements = clonedElement.querySelectorAll('*')
-            allElements.forEach((el) => {
-              const htmlEl = el as HTMLElement
-              if (!htmlEl.style.wordSpacing) {
-                htmlEl.style.wordSpacing = 'normal'
-              }
-              if (!htmlEl.style.whiteSpace || htmlEl.style.whiteSpace === 'normal') {
-                htmlEl.style.whiteSpace = 'pre-wrap'
-              }
-            })
-
-            await clonedDoc.fonts.ready
-          }
+          await clonedDoc.fonts.ready
         },
       })
 
