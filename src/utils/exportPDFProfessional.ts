@@ -42,7 +42,20 @@ export const exportToPDFProfessional = async (
     })
 
     const frontImgData = frontCanvas.toDataURL('image/png', 1.0)
-    addPageWithCropMarks(pdf, frontImgData, dimensions, 'FRONT')
+
+    // Place image at TRIM size (not including bleed), centered with bleed around it
+    pdf.addImage(
+      frontImgData,
+      'PNG',
+      dimensions.bleed, // Offset by bleed amount
+      dimensions.bleed,
+      dimensions.trim.width, // Use trim size, not full size with bleed
+      dimensions.trim.height,
+      undefined,
+      'FAST'
+    )
+
+    addCropMarks(pdf, dimensions, 'FRONT')
 
     // Add back if exists
     if (backElement) {
@@ -56,7 +69,19 @@ export const exportToPDFProfessional = async (
         imageTimeout: 15000,
       })
       const backImgData = backCanvas.toDataURL('image/png', 1.0)
-      addPageWithCropMarks(pdf, backImgData, dimensions, 'BACK')
+
+      pdf.addImage(
+        backImgData,
+        'PNG',
+        dimensions.bleed,
+        dimensions.bleed,
+        dimensions.trim.width,
+        dimensions.trim.height,
+        undefined,
+        'FAST'
+      )
+
+      addCropMarks(pdf, dimensions, 'BACK')
     }
 
     pdf.save(fileName)
@@ -146,26 +171,13 @@ export const exportSeparateSides = async (
 }
 
 /**
- * Add crop marks and bleed indicators
+ * Add crop marks (no image placement here)
  */
-const addPageWithCropMarks = (
+const addCropMarks = (
   pdf: jsPDF,
-  imageData: string,
   dimensions: PDFDimensions,
   label: string
 ): void => {
-  // Add the card image
-  pdf.addImage(
-    imageData,
-    'PNG',
-    0,
-    0,
-    dimensions.width,
-    dimensions.height,
-    undefined,
-    'FAST'
-  )
-
   // Draw crop marks
   pdf.setDrawColor(0, 0, 0)
   pdf.setLineWidth(0.005)
@@ -175,7 +187,7 @@ const addPageWithCropMarks = (
   const h = dimensions.height
   const markLength = 0.125
 
-  // Corner crop marks
+  // Corner crop marks at the TRIM edge
   // Top-left
   pdf.line(bleed - markLength, bleed, bleed + 0.01, bleed)
   pdf.line(bleed, bleed - markLength, bleed, bleed + 0.01)
