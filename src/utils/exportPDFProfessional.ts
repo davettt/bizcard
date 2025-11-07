@@ -31,26 +31,18 @@ export const exportToPDFProfessional = async (
       format: [dimensions.height, dimensions.width],
     })
 
-    // Capture front at high quality
-    const frontCanvas = await html2canvas(frontElement, {
-      scale: 4, // High quality for print
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      imageTimeout: 15000,
-    })
-
+    // Capture front with bleed
+    const frontCanvas = await captureWithBleed(frontElement, dimensions)
     const frontImgData = frontCanvas.toDataURL('image/png', 1.0)
 
-    // Place image at TRIM size (not including bleed), centered with bleed around it
+    // Fill entire page including bleed
     pdf.addImage(
       frontImgData,
       'PNG',
-      dimensions.bleed, // Offset by bleed amount
-      dimensions.bleed,
-      dimensions.trim.width, // Use trim size, not full size with bleed
-      dimensions.trim.height,
+      0,
+      0,
+      dimensions.width,
+      dimensions.height,
       undefined,
       'FAST'
     )
@@ -60,23 +52,16 @@ export const exportToPDFProfessional = async (
     // Add back if exists
     if (backElement) {
       pdf.addPage()
-      const backCanvas = await html2canvas(backElement, {
-        scale: 4,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        imageTimeout: 15000,
-      })
+      const backCanvas = await captureWithBleed(backElement, dimensions)
       const backImgData = backCanvas.toDataURL('image/png', 1.0)
 
       pdf.addImage(
         backImgData,
         'PNG',
-        dimensions.bleed,
-        dimensions.bleed,
-        dimensions.trim.width,
-        dimensions.trim.height,
+        0,
+        0,
+        dimensions.width,
+        dimensions.height,
         undefined,
         'FAST'
       )
@@ -103,6 +88,7 @@ export const exportSeparateSides = async (
   try {
     const dimensions = getPDFDimensions(size)
 
+    // For DIY, we just need trim size (no bleed)
     // Export front
     const frontPDF = new jsPDF({
       orientation: 'landscape',
@@ -110,14 +96,11 @@ export const exportSeparateSides = async (
       format: [dimensions.trim.height, dimensions.trim.width],
     })
 
-    const frontCanvas = await html2canvas(frontElement, {
-      scale: 4,
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      imageTimeout: 15000,
-    })
+    const frontCanvas = await captureAtSize(
+      frontElement,
+      dimensions.trim.width,
+      dimensions.trim.height
+    )
 
     const frontImgData = frontCanvas.toDataURL('image/png', 1.0)
     frontPDF.addImage(
@@ -142,14 +125,11 @@ export const exportSeparateSides = async (
         format: [dimensions.trim.height, dimensions.trim.width],
       })
 
-      const backCanvas = await html2canvas(backElement, {
-        scale: 4,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        imageTimeout: 15000,
-      })
+      const backCanvas = await captureAtSize(
+        backElement,
+        dimensions.trim.width,
+        dimensions.trim.height
+      )
 
       const backImgData = backCanvas.toDataURL('image/png', 1.0)
       backPDF.addImage(
@@ -171,14 +151,107 @@ export const exportSeparateSides = async (
 }
 
 /**
- * Add crop marks (no image placement here)
+ * Capture element with bleed extended
+ */
+const captureWithBleed = async (
+  element: HTMLElement,
+  dimensions: PDFDimensions
+): Promise<HTMLCanvasElement> => {
+  // Capture at full size with bleed
+  return captureAtSize(element, dimensions.width, dimensions.height)
+}
+
+/**
+ * Capture element at specific dimensions
+ */
+const captureAtSize = async (
+  element: HTMLElement,
+  widthInches: number,
+  heightInches: number
+): Promise<HTMLCanvasElement> => {
+  // Create offscreen container
+  const container = document.createElement('div')
+  container.style.position = 'fixed'
+  container.style.left = '-99999px'
+  container.style.top = '0'
+  container.style.zIndex = '-9999'
+
+  // Clone the element
+  const clone = element.cloneNode(true) as HTMLElement
+
+  // Set explicit pixel dimensions for rendering
+  // Using 300 DPI for print quality
+  const pixelWidth = Math.round(widthInches * 300)
+  const pixelHeight = Math.round(heightInches * 300)
+
+  // Apply size to clone
+  clone.style.width = `${pixelWidth}px`
+  clone.style.height = `${pixelHeight}px`
+  clone.style.minWidth = `${pixelWidth}px`
+  clone.style.minHeight = `${pixelHeight}px`
+  clone.style.maxWidth = `${pixelWidth}px`
+  clone.style.maxHeight = `${pixelHeight}px`
+  clone.style.position = 'relative'
+  clone.style.display = 'block'
+  clone.style.margin = '0'
+  clone.style.padding = '0'
+  clone.style.boxSizing = 'border-box'
+
+  // Remove aspect-ratio which interferes with fixed dimensions
+  clone.style.aspectRatio = 'auto'
+
+  container.appendChild(clone)
+  document.body.appendChild(container)
+
+  try {
+    // Wait for any images to load
+    const images = clone.querySelectorAll('img')
+    await Promise.all(
+      Array.from(images).map(
+        img =>
+          new Promise<void>(resolve => {
+            if (img.complete) {
+              resolve()
+            } else {
+              img.onload = () => resolve()
+              img.onerror = () => resolve()
+              setTimeout(() => resolve(), 5000)
+            }
+          })
+      )
+    )
+
+    // Allow time for fonts and rendering
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Capture with html2canvas
+    const canvas = await html2canvas(clone, {
+      width: pixelWidth,
+      height: pixelHeight,
+      scale: 1, // Already at target size
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      windowWidth: pixelWidth,
+      windowHeight: pixelHeight,
+      imageTimeout: 15000,
+    })
+
+    return canvas
+  } finally {
+    document.body.removeChild(container)
+  }
+}
+
+/**
+ * Add crop marks at trim edges
  */
 const addCropMarks = (
   pdf: jsPDF,
   dimensions: PDFDimensions,
   label: string
 ): void => {
-  // Draw crop marks
   pdf.setDrawColor(0, 0, 0)
   pdf.setLineWidth(0.005)
 
@@ -187,7 +260,7 @@ const addCropMarks = (
   const h = dimensions.height
   const markLength = 0.125
 
-  // Corner crop marks at the TRIM edge
+  // Crop marks at trim edge (where to cut)
   // Top-left
   pdf.line(bleed - markLength, bleed, bleed + 0.01, bleed)
   pdf.line(bleed, bleed - markLength, bleed, bleed + 0.01)
@@ -204,14 +277,14 @@ const addCropMarks = (
   pdf.line(w - bleed - 0.01, h - bleed, w - bleed + markLength, h - bleed)
   pdf.line(w - bleed, h - bleed - 0.01, w - bleed, h - bleed + markLength)
 
-  // Add labels
+  // Labels
   pdf.setFontSize(8)
   pdf.setTextColor(0, 0, 0)
   pdf.text(label, w / 2, h - bleed / 3, { align: 'center' })
 
   pdf.setFontSize(6)
   pdf.text(
-    `${dimensions.trim.width}" × ${dimensions.trim.height}" + ${bleed}" bleed`,
+    `TRIM: ${dimensions.trim.width}" × ${dimensions.trim.height}" | BLEED: ${bleed}"`,
     w / 2,
     bleed / 3,
     { align: 'center' }
@@ -219,10 +292,10 @@ const addCropMarks = (
 }
 
 /**
- * Get PDF dimensions with bleed
+ * Get PDF dimensions
  */
 const getPDFDimensions = (size: PrintSize): PDFDimensions => {
-  const bleed = 0.125 // 1/8 inch bleed
+  const bleed = 0.125
 
   const trimDimensions: Record<
     PrintSize,
