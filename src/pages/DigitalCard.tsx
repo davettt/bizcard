@@ -223,6 +223,8 @@ const DigitalCard = () => {
                 label="Profile Image"
                 onImageSelect={img => handleInputChange('image', img)}
                 currentImage={cardData.image}
+                helpText="Recommended: 400×400px to 800×800px square. Portrait format works well for vertical layouts. Max 3MB."
+                maxSizeMB={3}
               />
             </div>
 

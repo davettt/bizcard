@@ -11,6 +11,13 @@
   font-size: 0.875rem;
 }
 
+.help-text {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin: -0.25rem 0 0.25rem 0;
+  line-height: 1.5;
+}
+
 .required {
   color: var(--error);
   margin-left: 0.25rem;

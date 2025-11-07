@@ -166,6 +166,7 @@ const EmailSignature = () => {
                 value={signatureData.imageUrl || ''}
                 onChange={val => handleInputChange('imageUrl', val)}
                 placeholder="https://example.com/photo.jpg"
+                helpText="Recommended: 100×100px to 200×200px. Use a publicly hosted image URL. Larger images will be automatically resized by email clients."
               />
               <Input
                 label="LinkedIn"

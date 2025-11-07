@@ -5,18 +5,31 @@ interface ImageUploadProps {
   onImageSelect: (imageDataUrl: string) => void
   currentImage?: string
   label?: string
+  helpText?: string
+  maxSizeMB?: number
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   onImageSelect,
   currentImage,
   label = 'Upload Image',
+  helpText,
+  maxSizeMB = 5,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      // Check file size
+      const fileSizeMB = file.size / (1024 * 1024)
+      if (fileSizeMB > maxSizeMB) {
+        alert(
+          `Image is too large (${fileSizeMB.toFixed(1)}MB). Please use an image under ${maxSizeMB}MB.`
+        )
+        return
+      }
+
       const reader = new FileReader()
       reader.onloadend = () => {
         onImageSelect(reader.result as string)
@@ -32,6 +45,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <div className="image-upload">
       <label className="input-label">{label}</label>
+      {helpText && <p className="help-text">{helpText}</p>}
       <div className="upload-area" onClick={handleClick}>
         {currentImage ? (
           <img src={currentImage} alt="Preview" className="preview-image" />

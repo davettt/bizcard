@@ -9,6 +9,7 @@ interface InputProps {
   placeholder?: string
   required?: boolean
   error?: string
+  helpText?: string
 }
 
 const Input: React.FC<InputProps> = ({
@@ -19,6 +20,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   required = false,
   error,
+  helpText,
 }) => {
   return (
     <div className="input-group">
@@ -28,6 +30,7 @@ const Input: React.FC<InputProps> = ({
           {required && <span className="required">*</span>}
         </label>
       )}
+      {helpText && <p className="help-text">{helpText}</p>}
       <input
         type={type}
         value={value}
