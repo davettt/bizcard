@@ -10,6 +10,7 @@ import Input from '../components/Input'
 import ColorPicker from '../components/ColorPicker'
 import Button from '../components/Button'
 import EmailSignatureModal from '../components/EmailSignatureModal'
+import Footer from '../components/Footer'
 import './EmailSignature.css'
 
 const EmailSignature = () => {
@@ -252,6 +253,8 @@ const EmailSignature = () => {
         onClose={() => setShowSignatureModal(false)}
         signatureHTML={signatureHTML}
       />
+
+      <Footer />
     </div>
   )
 }

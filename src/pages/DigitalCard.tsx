@@ -16,6 +16,7 @@ import ImageUpload from '../components/ImageUpload'
 import ColorPicker from '../components/ColorPicker'
 import Button from '../components/Button'
 import EmbedCodeModal from '../components/EmbedCodeModal'
+import Footer from '../components/Footer'
 import './DigitalCard.css'
 
 const DigitalCard = () => {
@@ -308,6 +309,8 @@ const DigitalCard = () => {
         onClose={() => setShowEmbedModal(false)}
         embedCode={embedCode}
       />
+
+      <Footer />
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import Footer from '../components/Footer'
 import './Home.css'
 
 const Home = () => {
@@ -31,7 +32,7 @@ const Home = () => {
   return (
     <div className="home">
       <header className="home-header">
-        <h1>BizCard Generator</h1>
+        <h1>CardCraft</h1>
         <p className="tagline">
           Create professional business cards and email signatures in minutes
         </p>
@@ -75,6 +76,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 }

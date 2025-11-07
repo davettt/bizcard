@@ -9,6 +9,7 @@ import ImageUpload from '../components/ImageUpload'
 import ColorPicker from '../components/ColorPicker'
 import Button from '../components/Button'
 import FontSizeControl from '../components/FontSizeControl'
+import Footer from '../components/Footer'
 import './PrintCard.css'
 
 const PrintCard = () => {
@@ -414,6 +415,8 @@ const PrintCard = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 }
