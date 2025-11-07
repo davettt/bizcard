@@ -83,32 +83,32 @@ const PrintCard = () => {
   }
 
   const handleExport = async (exportType: 'professional' | 'diy' | 'basic') => {
-    if (!frontRef.current || !selectedPalette) {
+    if (!selectedPalette) {
       alert('Please complete all required fields and select a color palette')
       return
     }
 
     setIsExporting(true)
     try {
-      const backElement =
-        cardData.includeBack && backRef.current ? backRef.current : null
       const fileName = `business-card-${cardData.name.replace(/\s+/g, '-').toLowerCase()}`
 
       if (exportType === 'professional') {
         await exportToPDFProfessional(
-          frontRef.current,
-          backElement,
+          cardData,
+          colors,
           selectedSize,
           `${fileName}-print-ready.pdf`
         )
       } else if (exportType === 'diy') {
-        await exportSeparateSides(
-          frontRef.current,
-          backElement,
-          selectedSize,
-          fileName
-        )
+        await exportSeparateSides(cardData, colors, selectedSize, fileName)
       } else {
+        // Basic export still uses old method for backwards compatibility
+        if (!frontRef.current) {
+          alert('Please wait for the preview to load')
+          return
+        }
+        const backElement =
+          cardData.includeBack && backRef.current ? backRef.current : null
         await exportToPDF(
           frontRef.current,
           backElement,
