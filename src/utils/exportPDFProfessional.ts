@@ -31,29 +31,33 @@ export const exportToPDFProfessional = async (
       format: [dimensions.height, dimensions.width],
     })
 
-    // Capture front at high quality
-    // Don't specify width/height - let html2canvas capture the element as-is
-    // Use scale: 4 for high resolution (4x the screen size for print quality)
+    // Capture front exactly as it appears, at high quality
     const frontCanvas = await html2canvas(frontElement, {
-      scale: 4,
+      scale: 3,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
       logging: false,
       imageTimeout: 15000,
-      letterRendering: true, // Fix text spacing
     })
 
     const frontImgData = frontCanvas.toDataURL('image/png', 1.0)
 
-    // Place image at TRIM size (not including bleed), centered with bleed around it
+    // Calculate how to scale the design to fill bleed area while maintaining aspect ratio
+    const trimAspect = dimensions.trim.width / dimensions.trim.height
+    const capturedAspect = frontCanvas.width / frontCanvas.height
+
+    // The design should fill the bleed area
+    // Scale up from trim to bleed (proportionally)
+    const scale = dimensions.width / dimensions.trim.width // e.g., 3.75 / 3.5 = 1.0714
+
     pdf.addImage(
       frontImgData,
       'PNG',
-      dimensions.bleed, // Offset by bleed amount
-      dimensions.bleed,
-      dimensions.trim.width, // Use trim size, not full size with bleed
-      dimensions.trim.height,
+      0,
+      0,
+      dimensions.trim.width * scale,
+      dimensions.trim.height * scale,
       undefined,
       'FAST'
     )
@@ -64,23 +68,22 @@ export const exportToPDFProfessional = async (
     if (backElement) {
       pdf.addPage()
       const backCanvas = await html2canvas(backElement, {
-        scale: 4,
+        scale: 3,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
         logging: false,
         imageTimeout: 15000,
-        letterRendering: true, // Fix text spacing
       })
       const backImgData = backCanvas.toDataURL('image/png', 1.0)
 
       pdf.addImage(
         backImgData,
         'PNG',
-        dimensions.bleed,
-        dimensions.bleed,
-        dimensions.trim.width,
-        dimensions.trim.height,
+        0,
+        0,
+        dimensions.trim.width * scale,
+        dimensions.trim.height * scale,
         undefined,
         'FAST'
       )
@@ -115,13 +118,12 @@ export const exportSeparateSides = async (
     })
 
     const frontCanvas = await html2canvas(frontElement, {
-      scale: 4,
+      scale: 3,
       useCORS: true,
       allowTaint: true,
       backgroundColor: '#ffffff',
       logging: false,
       imageTimeout: 15000,
-      letterRendering: true,
     })
 
     const frontImgData = frontCanvas.toDataURL('image/png', 1.0)
@@ -148,13 +150,12 @@ export const exportSeparateSides = async (
       })
 
       const backCanvas = await html2canvas(backElement, {
-        scale: 4,
+        scale: 3,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff',
         logging: false,
         imageTimeout: 15000,
-        letterRendering: true,
       })
 
       const backImgData = backCanvas.toDataURL('image/png', 1.0)
@@ -177,14 +178,13 @@ export const exportSeparateSides = async (
 }
 
 /**
- * Add crop marks (no image placement here)
+ * Add crop marks
  */
 const addCropMarks = (
   pdf: jsPDF,
   dimensions: PDFDimensions,
   label: string
 ): void => {
-  // Draw crop marks
   pdf.setDrawColor(0, 0, 0)
   pdf.setLineWidth(0.005)
 
@@ -193,7 +193,7 @@ const addCropMarks = (
   const h = dimensions.height
   const markLength = 0.125
 
-  // Corner crop marks at the TRIM edge
+  // Crop marks at trim edge
   // Top-left
   pdf.line(bleed - markLength, bleed, bleed + 0.01, bleed)
   pdf.line(bleed, bleed - markLength, bleed, bleed + 0.01)
@@ -210,14 +210,14 @@ const addCropMarks = (
   pdf.line(w - bleed - 0.01, h - bleed, w - bleed + markLength, h - bleed)
   pdf.line(w - bleed, h - bleed - 0.01, w - bleed, h - bleed + markLength)
 
-  // Add labels
+  // Labels
   pdf.setFontSize(8)
   pdf.setTextColor(0, 0, 0)
   pdf.text(label, w / 2, h - bleed / 3, { align: 'center' })
 
   pdf.setFontSize(6)
   pdf.text(
-    `${dimensions.trim.width}" × ${dimensions.trim.height}" + ${bleed}" bleed`,
+    `TRIM: ${dimensions.trim.width}" × ${dimensions.trim.height}" | BLEED: ${bleed}"`,
     w / 2,
     bleed / 3,
     { align: 'center' }
@@ -225,10 +225,10 @@ const addCropMarks = (
 }
 
 /**
- * Get PDF dimensions with bleed
+ * Get PDF dimensions
  */
 const getPDFDimensions = (size: PrintSize): PDFDimensions => {
-  const bleed = 0.125 // 1/8 inch bleed
+  const bleed = 0.125
 
   const trimDimensions: Record<
     PrintSize,
