@@ -6,11 +6,16 @@ import {
   digitalFormatNames,
   digitalFormatDescriptions,
 } from '../templates/digitalCardConfig'
-import { exportToHTML, imageToBase64, copyEmbedCode } from '../utils/exportHTML'
+import {
+  exportToHTML,
+  imageToBase64,
+  generateEmbedCode,
+} from '../utils/exportHTML'
 import Input from '../components/Input'
 import ImageUpload from '../components/ImageUpload'
 import ColorPicker from '../components/ColorPicker'
 import Button from '../components/Button'
+import EmbedCodeModal from '../components/EmbedCodeModal'
 import './DigitalCard.css'
 
 const DigitalCard = () => {
@@ -33,7 +38,8 @@ const DigitalCard = () => {
     useState<DigitalFormatId>('portrait')
   const [selectedPalette, setSelectedPalette] = useState<ColorPalette>()
   const [isExporting, setIsExporting] = useState(false)
-  const [isCopying, setIsCopying] = useState(false)
+  const [showEmbedModal, setShowEmbedModal] = useState(false)
+  const [embedCode, setEmbedCode] = useState('')
 
   const handleInputChange = (field: keyof CardData, value: string) => {
     setCardData(prev => ({ ...prev, [field]: value }))
@@ -85,13 +91,12 @@ const DigitalCard = () => {
     }
   }
 
-  const handleCopyEmbed = async () => {
+  const handleShowEmbed = async () => {
     if (!cardRef.current || !selectedPalette) {
       alert('Please complete all required fields and select a color palette')
       return
     }
 
-    setIsCopying(true)
     try {
       // Convert image to base64 if exists
       if (cardData.image) {
@@ -99,12 +104,11 @@ const DigitalCard = () => {
         cardData.image = base64Image
       }
 
-      await copyEmbedCode(cardRef.current)
-      alert('✓ Embed code copied to clipboard! Paste it into your website.')
+      const code = generateEmbedCode(cardRef.current)
+      setEmbedCode(code)
+      setShowEmbedModal(true)
     } catch (_error) {
-      alert('Failed to copy embed code. Please try again.')
-    } finally {
-      setIsCopying(false)
+      alert('Failed to generate embed code. Please try again.')
     }
   }
 
@@ -268,17 +272,12 @@ const DigitalCard = () => {
 
             <div className="button-group">
               <Button
-                onClick={handleCopyEmbed}
-                disabled={
-                  !cardData.name ||
-                  !cardData.title ||
-                  !selectedPalette ||
-                  isCopying
-                }
+                onClick={handleShowEmbed}
+                disabled={!cardData.name || !cardData.title || !selectedPalette}
                 fullWidth
                 size="large"
               >
-                {isCopying ? 'Copying...' : '📋 Copy Embed Code'}
+                📋 Get Embed Code
               </Button>
               <Button
                 onClick={handleExport}
@@ -298,6 +297,12 @@ const DigitalCard = () => {
           </div>
         </div>
       </div>
+
+      <EmbedCodeModal
+        isOpen={showEmbedModal}
+        onClose={() => setShowEmbedModal(false)}
+        embedCode={embedCode}
+      />
     </div>
   )
 }
