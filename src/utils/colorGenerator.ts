@@ -152,3 +152,69 @@ export const validateAndFixPalette = (colors: string[]): string[] => {
 
   return fixed
 }
+
+// Adapt color palette for email signatures (white background)
+// Email signatures (except Creative template) render on white backgrounds
+// so we need to ensure text colors have sufficient contrast with white
+export const adaptPaletteForEmailSignature = (colors: string[]): string[] => {
+  if (colors.length < 4) return colors
+
+  const adapted = [...colors]
+  const whiteBackground = '#FFFFFF'
+
+  // For Creative template: keep colors[0] and colors[1] for gradient background
+  // For other templates: ensure colors[1], [2], [3] work on white
+
+  // Check and fix primary color (colors[1]) - used for accents and links
+  const primaryContrast = getContrastRatio(adapted[1], whiteBackground)
+  if (primaryContrast < 4.5) {
+    // Darken the color to meet contrast requirements
+    adapted[1] = darkenColorForContrast(adapted[1], whiteBackground)
+  }
+
+  // Check and fix text color (colors[2]) - used for main text
+  const textContrast = getContrastRatio(adapted[2], whiteBackground)
+  if (textContrast < 4.5) {
+    // Use dark text on white background
+    adapted[2] = '#1A1A1A'
+  }
+
+  // Check and fix secondary color (colors[3]) - used for secondary text
+  const secondaryContrast = getContrastRatio(adapted[3], whiteBackground)
+  if (secondaryContrast < 4.5) {
+    // Darken the color to meet contrast requirements
+    adapted[3] = darkenColorForContrast(adapted[3], whiteBackground)
+  }
+
+  return adapted
+}
+
+// Darken a color until it meets WCAG AA contrast ratio (4.5:1) with white
+const darkenColorForContrast = (color: string, background: string): string => {
+  // Convert hex to RGB
+  const hex = color.replace('#', '')
+  let r = parseInt(hex.substr(0, 2), 16)
+  let g = parseInt(hex.substr(2, 2), 16)
+  let b = parseInt(hex.substr(4, 2), 16)
+
+  // Progressively darken until contrast is sufficient
+  let attempts = 0
+  while (attempts < 100) {
+    const currentColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+    const contrast = getContrastRatio(currentColor, background)
+
+    if (contrast >= 4.5) {
+      return currentColor
+    }
+
+    // Darken by reducing RGB values
+    r = Math.max(0, Math.floor(r * 0.9))
+    g = Math.max(0, Math.floor(g * 0.9))
+    b = Math.max(0, Math.floor(b * 0.9))
+
+    attempts++
+  }
+
+  // If we can't darken enough, return a safe dark color
+  return '#1A1A1A'
+}

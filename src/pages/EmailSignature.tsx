@@ -5,6 +5,7 @@ import {
   emailTemplateComponents,
   emailTemplateNames,
 } from '../templates/emailTemplateConfig'
+import { adaptPaletteForEmailSignature } from '../utils/colorGenerator'
 import Input from '../components/Input'
 import ColorPicker from '../components/ColorPicker'
 import Button from '../components/Button'
@@ -69,12 +70,14 @@ const EmailSignature = () => {
   }
 
   const TemplateComponent = emailTemplateComponents[selectedTemplate]
-  const colors = selectedPalette?.colors || [
+  const baseColors = selectedPalette?.colors || [
     '#000000',
     '#333333',
     '#666666',
     '#999999',
   ]
+  // Adapt colors for email signatures to ensure readability on white backgrounds
+  const colors = adaptPaletteForEmailSignature(baseColors)
 
   return (
     <div className="email-signature-page">
