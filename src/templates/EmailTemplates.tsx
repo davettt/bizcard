@@ -72,7 +72,7 @@ export const SimpleEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
             )}
           </div>
           {(data.linkedin || data.twitter || data.instagram) && (
-            <div style={{ marginTop: '12px' }}>
+            <div style={{ marginTop: '12px', fontSize: '11px' }}>
               {data.linkedin && (
                 <a
                   href={data.linkedin}
@@ -229,126 +229,128 @@ export const ProfessionalEmailTemplate = ({
       cellPadding="0"
       cellSpacing="0"
       style={{
-        fontFamily: 'Georgia, serif',
-        fontSize: '14px',
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        fontSize: '13px',
         color: colors[2],
         maxWidth: '500px',
+        borderTop: `3px solid ${colors[1]}`,
+        paddingTop: '16px',
       }}
     >
       <tr>
-        <td
-          style={{
-            paddingBottom: '16px',
-            borderBottom: `2px solid ${colors[1]}`,
-          }}
-        >
+        <td style={{ verticalAlign: 'top', paddingRight: '20px', width: '90px' }}>
+          {data.imageUrl && (
+            <img
+              src={data.imageUrl}
+              alt={data.name}
+              style={{
+                width: '90px',
+                height: '90px',
+                borderRadius: '4px',
+              }}
+            />
+          )}
+        </td>
+        <td style={{ verticalAlign: 'top', borderLeft: `1px solid ${colors[3]}`, paddingLeft: '20px' }}>
           <div
             style={{
               fontWeight: 'bold',
-              fontSize: '20px',
+              fontSize: '17px',
               color: colors[2],
-              marginBottom: '6px',
+              marginBottom: '4px',
+              letterSpacing: '-0.3px',
             }}
           >
             {data.name}
           </div>
           <div
-            style={{ fontStyle: 'italic', color: colors[1], fontSize: '14px' }}
+            style={{
+              color: colors[1],
+              fontSize: '13px',
+              marginBottom: '2px',
+              fontWeight: '500',
+            }}
           >
             {data.title}
           </div>
-        </td>
-      </tr>
-      <tr>
-        <td style={{ paddingTop: '16px' }}>
-          <table cellPadding="0" cellSpacing="0">
-            <tr>
-              <td style={{ verticalAlign: 'top', paddingRight: '20px' }}>
-                {data.imageUrl && (
-                  <img
-                    src={data.imageUrl}
-                    alt={data.name}
-                    style={{
-                      width: '100px',
-                      height: '100px',
-                      borderRadius: '8px',
-                    }}
-                  />
-                )}
-              </td>
-              <td style={{ verticalAlign: 'top' }}>
-                <div
+          <div
+            style={{
+              color: colors[3],
+              fontSize: '12px',
+              marginBottom: '14px',
+              fontWeight: '500',
+            }}
+          >
+            {data.company}
+          </div>
+          <div style={{ fontSize: '12px', lineHeight: '1.7', color: colors[2] }}>
+            {data.email && (
+              <div style={{ marginBottom: '4px' }}>
+                <span style={{ color: colors[3], fontWeight: '500', display: 'inline-block', width: '50px' }}>Email:</span>
+                <a
+                  href={`mailto:${data.email}`}
+                  style={{ color: colors[1], textDecoration: 'none' }}
+                >
+                  {data.email}
+                </a>
+              </div>
+            )}
+            {data.phone && (
+              <div style={{ marginBottom: '4px' }}>
+                <span style={{ color: colors[3], fontWeight: '500', display: 'inline-block', width: '50px' }}>Phone:</span>
+                <span>{data.phone}</span>
+              </div>
+            )}
+            {data.website && (
+              <div style={{ marginBottom: '4px' }}>
+                <span style={{ color: colors[3], fontWeight: '500', display: 'inline-block', width: '50px' }}>Web:</span>
+                <a
+                  href={data.website}
+                  style={{ color: colors[1], textDecoration: 'none' }}
+                >
+                  {data.website}
+                </a>
+              </div>
+            )}
+          </div>
+          {(data.linkedin || data.twitter || data.instagram) && (
+            <div style={{ marginTop: '12px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              {data.linkedin && (
+                <a
+                  href={data.linkedin}
                   style={{
-                    fontWeight: 'bold',
-                    color: colors[3],
-                    marginBottom: '12px',
-                    fontSize: '15px',
+                    marginRight: '12px',
+                    color: colors[1],
+                    textDecoration: 'none',
+                    fontWeight: '600',
                   }}
                 >
-                  {data.company}
-                </div>
-                <div style={{ fontSize: '13px', lineHeight: '1.6' }}>
-                  {data.email && (
-                    <div style={{ marginBottom: '6px' }}>
-                      <a
-                        href={`mailto:${data.email}`}
-                        style={{ color: colors[1], textDecoration: 'none' }}
-                      >
-                        {data.email}
-                      </a>
-                    </div>
-                  )}
-                  {data.phone && <div style={{ marginBottom: '6px' }}>{data.phone}</div>}
-                  {data.website && (
-                    <div style={{ marginBottom: '6px' }}>
-                      <a
-                        href={data.website}
-                        style={{ color: colors[1], textDecoration: 'none' }}
-                      >
-                        {data.website}
-                      </a>
-                    </div>
-                  )}
-                </div>
-                {(data.linkedin || data.twitter || data.instagram) && (
-                  <div style={{ marginTop: '14px', fontSize: '12px' }}>
-                    {data.linkedin && (
-                      <a
-                        href={data.linkedin}
-                        style={{
-                          marginRight: '10px',
-                          color: colors[1],
-                          textDecoration: 'none',
-                        }}
-                      >
-                        LinkedIn
-                      </a>
-                    )}
-                    {data.twitter && (
-                      <a
-                        href={data.twitter}
-                        style={{
-                          marginRight: '10px',
-                          color: colors[1],
-                          textDecoration: 'none',
-                        }}
-                      >
-                        Twitter
-                      </a>
-                    )}
-                    {data.instagram && (
-                      <a
-                        href={data.instagram}
-                        style={{ color: colors[1], textDecoration: 'none' }}
-                      >
-                        Instagram
-                      </a>
-                    )}
-                  </div>
-                )}
-              </td>
-            </tr>
-          </table>
+                  LinkedIn
+                </a>
+              )}
+              {data.twitter && (
+                <a
+                  href={data.twitter}
+                  style={{
+                    marginRight: '12px',
+                    color: colors[1],
+                    textDecoration: 'none',
+                    fontWeight: '600',
+                  }}
+                >
+                  Twitter
+                </a>
+              )}
+              {data.instagram && (
+                <a
+                  href={data.instagram}
+                  style={{ color: colors[1], textDecoration: 'none', fontWeight: '600' }}
+                >
+                  Instagram
+                </a>
+              )}
+            </div>
+          )}
         </td>
       </tr>
     </table>
@@ -358,7 +360,7 @@ export const ProfessionalEmailTemplate = ({
 export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
   return (
     <table
-      cellPadding="15"
+      cellPadding="24"
       cellSpacing="0"
       style={{
         fontFamily: 'Arial, sans-serif',
@@ -366,18 +368,18 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
         background: `linear-gradient(135deg, ${colors[0]} 0%, ${colors[1]} 100%)`,
         color: 'white',
         borderRadius: '12px',
-        maxWidth: '500px',
+        maxWidth: '450px',
       }}
     >
       <tr>
-        <td style={{ textAlign: 'center' }}>
+        <td style={{ textAlign: 'center', padding: '24px' }}>
           {data.imageUrl && (
             <img
               src={data.imageUrl}
               alt={data.name}
               style={{
-                width: '120px',
-                height: '120px',
+                width: '110px',
+                height: '110px',
                 borderRadius: '50%',
                 marginBottom: '16px',
                 border: '4px solid white',
@@ -399,7 +401,7 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
           <div style={{ fontSize: '15px', marginBottom: '20px', opacity: 0.9 }}>
             {data.company}
           </div>
-          <div style={{ fontSize: '13px', lineHeight: '1.8' }}>
+          <div style={{ fontSize: '12px', lineHeight: '1.8', wordBreak: 'break-word', overflowWrap: 'break-word' }}>
             {data.email && (
               <div style={{ marginBottom: '6px' }}>
                 <a
@@ -423,7 +425,7 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
             )}
           </div>
           {(data.linkedin || data.twitter || data.instagram) && (
-            <div style={{ marginTop: '20px', fontSize: '13px' }}>
+            <div style={{ marginTop: '20px', fontSize: '11px' }}>
               {data.linkedin && (
                 <a
                   href={data.linkedin}
