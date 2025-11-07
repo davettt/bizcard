@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { CardData, ColorPalette, PrintSize, TemplateId } from '../types'
 import { templateComponents, templateNames } from '../templates/printCardConfig'
 import { printSizes } from '../utils/printSizes'
-import { exportToPDF } from '../utils/exportPDF'
 import {
   exportToPDFProfessional,
   exportSeparateSides,
@@ -82,8 +81,8 @@ const PrintCard = () => {
     })
   }
 
-  const handleExport = async (exportType: 'professional' | 'diy' | 'basic') => {
-    if (!selectedPalette) {
+  const handleExport = async (exportType: 'professional' | 'diy') => {
+    if (!frontRef.current || !selectedPalette) {
       alert('Please complete all required fields and select a color palette')
       return
     }
@@ -91,29 +90,22 @@ const PrintCard = () => {
     setIsExporting(true)
     try {
       const fileName = `business-card-${cardData.name.replace(/\s+/g, '-').toLowerCase()}`
+      const backElement =
+        cardData.includeBack && backRef.current ? backRef.current : null
 
       if (exportType === 'professional') {
         await exportToPDFProfessional(
-          cardData,
-          colors,
-          selectedSize,
-          `${fileName}-print-ready.pdf`
-        )
-      } else if (exportType === 'diy') {
-        await exportSeparateSides(cardData, colors, selectedSize, fileName)
-      } else {
-        // Basic export still uses old method for backwards compatibility
-        if (!frontRef.current) {
-          alert('Please wait for the preview to load')
-          return
-        }
-        const backElement =
-          cardData.includeBack && backRef.current ? backRef.current : null
-        await exportToPDF(
           frontRef.current,
           backElement,
           selectedSize,
-          `${fileName}.pdf`
+          `${fileName}-print-ready.pdf`
+        )
+      } else {
+        await exportSeparateSides(
+          frontRef.current,
+          backElement,
+          selectedSize,
+          fileName
         )
       }
     } catch (_error) {

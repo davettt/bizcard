@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf'
-import { PrintSize, CardData } from '../types'
-import { renderCardToCanvas } from './canvasRenderer'
+import html2canvas from 'html2canvas'
+import { PrintSize } from '../types'
 
 interface PDFDimensions {
   width: number
@@ -26,8 +26,8 @@ const DPI = 300 // Print resolution
  * Export professional print-ready PDF with bleed and crop marks
  */
 export const exportToPDFProfessional = async (
-  cardData: CardData,
-  colors: string[],
+  frontElement: HTMLElement,
+  backElement: HTMLElement | null,
   size: PrintSize,
   fileName: string
 ): Promise<void> => {
@@ -41,26 +41,22 @@ export const exportToPDFProfessional = async (
       format: [dimensions.height, dimensions.width],
     })
 
-    // Render front to canvas
-    const frontCanvas = await renderCardToCanvas(
-      cardData,
-      colors,
+    // Capture and add front
+    const frontCanvas = await captureElementAtExactSize(
+      frontElement,
       dimensions.pixels.width,
-      dimensions.pixels.height,
-      false
+      dimensions.pixels.height
     )
     const frontImgData = frontCanvas.toDataURL('image/png', 1.0)
     addPageWithCropMarks(pdf, frontImgData, dimensions, 'FRONT')
 
     // Add back if exists
-    if (cardData.includeBack && cardData.backText) {
+    if (backElement) {
       pdf.addPage()
-      const backCanvas = await renderCardToCanvas(
-        cardData,
-        colors,
+      const backCanvas = await captureElementAtExactSize(
+        backElement,
         dimensions.pixels.width,
-        dimensions.pixels.height,
-        true
+        dimensions.pixels.height
       )
       const backImgData = backCanvas.toDataURL('image/png', 1.0)
       addPageWithCropMarks(pdf, backImgData, dimensions, 'BACK')
@@ -77,8 +73,8 @@ export const exportToPDFProfessional = async (
  * Export separate front/back files for DIY printing
  */
 export const exportSeparateSides = async (
-  cardData: CardData,
-  colors: string[],
+  frontElement: HTMLElement,
+  backElement: HTMLElement | null,
   size: PrintSize,
   fileBaseName: string
 ): Promise<void> => {
@@ -92,13 +88,10 @@ export const exportSeparateSides = async (
       format: [dimensions.trim.height, dimensions.trim.width],
     })
 
-    // Render at trim size (no bleed for DIY)
-    const frontCanvas = await renderCardToCanvas(
-      cardData,
-      colors,
+    const frontCanvas = await captureElementAtExactSize(
+      frontElement,
       dimensions.pixels.trim.width,
-      dimensions.pixels.trim.height,
-      false
+      dimensions.pixels.trim.height
     )
     const frontImgData = frontCanvas.toDataURL('image/png', 1.0)
     frontPDF.addImage(
@@ -114,7 +107,7 @@ export const exportSeparateSides = async (
     frontPDF.save(`${fileBaseName}-front.pdf`)
 
     // Export back if exists
-    if (cardData.includeBack && cardData.backText) {
+    if (backElement) {
       await new Promise(resolve => setTimeout(resolve, 500))
 
       const backPDF = new jsPDF({
@@ -123,12 +116,10 @@ export const exportSeparateSides = async (
         format: [dimensions.trim.height, dimensions.trim.width],
       })
 
-      const backCanvas = await renderCardToCanvas(
-        cardData,
-        colors,
+      const backCanvas = await captureElementAtExactSize(
+        backElement,
         dimensions.pixels.trim.width,
-        dimensions.pixels.trim.height,
-        true
+        dimensions.pixels.trim.height
       )
       const backImgData = backCanvas.toDataURL('image/png', 1.0)
       backPDF.addImage(
@@ -146,6 +137,107 @@ export const exportSeparateSides = async (
   } catch (error) {
     console.error('Error exporting separate sides:', error)
     throw new Error('Failed to export separate sides')
+  }
+}
+
+/**
+ * Capture element at exact pixel dimensions for print
+ */
+const captureElementAtExactSize = async (
+  element: HTMLElement,
+  width: number,
+  height: number
+): Promise<HTMLCanvasElement> => {
+  // Create a hidden container at exact pixel size
+  const container = document.createElement('div')
+  container.style.position = 'fixed'
+  container.style.left = '-99999px'
+  container.style.top = '0'
+  container.style.width = `${width}px`
+  container.style.height = `${height}px`
+  container.style.overflow = 'visible'
+  container.style.zIndex = '-1000'
+
+  // Deep clone the element
+  const clone = element.cloneNode(true) as HTMLElement
+
+  // Force exact dimensions on the clone
+  clone.style.width = `${width}px`
+  clone.style.height = `${height}px`
+  clone.style.minWidth = `${width}px`
+  clone.style.minHeight = `${height}px`
+  clone.style.maxWidth = `${width}px`
+  clone.style.maxHeight = `${height}px`
+  clone.style.position = 'absolute'
+  clone.style.top = '0'
+  clone.style.left = '0'
+  clone.style.margin = '0'
+  clone.style.padding = '0'
+  clone.style.border = 'none'
+  clone.style.boxSizing = 'border-box'
+  clone.style.transform = 'none'
+  clone.style.transformOrigin = 'top left'
+
+  // Remove aspect-ratio which can cause sizing issues
+  clone.style.aspectRatio = 'auto'
+
+  // Find and fix all images in the clone
+  const images = clone.querySelectorAll('img')
+  images.forEach(img => {
+    const htmlImg = img as HTMLImageElement
+    // Ensure images use object-fit to prevent distortion
+    if (!htmlImg.style.objectFit) {
+      htmlImg.style.objectFit = 'cover'
+    }
+  })
+
+  container.appendChild(clone)
+  document.body.appendChild(container)
+
+  try {
+    // Wait for all images to load
+    const allImages = container.querySelectorAll('img')
+    await Promise.all(
+      Array.from(allImages).map(
+        img =>
+          new Promise<void>(resolve => {
+            if (img.complete) {
+              resolve()
+            } else {
+              img.onload = () => resolve()
+              img.onerror = () => resolve()
+              // Timeout after 3 seconds
+              setTimeout(() => resolve(), 3000)
+            }
+          })
+      )
+    )
+
+    // Small delay for rendering
+    await new Promise(resolve => setTimeout(resolve, 200))
+
+    // Capture with html2canvas at exact size
+    const canvas = await html2canvas(clone, {
+      width: width,
+      height: height,
+      scale: 1, // Don't scale - already at exact size
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      windowWidth: width,
+      windowHeight: height,
+      x: 0,
+      y: 0,
+      scrollX: 0,
+      scrollY: 0,
+      foreignObjectRendering: false,
+      imageTimeout: 0,
+    })
+
+    return canvas
+  } finally {
+    document.body.removeChild(container)
   }
 }
 
