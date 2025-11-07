@@ -137,7 +137,7 @@ export const copyEmbedCode = async (element: HTMLElement): Promise<void> => {
 
   try {
     await navigator.clipboard.writeText(embedCode)
-  } catch (error) {
+  } catch (_error) {
     // Fallback for older browsers
     const textArea = document.createElement('textarea')
     textArea.value = embedCode

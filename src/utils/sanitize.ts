@@ -127,7 +127,7 @@ export const sanitizeDisplayText = (input: string): string => {
   if (!input) return ''
 
   // Allow basic line breaks but escape everything else
-  let text = input
+  const text = input
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')

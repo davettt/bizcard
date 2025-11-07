@@ -15,35 +15,39 @@ const extractHandle = (url: string, platform: string): string => {
 
   try {
     // Remove protocol and www
-    let cleaned = url.replace(/^https?:\/\/(www\.)?/, '')
+    const cleaned = url.replace(/^https?:\/\/(www\.)?/, '')
 
     switch (platform) {
-      case 'linkedin':
+      case 'linkedin': {
         // linkedin.com/in/username or linkedin.com/company/companyname
         const linkedinMatch = cleaned.match(
           /linkedin\.com\/(in|company)\/([^/?]+)/
         )
         return linkedinMatch ? linkedinMatch[2] : cleaned
+      }
 
-      case 'twitter':
+      case 'twitter': {
         // twitter.com/username or x.com/username
         const twitterMatch = cleaned.match(/(?:twitter|x)\.com\/([^/?]+)/)
         return twitterMatch ? `@${twitterMatch[1]}` : cleaned
+      }
 
-      case 'instagram':
+      case 'instagram': {
         // instagram.com/username
         const instaMatch = cleaned.match(/instagram\.com\/([^/?]+)/)
         return instaMatch ? `@${instaMatch[1]}` : cleaned
+      }
 
-      case 'github':
+      case 'github': {
         // github.com/username
         const githubMatch = cleaned.match(/github\.com\/([^/?]+)/)
         return githubMatch ? githubMatch[1] : cleaned
+      }
 
       default:
         return cleaned
     }
-  } catch (e) {
+  } catch (_e) {
     return url
   }
 }
