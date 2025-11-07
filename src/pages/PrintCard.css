@@ -219,6 +219,8 @@
 }
 
 .preview-container {
+  display: flex;
+  flex-direction: column;
   background: var(--surface);
   padding: 2rem;
   border-radius: 0.75rem;
@@ -237,6 +239,8 @@
 
 .card-preview {
   width: 100%;
+  max-width: 100%;
+  display: block;
   background: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
