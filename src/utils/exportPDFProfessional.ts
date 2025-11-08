@@ -31,25 +31,23 @@ export const exportToPDFProfessional = async (
       format: [dimensions.height, dimensions.width],
     })
 
-    // Scale factor to convert trim size to bleed size
-    const scaleForBleed = dimensions.width / dimensions.trim.width
-
-    // Capture front using html-to-image (better text handling)
+    // Capture front at high resolution for professional printing (300 DPI equivalent)
     const frontImgData = await toPng(frontElement, {
       quality: 1.0,
-      pixelRatio: 3, // High quality 3x
+      pixelRatio: 6, // 6x for true 300 DPI quality
       cacheBust: true,
       backgroundColor: '#ffffff',
     })
 
-    // Place image scaled to fill bleed area
+    // Place image at trim size, centered with bleed offset on all sides
+    // This ensures crop marks don't cut off content
     pdf.addImage(
       frontImgData,
       'PNG',
-      0,
-      0,
-      dimensions.trim.width * scaleForBleed,
-      dimensions.trim.height * scaleForBleed,
+      dimensions.bleed, // Offset by bleed amount (left)
+      dimensions.bleed, // Offset by bleed amount (top)
+      dimensions.trim.width, // Keep at trim size (don't stretch)
+      dimensions.trim.height,
       undefined,
       'FAST'
     )
@@ -59,21 +57,22 @@ export const exportToPDFProfessional = async (
     if (backElement) {
       pdf.addPage()
 
-      // Capture back using html-to-image
+      // Capture back at high resolution
       const backImgData = await toPng(backElement, {
         quality: 1.0,
-        pixelRatio: 3,
+        pixelRatio: 6, // 6x for true 300 DPI quality
         cacheBust: true,
         backgroundColor: '#ffffff',
       })
 
+      // Place image centered with bleed offset
       pdf.addImage(
         backImgData,
         'PNG',
-        0,
-        0,
-        dimensions.trim.width * scaleForBleed,
-        dimensions.trim.height * scaleForBleed,
+        dimensions.bleed,
+        dimensions.bleed,
+        dimensions.trim.width,
+        dimensions.trim.height,
         undefined,
         'FAST'
       )
@@ -107,10 +106,10 @@ export const exportSeparateSides = async (
       format: [dimensions.trim.height, dimensions.trim.width],
     })
 
-    // Capture front using html-to-image
+    // Capture front using html-to-image at high resolution
     const frontImgData = await toPng(frontElement, {
       quality: 1.0,
-      pixelRatio: 3,
+      pixelRatio: 6, // 6x for true 300 DPI quality
       cacheBust: true,
       backgroundColor: '#ffffff',
     })
@@ -136,10 +135,10 @@ export const exportSeparateSides = async (
         format: [dimensions.trim.height, dimensions.trim.width],
       })
 
-      // Capture back using html-to-image
+      // Capture back using html-to-image at high resolution
       const backImgData = await toPng(backElement, {
         quality: 1.0,
-        pixelRatio: 3,
+        pixelRatio: 6, // 6x for true 300 DPI quality
         cacheBust: true,
         backgroundColor: '#ffffff',
       })
