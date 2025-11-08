@@ -6,7 +6,12 @@ import {
   emailTemplateNames,
 } from '../templates/emailTemplateConfig'
 import { adaptPaletteForEmailSignature } from '../utils/colorGenerator'
-import { sanitizeText, sanitizeEmail, sanitizePhone, sanitizeURL } from '../utils/sanitize'
+import {
+  sanitizeText,
+  sanitizeEmail,
+  sanitizePhone,
+  sanitizeURL,
+} from '../utils/sanitize'
 import Input from '../components/Input'
 import ColorPicker from '../components/ColorPicker'
 import Button from '../components/Button'

@@ -174,10 +174,7 @@ export const exportSeparateSides = async (
   }
 }
 
-const addCropMarks = (
-  pdf: jsPDF,
-  dimensions: PDFDimensions
-): void => {
+const addCropMarks = (pdf: jsPDF, dimensions: PDFDimensions): void => {
   pdf.setDrawColor(0, 0, 0)
   pdf.setLineWidth(0.005)
 
@@ -209,10 +206,7 @@ const addCropMarks = (
 const getPDFDimensions = (size: PrintSize): PDFDimensions => {
   const bleed = 0.125
 
-  const trimDimensions: Record<
-    PrintSize,
-    { width: number; height: number }
-  > = {
+  const trimDimensions: Record<PrintSize, { width: number; height: number }> = {
     '3.5x2': { width: 3.5, height: 2 },
     '3.5x2.5': { width: 3.5, height: 2.5 },
     '3x2': { width: 3, height: 2 },

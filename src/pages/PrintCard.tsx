@@ -469,19 +469,27 @@ const PrintCard = () => {
 
             <div className="info-box" style={{ marginBottom: '1rem' }}>
               <p style={{ fontSize: '0.875rem', margin: 0, lineHeight: '1.5' }}>
-                <strong>Professional Print:</strong> Includes bleed (1/8") and crop marks.
-                300 DPI resolution. Design rasterized as image (no font issues).
+                <strong>Professional Print:</strong> Includes bleed (1/8") and
+                crop marks. 300 DPI resolution. Design rasterized as image (no
+                font issues).
                 <br />
-                <strong>⚠️ Before printing:</strong> Convert PDF to CMYK color mode using
-                Adobe Acrobat or ask your printer to convert. RGB colors (especially
-                gold/yellow) may shift slightly in CMYK.
+                <strong>⚠️ Before printing:</strong> Convert PDF to CMYK color
+                mode using Adobe Acrobat or ask your printer to convert. RGB
+                colors (especially gold/yellow) may shift slightly in CMYK.
                 <br />
-                <strong>DIY Print:</strong> Separate front/back files for services
-                like VistaPrint.
+                <strong>DIY Print:</strong> Separate front/back files for
+                services like VistaPrint.
               </p>
             </div>
 
-            <div className="button-group" style={{ display: 'flex', gap: '0.75rem', flexDirection: 'column' }}>
+            <div
+              className="button-group"
+              style={{
+                display: 'flex',
+                gap: '0.75rem',
+                flexDirection: 'column',
+              }}
+            >
               <Button
                 onClick={() => handleExport('professional')}
                 disabled={
@@ -493,7 +501,9 @@ const PrintCard = () => {
                 fullWidth
                 size="large"
               >
-                {isExporting ? 'Generating...' : '📄 Professional Print-Ready PDF'}
+                {isExporting
+                  ? 'Generating...'
+                  : '📄 Professional Print-Ready PDF'}
               </Button>
 
               <Button
