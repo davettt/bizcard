@@ -15,6 +15,13 @@ interface PDFDimensions {
 /**
  * Export professional print-ready PDF with bleed and crop marks
  * Using html-to-image library for better text spacing and layout preservation
+ *
+ * IMPORTANT NOTES FOR PROFESSIONAL PRINTING:
+ * 1. This PDF is generated in RGB color space (browser limitation)
+ * 2. For professional printing, convert to CMYK using Adobe Acrobat or similar
+ * 3. Resolution: 300 DPI equivalent (pixelRatio: 6)
+ * 4. Fonts are embedded (rasterized as images)
+ * 5. Crop marks indicate trim area with 1/8" bleed on all sides
  */
 export const exportToPDFProfessional = async (
   frontElement: HTMLElement,
@@ -52,7 +59,7 @@ export const exportToPDFProfessional = async (
       'FAST'
     )
 
-    addCropMarks(pdf, dimensions, 'FRONT')
+    addCropMarks(pdf, dimensions)
 
     if (backElement) {
       pdf.addPage()
@@ -77,7 +84,7 @@ export const exportToPDFProfessional = async (
         'FAST'
       )
 
-      addCropMarks(pdf, dimensions, 'BACK')
+      addCropMarks(pdf, dimensions)
     }
 
     pdf.save(fileName)
@@ -163,8 +170,7 @@ export const exportSeparateSides = async (
 
 const addCropMarks = (
   pdf: jsPDF,
-  dimensions: PDFDimensions,
-  label: string
+  dimensions: PDFDimensions
 ): void => {
   pdf.setDrawColor(0, 0, 0)
   pdf.setLineWidth(0.005)
@@ -174,33 +180,24 @@ const addCropMarks = (
   const h = dimensions.height
   const markLength = 0.125
 
-  // Top-left
+  // Top-left corner crop marks
   pdf.line(bleed - markLength, bleed, bleed + 0.01, bleed)
   pdf.line(bleed, bleed - markLength, bleed, bleed + 0.01)
 
-  // Top-right
+  // Top-right corner crop marks
   pdf.line(w - bleed - 0.01, bleed, w - bleed + markLength, bleed)
   pdf.line(w - bleed, bleed - markLength, w - bleed, bleed + 0.01)
 
-  // Bottom-left
+  // Bottom-left corner crop marks
   pdf.line(bleed - markLength, h - bleed, bleed + 0.01, h - bleed)
   pdf.line(bleed, h - bleed - 0.01, bleed, h - bleed + markLength)
 
-  // Bottom-right
+  // Bottom-right corner crop marks
   pdf.line(w - bleed - 0.01, h - bleed, w - bleed + markLength, h - bleed)
   pdf.line(w - bleed, h - bleed - 0.01, w - bleed, h - bleed + markLength)
 
-  pdf.setFontSize(8)
-  pdf.setTextColor(0, 0, 0)
-  pdf.text(label, w / 2, h - bleed / 3, { align: 'center' })
-
-  pdf.setFontSize(6)
-  pdf.text(
-    `TRIM: ${dimensions.trim.width}" × ${dimensions.trim.height}" | BLEED: ${bleed}"`,
-    w / 2,
-    bleed / 3,
-    { align: 'center' }
-  )
+  // NOTE: Text labels removed for final print file
+  // Professional printers don't need the text - just the crop marks
 }
 
 const getPDFDimensions = (size: PrintSize): PDFDimensions => {

@@ -422,8 +422,11 @@ const PrintCard = () => {
 
             <div className="info-box" style={{ marginBottom: '1rem' }}>
               <p style={{ fontSize: '0.875rem', margin: 0, lineHeight: '1.5' }}>
-                <strong>Professional Print:</strong> Includes bleed and crop marks
-                for professional printers.
+                <strong>Professional Print:</strong> Includes bleed (1/8") and crop marks.
+                300 DPI resolution. Fonts embedded.
+                <br />
+                <strong>⚠️ Before printing:</strong> Convert PDF to CMYK color mode using
+                Adobe Acrobat or ask your printer to convert.
                 <br />
                 <strong>DIY Print:</strong> Separate front/back files for services
                 like VistaPrint.
