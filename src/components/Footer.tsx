@@ -17,7 +17,7 @@ const Footer = () => {
             your own risk.
           </p>
           <p className="footer-copy">
-            © {currentYear} Business Card Generator. Open source project.
+            © {currentYear} davidtiong.com · Free Business Tools
           </p>
         </div>
       </div>
