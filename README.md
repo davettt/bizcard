@@ -5,11 +5,15 @@ A modern, user-friendly web application for creating professional business cards
 ## Features
 
 ### 🖨️ Print Business Cards
-- Create high-resolution, print-ready business cards in PDF format
-- Choose from 8 professionally designed templates
-- Select from 4 standard print sizes (US, European, Slim, Square)
-- Option to include custom text on the back side
-- 300 DPI export quality
+- **Professional Print-Ready PDFs**: Includes 1/8" bleed and crop marks for professional printers
+- **DIY Print Options**: Export separate front/back files for services like VistaPrint
+- **True 300 DPI Quality**: High-resolution exports at professional printing standards
+- **8 Professional Templates**: Minimal, Classic, Modern, Elegant, Bold, Creative, Professional, Simple
+- **4 Standard Print Sizes**: US (3.5×2"), European (3.5×2.5"), Slim (3×2"), Square (2.5×2")
+- **Customizable Back Side**: Add custom text with proper word spacing
+- **Fixed Preview Dimensions**: Consistent true-to-life size regardless of browser window
+- **Corner Style Options**: Rounded or square corners on both front and back
+- **CMYK Conversion Notice**: Guidance for converting RGB to CMYK for accurate printing
 
 ### 💳 Digital Business Cards
 - Generate single HTML files for digital sharing
@@ -27,8 +31,13 @@ A modern, user-friendly web application for creating professional business cards
 ### 🎨 Design Customization
 - **Color Palettes**: 6 preset palettes, random palette generator, or custom brand colors (up to 4 colors)
 - **Templates**: 8 business card templates + 4 email signature templates
-- **Image Upload**: Add profile photos or company logos
-- **Real-time Preview**: See changes instantly
+- **Secure Image Upload**: Add profile photos or company logos with validation
+  - Supports JPEG, PNG, GIF, WebP, and SVG formats
+  - File size limits (5MB for photos, 2MB for logos)
+  - Triple-layer security validation (MIME type, extension, data URL)
+- **Font Customization**: Adjust font size (0.8x - 1.2x) and choose from 10 font families
+- **Real-time Preview**: See changes instantly with fixed dimensions
+- **Test Data Button**: Quickly fill all fields with sample data for testing
 
 ## Getting Started
 
@@ -60,14 +69,19 @@ npm run dev
 ### Creating a Print Business Card
 
 1. Navigate to **Print Business Cards** from the home page
-2. Fill in your information (name, title, company, etc.)
-3. Upload a profile image (optional)
+2. Fill in your information (name, title, company, etc.) or click **Fill Test Data** for a quick demo
+3. Upload a profile image and/or company logo (optional, with security validation)
 4. Select a template from the 8 available options
-5. Choose your preferred print size
+5. Choose your preferred print size (US, European, Slim, or Square)
 6. Select or customize a color palette
-7. Preview your card in real-time
-8. Optionally add text for the back side
-9. Click **Download PDF** to get your print-ready file
+7. Adjust font size and select font family
+8. Choose corner style (rounded or square)
+9. Preview your card in real-time at fixed dimensions
+10. Optionally add text for the back side
+11. Choose export option:
+    - **Professional Print-Ready PDF**: Includes bleed and crop marks for professional printers
+    - **DIY Separate Files**: Front and back as separate PDFs for services like VistaPrint
+12. **Before printing**: Convert PDF from RGB to CMYK using Adobe Acrobat or ask your printer to convert
 
 ### Creating a Digital Business Card
 
@@ -141,7 +155,9 @@ bizcard/
 │   │   ├── colorGenerator.ts
 │   │   ├── printSizes.ts
 │   │   ├── exportPDF.ts
-│   │   └── exportHTML.ts
+│   │   ├── exportPDFProfessional.ts
+│   │   ├── exportHTML.ts
+│   │   └── sanitize.ts
 │   ├── types/          # TypeScript type definitions
 │   │   └── index.ts
 │   ├── App.tsx         # Main app component
@@ -179,17 +195,40 @@ The app can be deployed to any static hosting platform:
 - **Netlify**: Set build command to `npm run build`, publish directory to `dist`
 - **GitHub Pages**: Use `vite-plugin-github-pages` or deploy the `dist` folder
 
+## Security & Privacy
+
+### Input Sanitization
+All user inputs are sanitized before processing to prevent XSS attacks:
+- **Email addresses**: Validated and sanitized
+- **Phone numbers**: Only valid characters allowed (digits, spaces, dashes, parentheses, +, dots)
+- **URLs**: Protocol validation (blocks javascript:, data:, file: schemes)
+- **Text fields**: HTML tags and script content removed
+- **Images**: Triple-layer validation (MIME type, file extension, data URL format)
+
+### Privacy
+- **100% Client-Side Processing**: All card generation happens in your browser
+- **No Server Storage**: Your personal information is never transmitted or stored on any server
+- **No Tracking**: No analytics or user tracking
+- **Local Data Only**: Everything stays on your device
+
+### Best Practices
+- Run `npm run quality` before committing to verify:
+  - ✅ Code formatting (Prettier)
+  - ✅ No linting errors (ESLint)
+  - ✅ Type safety (TypeScript)
+  - ✅ No security vulnerabilities (npm audit)
+
 ## Technologies Used
 
 - **React 18** - UI framework
-- **TypeScript** - Type safety
-- **Vite** - Build tool and dev server
+- **TypeScript** - Type safety and developer experience
+- **Vite** - Lightning-fast build tool and dev server
 - **React Router** - Client-side routing
-- **jsPDF** - PDF generation
-- **html2canvas** - HTML to canvas conversion
+- **jsPDF** - Professional PDF generation
+- **html-to-image** - High-fidelity HTML to image conversion
 - **file-saver** - File download utility
-- **ESLint** - Code linting
-- **Prettier** - Code formatting
+- **ESLint** - Code linting with strict rules
+- **Prettier** - Automated code formatting
 
 ## Browser Compatibility
 
@@ -226,4 +265,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Note**: This application runs entirely in the browser. No data is stored on servers - all processing happens client-side for your privacy and security.
+## 🔒 Security & Privacy Commitment
+
+**This application is designed with privacy and security as top priorities:**
+
+- ✅ **100% Client-Side**: All processing happens in your browser
+- ✅ **No Server Storage**: Your data never leaves your device
+- ✅ **No Tracking**: Zero analytics or user tracking
+- ✅ **Input Sanitization**: All inputs validated and sanitized against XSS attacks
+- ✅ **Secure Image Uploads**: Triple-layer validation for uploaded images
+- ✅ **Open Source**: Full transparency - inspect the code yourself
+
+**Your data is yours.** We don't see it, store it, or transmit it. Period.
