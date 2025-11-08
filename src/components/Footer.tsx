@@ -2,6 +2,8 @@ import './Footer.css'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
+  const startYear = 2025
+  const copyrightYear = currentYear > startYear ? `${startYear}-${currentYear}` : startYear
 
   return (
     <footer className="app-footer">
@@ -17,7 +19,7 @@ const Footer = () => {
             your own risk.
           </p>
           <p className="footer-copy">
-            © {currentYear} davidtiong.com · Free Business Tools
+            © {copyrightYear} davidtiong.com · Free Business Tools
           </p>
         </div>
       </div>
