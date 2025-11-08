@@ -1,0 +1,52 @@
+.embed-code-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.embed-instructions {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.code-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.code-textarea {
+  width: 100%;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  resize: vertical;
+  outline: none;
+  min-height: 300px;
+}
+
+.code-textarea::selection {
+  background: var(--primary-light);
+}
+
+.embed-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .embed-actions {
+    flex-direction: column;
+  }
+
+  .code-textarea {
+    font-size: 0.8125rem;
+    min-height: 250px;
+  }
+}
