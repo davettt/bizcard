@@ -17,11 +17,17 @@ interface PDFDimensions {
  * Using html-to-image library for better text spacing and layout preservation
  *
  * IMPORTANT NOTES FOR PROFESSIONAL PRINTING:
- * 1. This PDF is generated in RGB color space (browser limitation)
- * 2. For professional printing, convert to CMYK using Adobe Acrobat or similar
- * 3. Resolution: 300 DPI equivalent (pixelRatio: 6)
- * 4. Fonts are embedded (rasterized as images)
- * 5. Crop marks indicate trim area with 1/8" bleed on all sides
+ * 1. Color Space: RGB (browser limitation) - convert to CMYK before printing
+ * 2. Resolution: 300 DPI equivalent (pixelRatio: 6)
+ * 3. Text: Rasterized as part of PNG image (no font embedding needed)
+ * 4. Bleed: 1/8" (0.125") on all sides
+ * 5. Crop Marks: Corner marks indicate trim area
+ * 6. Format: PDF 1.3 (compatible with all printers)
+ *
+ * PDF Properties You'll See:
+ * - No embedded fonts (correct - text is rasterized)
+ * - File size: ~3-4MB (appropriate for 300 DPI)
+ * - Page size: 270x162 pts for 3.5x2" with bleed
  */
 export const exportToPDFProfessional = async (
   frontElement: HTMLElement,
