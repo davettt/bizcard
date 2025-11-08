@@ -3,7 +3,8 @@ import './Footer.css'
 const Footer = () => {
   const currentYear = new Date().getFullYear()
   const startYear = 2025
-  const copyrightYear = currentYear > startYear ? `${startYear}-${currentYear}` : startYear
+  const copyrightYear =
+    currentYear > startYear ? `${startYear}-${currentYear}` : startYear
 
   return (
     <footer className="app-footer">
