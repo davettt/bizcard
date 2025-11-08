@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2025-11-08
 
+### Policy Changes
+- **Repository is now public for transparency but not accepting contributions**
+- Added CONTRIBUTING.md explaining no-contribution policy
+- Updated README with transparency notice and contribution policy
+- Repository remains MIT licensed but official version only at davidtiong.com
+- All contact information updated to david@davidtiong.com
+
 ### Added
 - **Professional Print-Ready PDFs**: Export now includes proper bleed (1/8") and crop marks for professional printing
 - **300 DPI Resolution**: Print exports now use 300 DPI quality (pixelRatio: 6) for professional printing standards

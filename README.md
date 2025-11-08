@@ -1,6 +1,10 @@
-# BizCard Generator
+# Business Card Generator
 
 A modern, user-friendly web application for creating professional business cards, digital business cards, and email signatures. Built with React, TypeScript, and Vite.
+
+**Official Hosted Version**: [davidtiong.com](https://davidtiong.com)
+
+> **Note**: This repository is public for transparency so users can verify our privacy and security claims. The codebase is maintained solely by davidtiong.com and is **not accepting contributions**. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## Features
 
@@ -211,12 +215,15 @@ All user inputs are sanitized before processing to prevent XSS attacks:
 - **No Tracking**: No analytics or user tracking
 - **Local Data Only**: Everything stays on your device
 
-### Best Practices
-- Run `npm run quality` before committing to verify:
-  - ✅ Code formatting (Prettier)
-  - ✅ No linting errors (ESLint)
-  - ✅ Type safety (TypeScript)
-  - ✅ No security vulnerabilities (npm audit)
+### Reporting Security Issues
+Found a security vulnerability? Please report it privately to: **david@davidtiong.com**
+
+### Best Practices (For Developers)
+If you're learning from or forking this code, run `npm run quality` before committing:
+- ✅ Code formatting (Prettier)
+- ✅ No linting errors (ESLint)
+- ✅ Type safety (TypeScript)
+- ✅ No security vulnerabilities (npm audit)
 
 ## Technologies Used
 
@@ -238,23 +245,31 @@ All user inputs are sanitized before processing to prevent XSS attacks:
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+**This project is not accepting contributions.**
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Run quality checks (`npm run quality`)
-4. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-5. Push to the branch (`git push origin feature/AmazingFeature`)
-6. Open a Pull Request
+This repository is maintained solely by davidtiong.com for the official hosted version. For security and liability reasons, we cannot accept external contributions.
+
+**Why is the code public?**
+- For transparency - users can verify our privacy and security claims
+- You can inspect the code to confirm no tracking or data storage
+- Learn from the implementation for your own projects
+
+**Found a bug or security issue?**
+Please email: **david@davidtiong.com** (GitHub Issues are disabled)
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+**Note**: While the code is open source under MIT, the **official production version** is maintained and hosted exclusively at [davidtiong.com](https://davidtiong.com). This is the only version guaranteed to be secure, up-to-date, and properly maintained.
+
 ## Author
 
 **David Tiong**
-- Email: mail@davidtiong.com.au
+- Website: [davidtiong.com](https://davidtiong.com)
+- Email: david@davidtiong.com
 - GitHub: [@davettt](https://github.com/davettt)
 
 ## Acknowledgments
@@ -274,6 +289,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ✅ **No Tracking**: Zero analytics or user tracking
 - ✅ **Input Sanitization**: All inputs validated and sanitized against XSS attacks
 - ✅ **Secure Image Uploads**: Triple-layer validation for uploaded images
-- ✅ **Open Source**: Full transparency - inspect the code yourself
+- ✅ **Open Source for Transparency**: Inspect the code yourself to verify these claims
 
 **Your data is yours.** We don't see it, store it, or transmit it. Period.
+
+---
+
+**Official Version**: The verified, secure version is hosted at [davidtiong.com](https://davidtiong.com)
+**Questions or Issues?**: Contact david@davidtiong.com
