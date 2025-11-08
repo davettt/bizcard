@@ -1,10 +1,10 @@
 # Contributing
 
-**This project is NOT accepting contributions.**
+**This project is NOT accepting code contributions.**
 
 This is a production tool hosted at [davidtiong.com](https://davidtiong.com) and maintained solely by the site owner for security and liability reasons.
 
-## Why No Contributions?
+## Why No Code Contributions?
 
 1. **Security**: As a free tool processing personal data (names, emails, phone numbers, photos), we maintain strict control over the codebase to ensure user privacy and security.
 
@@ -12,13 +12,33 @@ This is a production tool hosted at [davidtiong.com](https://davidtiong.com) and
 
 3. **Support Commitment**: We cannot commit to reviewing, testing, and merging external contributions while maintaining the quality and security standards required for a production tool.
 
-## Found a Bug or Security Issue?
+## Reporting Bugs
 
-If you discover a bug or security vulnerability, please report it privately via email:
+### 🐛 Found a Bug?
+
+**Non-Security Bugs**: Please open a GitHub Issue describing:
+- What you expected to happen
+- What actually happened
+- Steps to reproduce
+- Browser and OS version
+
+[Open an Issue](https://github.com/davettt/bizcard/issues)
+
+### 🔒 Found a Security Vulnerability?
+
+**Security Issues**: Please report privately via email:
 
 **Email**: david@davidtiong.com
 
-Please do NOT open public GitHub issues, as this repository has issues disabled.
+**Do NOT open public GitHub issues for security vulnerabilities.**
+
+Include:
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Any suggested fixes (optional)
+
+**Note**: This is a free, open-source project. There is **no bug bounty program** and no monetary rewards for bug reports. Reports are appreciated for improving the tool for everyone.
 
 ## Want to Use This Code?
 

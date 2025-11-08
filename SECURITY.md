@@ -1,4 +1,46 @@
-# Security Measures
+# Security Policy
+
+## Reporting a Vulnerability
+
+**Please report security vulnerabilities privately.**
+
+If you discover a security vulnerability in this project, please send an email to:
+
+**📧 david@davidtiong.com**
+
+### What to Include
+
+Please include the following information in your report:
+
+- **Description**: A clear description of the vulnerability
+- **Impact**: What could an attacker do with this vulnerability?
+- **Steps to Reproduce**: Detailed steps to reproduce the issue
+- **Affected Versions**: Which version(s) are affected (if known)
+- **Suggested Fix**: Any suggestions for how to fix it (optional)
+
+### What to Expect
+
+1. **Acknowledgment**: You'll receive an acknowledgment within 48 hours
+2. **Assessment**: We'll assess the vulnerability and determine severity
+3. **Fix**: We'll work on a fix and keep you updated
+4. **Disclosure**: Once fixed, we'll coordinate disclosure timing with you
+5. **Credit**: If you'd like, we'll credit you in the CHANGELOG
+
+### Bug Bounty Program
+
+⚠️ **This project does NOT have a bug bounty program.**
+
+This is a free, open-source tool maintained by a single developer. While security reports are greatly appreciated and help improve the tool for everyone, there is no monetary compensation for bug reports.
+
+### What NOT to Do
+
+- ❌ Do NOT open a public GitHub Issue for security vulnerabilities
+- ❌ Do NOT disclose the vulnerability publicly before it's fixed
+- ❌ Do NOT attempt to exploit the vulnerability beyond proof-of-concept
+
+---
+
+## Security Measures
 
 This document outlines the security measures implemented in the Business Card Generator application.
 
@@ -109,6 +151,20 @@ While the current security measures are robust for a client-side application, po
 3. **Content Security Policy**: Add CSP headers if deployed
 4. **Subresource Integrity**: If using CDN resources, add SRI hashes
 
-## Reporting Security Issues
+## Scope
 
-If you discover a security vulnerability, please report it by creating an issue in the GitHub repository with the "security" label.
+This security policy covers:
+
+- ✅ The code in this repository
+- ✅ The official hosted version at davidtiong.com
+- ❌ Third-party forks or deployments (not our responsibility)
+- ❌ Third-party dependencies (report to those projects directly)
+
+## Questions?
+
+For general security questions (not vulnerability reports), you can:
+
+- Email: david@davidtiong.com
+- Open a public GitHub Issue (for non-sensitive questions only)
+
+Thank you for helping keep this project secure for everyone!

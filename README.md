@@ -215,8 +215,11 @@ All user inputs are sanitized before processing to prevent XSS attacks:
 - **No Tracking**: No analytics or user tracking
 - **Local Data Only**: Everything stays on your device
 
-### Reporting Security Issues
-Found a security vulnerability? Please report it privately to: **david@davidtiong.com**
+### Reporting Issues
+
+**Security Vulnerabilities**: Report privately to **david@davidtiong.com**
+**Non-Security Bugs**: [Open a GitHub Issue](https://github.com/davettt/bizcard/issues)
+**Bug Bounty**: None (this is a free, open-source project)
 
 ### Best Practices (For Developers)
 If you're learning from or forking this code, run `npm run quality` before committing:
@@ -245,17 +248,20 @@ If you're learning from or forking this code, run `npm run quality` before commi
 
 ## Contributing
 
-**This project is not accepting contributions.**
+**This project is not accepting code contributions.**
 
-This repository is maintained solely by davidtiong.com for the official hosted version. For security and liability reasons, we cannot accept external contributions.
+This repository is maintained solely by davidtiong.com for the official hosted version. For security and liability reasons, we cannot accept pull requests or external code.
 
 **Why is the code public?**
 - For transparency - users can verify our privacy and security claims
 - You can inspect the code to confirm no tracking or data storage
 - Learn from the implementation for your own projects
 
-**Found a bug or security issue?**
-Please email: **david@davidtiong.com** (GitHub Issues are disabled)
+**Found a bug?**
+- **Non-security bugs**: [Open a GitHub Issue](https://github.com/davettt/bizcard/issues)
+- **Security vulnerabilities**: Email **david@davidtiong.com** privately (do NOT open public issues)
+
+**Note**: This is a free project with no bug bounty program.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
 
