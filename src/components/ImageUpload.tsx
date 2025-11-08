@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { isValidImageDataURL } from '../utils/sanitize'
 import './ImageUpload.css'
 
 interface ImageUploadProps {
@@ -66,11 +67,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       const reader = new FileReader()
       reader.onloadend = () => {
         const result = reader.result as string
-        // Additional validation: ensure result is a valid data URL
-        if (result && result.startsWith('data:image/')) {
+        // Validate image data URL using security utility
+        if (result && isValidImageDataURL(result)) {
           onImageSelect(result)
         } else {
-          alert('Failed to process image. Please try a different file.')
+          alert('Failed to process image. Invalid image data format.')
         }
       }
       reader.onerror = () => {

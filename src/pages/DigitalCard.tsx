@@ -11,6 +11,13 @@ import {
   imageToBase64,
   generateEmbedCode,
 } from '../utils/exportHTML'
+import {
+  sanitizeText,
+  sanitizeEmail,
+  sanitizePhone,
+  sanitizeURL,
+  isValidImageDataURL,
+} from '../utils/sanitize'
 import Input from '../components/Input'
 import ImageUpload from '../components/ImageUpload'
 import ColorPicker from '../components/ColorPicker'
@@ -43,7 +50,45 @@ const DigitalCard = () => {
   const [embedCode, setEmbedCode] = useState('')
 
   const handleInputChange = (field: keyof CardData, value: string) => {
-    setCardData(prev => ({ ...prev, [field]: value }))
+    // Sanitize inputs based on field type
+    let sanitizedValue = value
+
+    switch (field) {
+      case 'email':
+        sanitizedValue = sanitizeEmail(value)
+        break
+      case 'phone':
+        sanitizedValue = sanitizePhone(value)
+        break
+      case 'website':
+      case 'linkedin':
+      case 'twitter':
+      case 'instagram':
+      case 'github':
+        sanitizedValue = sanitizeURL(value)
+        break
+      case 'image':
+      case 'logo':
+        // Validate image data URLs
+        if (value && !isValidImageDataURL(value)) {
+          console.error('Invalid image data URL')
+          return // Don't update with invalid image
+        }
+        sanitizedValue = value
+        break
+      case 'name':
+      case 'title':
+      case 'company':
+      case 'address':
+      case 'backText':
+        sanitizedValue = sanitizeText(value)
+        break
+      default:
+        // For any other string fields, apply basic sanitization
+        sanitizedValue = sanitizeText(value)
+    }
+
+    setCardData(prev => ({ ...prev, [field]: sanitizedValue }))
   }
 
   const fillTestData = () => {

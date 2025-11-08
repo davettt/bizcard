@@ -6,6 +6,7 @@ import {
   emailTemplateNames,
 } from '../templates/emailTemplateConfig'
 import { adaptPaletteForEmailSignature } from '../utils/colorGenerator'
+import { sanitizeText, sanitizeEmail, sanitizePhone, sanitizeURL } from '../utils/sanitize'
 import Input from '../components/Input'
 import ColorPicker from '../components/ColorPicker'
 import Button from '../components/Button'
@@ -40,7 +41,34 @@ const EmailSignature = () => {
     field: keyof EmailSignatureData,
     value: string
   ) => {
-    setSignatureData(prev => ({ ...prev, [field]: value }))
+    // Sanitize inputs based on field type
+    let sanitizedValue = value
+
+    switch (field) {
+      case 'email':
+        sanitizedValue = sanitizeEmail(value)
+        break
+      case 'phone':
+        sanitizedValue = sanitizePhone(value)
+        break
+      case 'website':
+      case 'linkedin':
+      case 'twitter':
+      case 'instagram':
+      case 'github':
+        sanitizedValue = sanitizeURL(value)
+        break
+      case 'name':
+      case 'title':
+      case 'company':
+        sanitizedValue = sanitizeText(value)
+        break
+      default:
+        // For any other string fields, apply basic sanitization
+        sanitizedValue = sanitizeText(value)
+    }
+
+    setSignatureData(prev => ({ ...prev, [field]: sanitizedValue }))
   }
 
   const fillTestData = () => {

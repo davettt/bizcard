@@ -7,6 +7,13 @@ import {
   exportToPDFProfessional,
   exportSeparateSides,
 } from '../utils/exportPDFProfessional'
+import {
+  sanitizeText,
+  sanitizeEmail,
+  sanitizePhone,
+  sanitizeURL,
+  isValidImageDataURL,
+} from '../utils/sanitize'
 import Input from '../components/Input'
 import ImageUpload from '../components/ImageUpload'
 import ColorPicker from '../components/ColorPicker'
@@ -47,7 +54,47 @@ const PrintCard = () => {
     field: keyof CardData,
     value: string | boolean | number
   ) => {
-    setCardData(prev => ({ ...prev, [field]: value }))
+    // Sanitize string inputs based on field type
+    let sanitizedValue = value
+
+    if (typeof value === 'string') {
+      switch (field) {
+        case 'email':
+          sanitizedValue = sanitizeEmail(value)
+          break
+        case 'phone':
+          sanitizedValue = sanitizePhone(value)
+          break
+        case 'website':
+        case 'linkedin':
+        case 'twitter':
+        case 'instagram':
+        case 'github':
+          sanitizedValue = sanitizeURL(value)
+          break
+        case 'image':
+        case 'logo':
+          // Validate image data URLs
+          if (value && !isValidImageDataURL(value)) {
+            console.error('Invalid image data URL')
+            return // Don't update with invalid image
+          }
+          sanitizedValue = value
+          break
+        case 'name':
+        case 'title':
+        case 'company':
+        case 'backText':
+        case 'address':
+          sanitizedValue = sanitizeText(value)
+          break
+        default:
+          // For any other string fields, apply basic sanitization
+          sanitizedValue = sanitizeText(value)
+      }
+    }
+
+    setCardData(prev => ({ ...prev, [field]: sanitizedValue }))
   }
 
   const fillTestData = () => {
