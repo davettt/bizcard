@@ -1,4 +1,5 @@
-import { EmailTemplateId } from '../types'
+import React from 'react'
+import { EmailTemplateId, EmailSignatureData } from '../types'
 import {
   SimpleEmailTemplate,
   ModernEmailTemplate,
@@ -9,7 +10,7 @@ import {
 export const emailTemplateComponents: Record<
   EmailTemplateId,
   React.FC<{
-    data: import('../types').EmailSignatureData
+    data: EmailSignatureData
     colors: string[]
   }>
 > = {

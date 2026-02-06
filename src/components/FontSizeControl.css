@@ -26,9 +26,13 @@
   height: 6px;
   border-radius: 3px;
   background: var(--border);
-  outline: none;
   -webkit-appearance: none;
   appearance: none;
+}
+
+.font-slider:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
 }
 
 .font-slider::-webkit-slider-thumb {
@@ -46,6 +50,10 @@
   background: var(--primary-hover);
 }
 
+.font-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+}
+
 .font-slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
@@ -58,6 +66,10 @@
 
 .font-slider::-moz-range-thumb:hover {
   background: var(--primary-hover);
+}
+
+.font-slider:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
 }
 
 .help-text {

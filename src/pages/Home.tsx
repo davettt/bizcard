@@ -45,11 +45,19 @@ const Home = () => {
               key={idx}
               className="feature-card"
               onClick={() => navigate(feature.path)}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  navigate(feature.path)
+                }
+              }}
+              role="button"
+              tabIndex={0}
             >
               <div className="feature-icon">{feature.icon}</div>
               <h2>{feature.title}</h2>
               <p>{feature.description}</p>
-              <button className="feature-btn">Get Started →</button>
+              <span className="feature-btn">Get Started →</span>
             </div>
           ))}
         </div>

@@ -29,6 +29,7 @@ const SocialLinks = ({
           className="social-link"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="LinkedIn"
         >
           <svg
             width={iconSize}
@@ -46,6 +47,7 @@ const SocialLinks = ({
           className="social-link"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Twitter"
         >
           <svg
             width={iconSize}
@@ -63,6 +65,7 @@ const SocialLinks = ({
           className="social-link"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Instagram"
         >
           <svg
             width={iconSize}
@@ -80,6 +83,7 @@ const SocialLinks = ({
           className="social-link"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="GitHub"
         >
           <svg
             width={iconSize}

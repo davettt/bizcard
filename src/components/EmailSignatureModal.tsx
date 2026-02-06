@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Modal from './Modal'
 import Button from './Button'
 import './EmbedCodeModal.css'
@@ -15,12 +15,20 @@ const EmailSignatureModal: React.FC<EmailSignatureModalProps> = ({
   signatureHTML,
 }) => {
   const [copied, setCopied] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
   const handleCopy = async () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
     try {
       await navigator.clipboard.writeText(signatureHTML)
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      timeoutRef.current = setTimeout(() => setCopied(false), 2000)
     } catch (_error) {
       // Fallback for older browsers
       const textArea = document.createElement('textarea')
@@ -32,7 +40,7 @@ const EmailSignatureModal: React.FC<EmailSignatureModalProps> = ({
       try {
         document.execCommand('copy')
         setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
+        timeoutRef.current = setTimeout(() => setCopied(false), 2000)
       } catch (err) {
         console.error('Failed to copy:', err)
       }

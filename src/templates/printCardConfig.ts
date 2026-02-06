@@ -1,4 +1,5 @@
-import { TemplateId } from '../types'
+import React from 'react'
+import { TemplateId, CardData } from '../types'
 import {
   MinimalTemplate,
   ClassicTemplate,
@@ -13,7 +14,7 @@ import {
 export const templateComponents: Record<
   TemplateId,
   React.FC<{
-    data: import('../types').CardData
+    data: CardData
     colors: string[]
     isBack?: boolean
   }>

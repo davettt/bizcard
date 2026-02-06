@@ -89,7 +89,19 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     <div className="image-upload">
       <label className="input-label">{label}</label>
       {helpText && <p className="help-text">{helpText}</p>}
-      <div className="upload-area" onClick={handleClick}>
+      <div
+        className="upload-area"
+        onClick={handleClick}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            handleClick()
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        aria-label={currentImage ? 'Change image' : 'Upload image'}
+      >
         {currentImage ? (
           <img src={currentImage} alt="Preview" className="preview-image" />
         ) : (

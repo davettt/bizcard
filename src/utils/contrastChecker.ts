@@ -63,7 +63,7 @@ export const getBestTextColor = (backgroundColor: string): string => {
 
 // Ensure a palette has accessible colors
 export const ensureAccessiblePalette = (colors: string[]): string[] => {
-  if (colors.length < 2) return colors
+  if (colors.length < 3) return colors
 
   // colors[0] = background, colors[1] = primary accent
   // colors[2] = text color, colors[3] = secondary accent

@@ -24,7 +24,7 @@ export const printSizes: PrintSizeOption[] = [
   },
   {
     value: '2.5x2',
-    label: 'Square (2.5" × 2")',
+    label: 'Compact (2.5" × 2")',
     width: 2.5,
     height: 2,
     unit: 'in',

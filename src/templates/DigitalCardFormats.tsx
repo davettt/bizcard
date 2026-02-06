@@ -1,6 +1,13 @@
 import { CardData } from '../types'
 import SocialLinks from '../components/SocialLinks'
+import { getBestTextColor } from '../utils/contrastChecker'
 import './DigitalCardFormats.css'
+
+/** Ensure URL has a protocol, without double-prefixing */
+const normalizeUrl = (url: string): string => {
+  if (/^https?:\/\//i.test(url)) return url
+  return `https://${url}`
+}
 
 interface FormatProps {
   data: CardData
@@ -59,7 +66,7 @@ export const PortraitFormat = ({ data, colors }: FormatProps) => {
           )}
           {data.website && (
             <a
-              href={`https://${data.website}`}
+              href={normalizeUrl(data.website)}
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: colors[2] }}
@@ -149,7 +156,7 @@ export const BannerFormat = ({ data, colors }: FormatProps) => {
           )}
           {data.website && (
             <a
-              href={`https://${data.website}`}
+              href={normalizeUrl(data.website)}
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: colors[2] }}
@@ -214,7 +221,7 @@ export const SquareFormat = ({ data, colors }: FormatProps) => {
           )}
           {data.website && (
             <a
-              href={`https://${data.website}`}
+              href={normalizeUrl(data.website)}
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: colors[2] }}
@@ -280,7 +287,10 @@ export const MobileFormat = ({ data, colors }: FormatProps) => {
             <a
               href={`mailto:${data.email}`}
               className="mobile-action-btn"
-              style={{ background: colors[1], color: 'white' }}
+              style={{
+                background: colors[1],
+                color: getBestTextColor(colors[1]),
+              }}
             >
               Email
             </a>
@@ -289,7 +299,10 @@ export const MobileFormat = ({ data, colors }: FormatProps) => {
             <a
               href={`tel:${data.phone}`}
               className="mobile-action-btn"
-              style={{ background: colors[1], color: 'white' }}
+              style={{
+                background: colors[1],
+                color: getBestTextColor(colors[1]),
+              }}
             >
               Call
             </a>
@@ -317,7 +330,7 @@ export const MobileFormat = ({ data, colors }: FormatProps) => {
             <div className="mobile-info-row">
               <span style={{ color: colors[1] }}>Website</span>
               <a
-                href={`https://${data.website}`}
+                href={normalizeUrl(data.website)}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: colors[2] }}

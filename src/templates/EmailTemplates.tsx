@@ -1,5 +1,13 @@
 import { EmailSignatureData } from '../types'
 
+/** Only allow http/https protocols in URLs to prevent javascript: XSS */
+const safeHref = (url: string): string => {
+  const trimmed = url.trim()
+  if (/^https?:\/\//i.test(trimmed)) return trimmed
+  if (!/^[a-z]+:/i.test(trimmed)) return trimmed
+  return ''
+}
+
 interface EmailTemplateProps {
   data: EmailSignatureData
   colors: string[]
@@ -65,7 +73,7 @@ export const SimpleEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
             {data.website && (
               <div style={{ marginBottom: '4px' }}>
                 <a
-                  href={data.website}
+                  href={safeHref(data.website)}
                   style={{ color: colors[1], textDecoration: 'none' }}
                 >
                   {data.website}
@@ -77,7 +85,7 @@ export const SimpleEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
             <div style={{ marginTop: '12px', fontSize: '11px' }}>
               {data.linkedin && (
                 <a
-                  href={data.linkedin}
+                  href={safeHref(data.linkedin)}
                   style={{
                     marginRight: '10px',
                     color: colors[1],
@@ -89,7 +97,7 @@ export const SimpleEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
               )}
               {data.twitter && (
                 <a
-                  href={data.twitter}
+                  href={safeHref(data.twitter)}
                   style={{
                     marginRight: '10px',
                     color: colors[1],
@@ -101,7 +109,7 @@ export const SimpleEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
               )}
               {data.instagram && (
                 <a
-                  href={data.instagram}
+                  href={safeHref(data.instagram)}
                   style={{ color: colors[1], textDecoration: 'none' }}
                 >
                   Instagram
@@ -181,7 +189,7 @@ export const ModernEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
             {data.website && (
               <div style={{ marginBottom: '6px' }}>
                 <a
-                  href={data.website}
+                  href={safeHref(data.website)}
                   style={{ color: colors[1], textDecoration: 'none' }}
                 >
                   {data.website}
@@ -193,7 +201,7 @@ export const ModernEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
             <div style={{ marginTop: '16px', display: 'flex', gap: '10px' }}>
               {data.linkedin && (
                 <a
-                  href={data.linkedin}
+                  href={safeHref(data.linkedin)}
                   style={{
                     color: colors[1],
                     textDecoration: 'none',
@@ -205,7 +213,7 @@ export const ModernEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
               )}
               {data.twitter && (
                 <a
-                  href={data.twitter}
+                  href={safeHref(data.twitter)}
                   style={{
                     color: colors[1],
                     textDecoration: 'none',
@@ -217,7 +225,7 @@ export const ModernEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
               )}
               {data.instagram && (
                 <a
-                  href={data.instagram}
+                  href={safeHref(data.instagram)}
                   style={{
                     color: colors[1],
                     textDecoration: 'none',
@@ -357,7 +365,7 @@ export const ProfessionalEmailTemplate = ({
                   Web:
                 </span>
                 <a
-                  href={data.website}
+                  href={safeHref(data.website)}
                   style={{ color: colors[1], textDecoration: 'none' }}
                 >
                   {data.website}
@@ -376,7 +384,7 @@ export const ProfessionalEmailTemplate = ({
             >
               {data.linkedin && (
                 <a
-                  href={data.linkedin}
+                  href={safeHref(data.linkedin)}
                   style={{
                     marginRight: '12px',
                     color: colors[1],
@@ -389,7 +397,7 @@ export const ProfessionalEmailTemplate = ({
               )}
               {data.twitter && (
                 <a
-                  href={data.twitter}
+                  href={safeHref(data.twitter)}
                   style={{
                     marginRight: '12px',
                     color: colors[1],
@@ -402,7 +410,7 @@ export const ProfessionalEmailTemplate = ({
               )}
               {data.instagram && (
                 <a
-                  href={data.instagram}
+                  href={safeHref(data.instagram)}
                   style={{
                     color: colors[1],
                     textDecoration: 'none',
@@ -428,6 +436,7 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
       style={{
         fontFamily: 'Arial, sans-serif',
         fontSize: '14px',
+        backgroundColor: colors[0],
         background: `linear-gradient(135deg, ${colors[0]} 0%, ${colors[1]} 100%)`,
         color: 'white',
         borderRadius: '12px',
@@ -488,7 +497,7 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
             {data.website && (
               <div style={{ marginBottom: '6px' }}>
                 <a
-                  href={data.website}
+                  href={safeHref(data.website)}
                   style={{ color: 'white', textDecoration: 'none' }}
                 >
                   {data.website}
@@ -500,7 +509,7 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
             <div style={{ marginTop: '20px', fontSize: '11px' }}>
               {data.linkedin && (
                 <a
-                  href={data.linkedin}
+                  href={safeHref(data.linkedin)}
                   style={{
                     marginRight: '15px',
                     color: 'white',
@@ -512,7 +521,7 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
               )}
               {data.twitter && (
                 <a
-                  href={data.twitter}
+                  href={safeHref(data.twitter)}
                   style={{
                     marginRight: '15px',
                     color: 'white',
@@ -524,7 +533,7 @@ export const CreativeEmailTemplate = ({ data, colors }: EmailTemplateProps) => {
               )}
               {data.instagram && (
                 <a
-                  href={data.instagram}
+                  href={safeHref(data.instagram)}
                   style={{ color: 'white', textDecoration: 'none' }}
                 >
                   Instagram

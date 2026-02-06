@@ -19,6 +19,22 @@
   gap: 5px;
 }
 
+a.social-handle-item {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+a.social-handle-item:hover {
+  opacity: 0.7;
+}
+
+a.social-handle-item:focus-visible {
+  opacity: 0.7;
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
 .social-handle-item {
   display: flex;
   align-items: center;

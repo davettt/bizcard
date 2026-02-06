@@ -44,6 +44,13 @@
   background: var(--primary-hover);
 }
 
+.btn-regenerate:focus-visible,
+.btn-custom-toggle:focus-visible,
+.btn-apply-custom:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .btn-custom-toggle {
   background: var(--secondary);
 }

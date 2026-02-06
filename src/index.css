@@ -15,7 +15,7 @@
   --text: #0f172a;
   --text-secondary: #475569;
   --error: #ef4444;
-  --success: #10b981;
+  --success: #22c55e;
 }
 
 body {
@@ -31,14 +31,24 @@ button {
   font-family: inherit;
   cursor: pointer;
   border: none;
-  outline: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 input,
 textarea,
 select {
   font-family: inherit;
-  outline: none;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
 }
 
 .container {

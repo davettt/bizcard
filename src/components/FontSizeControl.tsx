@@ -20,14 +20,17 @@ const FontSizeControl: React.FC<FontSizeControlProps> = ({
     return 'Normal'
   }
 
+  const sliderId = 'font-size-slider'
+
   return (
     <div className="font-size-control">
-      <label className="input-label">
+      <label htmlFor={sliderId} className="input-label">
         Font Size: <span className="font-size-value">{getLabel(value)}</span>
       </label>
       <div className="slider-container">
         <span className="slider-label">0.8x</span>
         <input
+          id={sliderId}
           type="range"
           min="0.8"
           max="1.2"
@@ -35,6 +38,10 @@ const FontSizeControl: React.FC<FontSizeControlProps> = ({
           value={value}
           onChange={handleChange}
           className="font-slider"
+          aria-valuemin={0.8}
+          aria-valuemax={1.2}
+          aria-valuenow={value}
+          aria-valuetext={getLabel(value)}
         />
         <span className="slider-label">1.2x</span>
       </div>

@@ -7,17 +7,18 @@
 export const sanitizeText = (input: string): string => {
   if (!input) return ''
 
+  // Decode HTML entities FIRST to prevent bypass via encoded tags
+  // (e.g., &lt;script&gt; would survive tag stripping then decode to <script>)
+  const textarea = document.createElement('textarea')
+  textarea.innerHTML = input
+  let sanitized = textarea.value
+
   // Remove any HTML tags
-  let sanitized = input.replace(/<[^>]*>/g, '')
+  sanitized = sanitized.replace(/<[^>]*>/g, '')
 
   // Remove any script-related content
   sanitized = sanitized.replace(/javascript:/gi, '')
   sanitized = sanitized.replace(/on\w+\s*=/gi, '') // Remove event handlers like onclick=
-
-  // Decode HTML entities to prevent double-encoding attacks
-  const textarea = document.createElement('textarea')
-  textarea.innerHTML = sanitized
-  sanitized = textarea.value
 
   return sanitized.trim()
 }
@@ -109,11 +110,9 @@ export const isValidImageDataURL = (dataURL: string): boolean => {
   // Check for valid image MIME types
   const validMimeTypes = [
     'data:image/jpeg',
-    'data:image/jpg',
     'data:image/png',
     'data:image/gif',
     'data:image/webp',
-    'data:image/svg+xml',
   ]
 
   return validMimeTypes.some(mime => dataURL.startsWith(mime))

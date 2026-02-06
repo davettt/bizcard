@@ -65,6 +65,6 @@ Thank you for understanding!
 
 ---
 
-**Official Hosted Version**: [davidtiong.com/tools/business-card-generator](https://davidtiong.com) (example URL)
+**Official Hosted Version**: [davidtiong.com](https://davidtiong.com)
 **Maintained by**: David Tiong
 **Contact**: david@davidtiong.com

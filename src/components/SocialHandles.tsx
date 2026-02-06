@@ -52,6 +52,18 @@ const extractHandle = (url: string, platform: string): string => {
   }
 }
 
+const getSafeUrl = (url: string): string => {
+  try {
+    const parsed = new URL(url)
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+      return url
+    }
+    return '#'
+  } catch {
+    return '#'
+  }
+}
+
 const SocialHandles = ({
   linkedin,
   twitter,
@@ -72,7 +84,12 @@ const SocialHandles = ({
       </div>
       <div className="social-handles-list">
         {linkedin && (
-          <div className="social-handle-item">
+          <a
+            href={getSafeUrl(linkedin)}
+            className="social-handle-item"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <svg
               width={iconSize}
               height={iconSize}
@@ -84,10 +101,15 @@ const SocialHandles = ({
             <span style={{ color: textColor }}>
               {extractHandle(linkedin, 'linkedin')}
             </span>
-          </div>
+          </a>
         )}
         {twitter && (
-          <div className="social-handle-item">
+          <a
+            href={getSafeUrl(twitter)}
+            className="social-handle-item"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <svg
               width={iconSize}
               height={iconSize}
@@ -99,10 +121,15 @@ const SocialHandles = ({
             <span style={{ color: textColor }}>
               {extractHandle(twitter, 'twitter')}
             </span>
-          </div>
+          </a>
         )}
         {instagram && (
-          <div className="social-handle-item">
+          <a
+            href={getSafeUrl(instagram)}
+            className="social-handle-item"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <svg
               width={iconSize}
               height={iconSize}
@@ -114,10 +141,15 @@ const SocialHandles = ({
             <span style={{ color: textColor }}>
               {extractHandle(instagram, 'instagram')}
             </span>
-          </div>
+          </a>
         )}
         {github && (
-          <div className="social-handle-item">
+          <a
+            href={getSafeUrl(github)}
+            className="social-handle-item"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <svg
               width={iconSize}
               height={iconSize}
@@ -129,7 +161,7 @@ const SocialHandles = ({
             <span style={{ color: textColor }}>
               {extractHandle(github, 'github')}
             </span>
-          </div>
+          </a>
         )}
       </div>
     </div>

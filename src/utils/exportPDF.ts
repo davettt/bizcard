@@ -23,7 +23,7 @@ export const exportToPDF = async (
     const frontCanvas = await html2canvas(frontElement, {
       scale: 3, // High quality
       useCORS: true,
-      backgroundColor: null,
+      backgroundColor: '#ffffff',
     })
 
     const frontImgData = frontCanvas.toDataURL('image/jpeg', 1.0)
@@ -42,7 +42,7 @@ export const exportToPDF = async (
       const backCanvas = await html2canvas(backElement, {
         scale: 3,
         useCORS: true,
-        backgroundColor: null,
+        backgroundColor: '#ffffff',
       })
       const backImgData = backCanvas.toDataURL('image/jpeg', 1.0)
       pdf.addImage(

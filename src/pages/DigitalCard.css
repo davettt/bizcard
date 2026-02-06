@@ -43,6 +43,11 @@
   transform: translateY(-1px);
 }
 
+.back-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .page-header h1 {
   font-size: 2rem;
   font-weight: 700;
@@ -102,6 +107,11 @@
 .format-option:hover {
   border-color: var(--primary);
   background: rgba(16, 185, 129, 0.05);
+}
+
+.format-option:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .format-option.selected {

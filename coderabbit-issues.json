@@ -1,0 +1,183 @@
+{
+  "team": "TiongCreative",
+  "project": "BizCard",
+  "defaultStatus": "Backlog",
+  "issues": [
+    {
+      "title": "Critical: Fix TypeScript compilation errors",
+      "description": "Fix missing React imports that will cause build failures\n\nThese are blocking issues that prevent the application from building and running properly.",
+      "labels": ["bug", "critical"],
+      "priority": 1,
+      "subIssues": [
+        {
+          "title": "Fix missing React import in emailTemplateConfig.ts",
+          "description": "File: src/templates/emailTemplateConfig.ts:1-14\n\nReact.FC is used on line 11, but React is not imported. This will cause a compilation error. Additionally, EmailSignatureData could be imported alongside EmailTemplateId for consistency rather than using inline import syntax.\n\n**Proposed fix:**\n```typescript\n+import React from 'react'\n-import { EmailTemplateId } from '../types'\n+import { EmailTemplateId, EmailSignatureData } from '../types'\n```",
+          "labels": ["bug"],
+          "priority": 1
+        },
+        {
+          "title": "Fix missing React import in printCardConfig.ts",
+          "description": "File: src/templates/printCardConfig.ts:13-19\n\nReact.FC is used on line 15, but React is not imported. This will fail TypeScript compilation.\n\n**Proposed fix:**\n```typescript\nimport React from 'react'\nimport type { CardData } from '../types'\n```",
+          "labels": ["bug"],
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "title": "Critical: Fix security vulnerabilities",
+      "description": "Address critical security issues that could lead to XSS attacks\n\nThese must be fixed before production deployment.",
+      "labels": ["bug", "security", "critical"],
+      "priority": 1,
+      "subIssues": [
+        {
+          "title": "Fix XSS bypass in sanitize.ts operation order",
+          "description": "File: src/utils/sanitize.ts:7-23\n\nThe current order (strip tags → decode entities) allows bypass. An attacker can submit &lt;script&gt;alert(1)&lt;/script&gt;:\n1. Tag stripping finds nothing (no <script> present)\n2. Entity decoding restores <script>alert(1)</script>\n\n**Fix:** Decode HTML entities first, then strip tags and sanitize.\n\n**Critical:** This function uses document.createElement, making it incompatible with SSR/Node.js environments. Consider using DOMPurify instead.",
+          "labels": ["bug", "security"],
+          "priority": 1
+        },
+        {
+          "title": "Add URL validation to EmailTemplates.tsx",
+          "description": "File: src/templates/EmailTemplates.tsx:65-73\n\nUser-provided URLs (data.website, data.linkedin, data.twitter, data.instagram) are used directly in href attributes without validation. Malicious inputs like javascript:alert('xss') could be rendered as clickable links.\n\n**Fix:** Implement URL validation helper that only allows http: and https: protocols.",
+          "labels": ["bug", "security"],
+          "priority": 1
+        },
+        {
+          "title": "Remove SVG data URLs from allowed image types",
+          "description": "File: src/utils/sanitize.ts:103-120\n\nSVG data URLs can be an XSS vector. data:image/svg+xml can contain embedded JavaScript (<script> tags, event handlers, etc.). If these data URLs are used in contexts where SVG is rendered, this creates XSS risk.\n\n**Fix:** Remove 'data:image/svg+xml' from validMimeTypes array and fix non-standard 'image/jpg' to 'image/jpeg'.",
+          "labels": ["bug", "security"],
+          "priority": 1
+        }
+      ]
+    },
+    {
+      "title": "Epic: Fix accessibility issues",
+      "description": "Comprehensive accessibility improvements to meet WCAG standards\n\nThese issues affect keyboard navigation and screen reader support.",
+      "labels": ["improvement", "accessibility"],
+      "subIssues": [
+        {
+          "title": "Add focus states to all interactive elements",
+          "description": "Multiple files lack keyboard focus indicators:\n\n- Modal.css:63-81 - Close button needs :focus-visible state\n- SocialLinks.css:16-18 - Social links need focus styles\n- ColorPicker.css:30-45 - All three button classes need focus states\n- Button.css:17-44 - All button variants need :focus-visible styles\n- DigitalCardFormats.css:358-362 - Mobile action buttons need focus states\n- DigitalCardFormats.css:8-15 - Links need focus styles\n- FontSizeControl.css:49-61 - Mozilla slider thumb needs focus\n- FontSizeControl.css:34-47 - WebKit slider thumb needs focus\n- FontSizeControl.css:24-32 - Slider needs focus styles\n- DigitalCard.css:22-44 - Back button and format options need focus\n\n**Fix:** Add :focus-visible rules with clear visual indicators (outline or box-shadow).",
+          "labels": ["improvement", "accessibility"],
+          "priority": 2
+        },
+        {
+          "title": "Fix focus indicator removal in global styles",
+          "description": "File: src/index.css:30-35\n\nSetting outline: none on buttons removes the default focus indicator, which is a WCAG 2.4.7 (Focus Visible) violation. Keyboard users cannot see which button has focus.\n\n**Fix:** Remove outline: none or add explicit focus styles for button:focus-visible.",
+          "labels": ["bug", "accessibility"],
+          "priority": 1
+        },
+        {
+          "title": "Add ARIA attributes and semantic markup",
+          "description": "Multiple components need proper ARIA attributes:\n\n- Modal.tsx:32-44 - Add role=\"dialog\", aria-modal=\"true\", aria-labelledby, aria-describedby, implement focus trapping\n- Input.tsx:27-42 - Add label-input association via id/htmlFor, aria-describedby for help/error text, aria-invalid for error state\n- FontSizeControl.tsx:25-38 - Associate label with input using htmlFor and id\n- SocialLinks.tsx:27-41 - Add aria-label to social link anchors\n- Home.tsx:44-53 - Make feature cards keyboard accessible with role=\"button\", tabIndex, and keyboard handlers\n- ImageUpload.tsx:92-112 - Add keyboard accessibility to upload area\n\n**Fix:** Implement proper ARIA attributes and keyboard navigation support.",
+          "labels": ["improvement", "accessibility"],
+          "priority": 2
+        },
+        {
+          "title": "Fix focus styles for EmbedCodeModal textarea",
+          "description": "File: src/components/EmbedCodeModal.css:21-32\n\nThe outline: none on line 30 removes the default focus indicator without providing an alternative. This makes it difficult for keyboard users to identify when the textarea is focused.\n\n**Fix:** Add :focus-visible rule with clear visual indicator (box-shadow or outline).",
+          "labels": ["improvement", "accessibility"],
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "title": "Epic: Improve code quality and consistency",
+      "description": "General code improvements for consistency and maintainability\n\nThese issues don't break functionality but improve code quality.",
+      "labels": ["improvement"],
+      "subIssues": [
+        {
+          "title": "Fix misleading 'Square' label in printSizes.ts",
+          "description": "File: src/utils/printSizes.ts:25-31\n\nThe label says \"Square\" but the dimensions are 2.5\" × 2\", which is a rectangle. This is misleading to users.\n\n**Fix:** Rename to \"Compact\" or \"Mini\" to accurately describe this aspect ratio.",
+          "labels": ["improvement"],
+          "priority": 3
+        },
+        {
+          "title": "Fix duplicate color variables in index.css",
+          "description": "File: src/index.css:8\n\nBoth --primary and --success are set to the same color (#10b981). This creates redundancy and potential confusion.\n\n**Fix:** Either consolidate them if they represent the same semantic meaning, or differentiate them if they serve distinct purposes.",
+          "labels": ["improvement"],
+          "priority": 3
+        },
+        {
+          "title": "Fix double URL prefix in DigitalCardFormats.tsx",
+          "description": "File: src/templates/DigitalCardFormats.tsx:60-69\n\nWebsite URLs may be double-prefixed if data.website already contains a protocol. If data.website is \"https://example.com\", the resulting href becomes malformed (e.g., \"https://https://example.com\").\n\n**Fix:** Implement normalizeUrl function that checks for existing protocol before prepending.",
+          "labels": ["bug"],
+          "priority": 2
+        },
+        {
+          "title": "Fix contrast issue in mobile action buttons",
+          "description": "File: src/templates/DigitalCardFormats.tsx:278-297\n\nMobile action buttons use hardcoded 'white' text color regardless of the background (colors[1]). If colors[1] is a light color, the text will have poor contrast.\n\n**Fix:** Implement contrast utility to calculate appropriate text color based on background luminance.",
+          "labels": ["improvement", "accessibility"],
+          "priority": 2
+        },
+        {
+          "title": "Fix inconsistent length check in contrastChecker.ts",
+          "description": "File: src/utils/contrastChecker.ts:65-80\n\nThe guard on line 66 returns early if colors.length < 2, but the function later accesses colors[2], causing implicit array extension when length === 2.\n\n**Fix:** Update guard to return early when colors.length < 3 or explicitly handle the case.",
+          "labels": ["bug"],
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "title": "Epic: Fix component interaction and UX issues",
+      "description": "Fix component behavior and user experience problems\n\nThese issues affect user interaction and component lifecycle.",
+      "labels": ["improvement"],
+      "subIssues": [
+        {
+          "title": "Fix potential state update on unmounted component in EmailSignatureModal",
+          "description": "File: src/components/EmailSignatureModal.tsx:19-41\n\nThe setTimeout calls could trigger setCopied(false) after the component unmounts, causing React warnings and potential memory leaks.\n\n**Fix:** Store timeout ID and clear it on unmount via useEffect cleanup.",
+          "labels": ["bug"],
+          "priority": 2
+        },
+        {
+          "title": "Fix Modal overflow cleanup issue",
+          "description": "File: src/components/Modal.tsx:24-27\n\nIf onClose changes reference, effect re-runs and cleanup sets overflow = 'unset' even though the modal remains open. Additionally, 'unset' may not restore the original overflow value.\n\n**Fix:** Guard cleanup to only restore overflow when modal is actually closing, and store original value.",
+          "labels": ["bug"],
+          "priority": 2
+        },
+        {
+          "title": "Fix nested interactive elements in Home.tsx",
+          "description": "File: src/pages/Home.tsx:52\n\nThe button inside the clickable div creates ambiguous interaction—clicking it triggers the parent's onClick. This creates confusion for users.\n\n**Fix:** Either remove nested button or stop event propagation on button to prevent parent onClick.",
+          "labels": ["bug"],
+          "priority": 2
+        },
+        {
+          "title": "Make social handles clickable in SocialHandles.tsx",
+          "description": "File: src/components/SocialHandles.tsx:74-88\n\nSocial items are rendered as non-clickable div elements. Users typically expect social handles to be clickable links that navigate to respective profiles.\n\n**Fix:** Replace divs with anchor elements that build proper profile URLs (e.g., https://www.linkedin.com/in/{handle}).",
+          "labels": ["feature"],
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "title": "Epic: Fix technical implementation issues",
+      "description": "Address technical implementation problems\n\nThese are specific technical fixes that don't fit in other categories.",
+      "labels": ["improvement"],
+      "subIssues": [
+        {
+          "title": "Fix JPEG transparency issue in exportPDF.ts",
+          "description": "File: src/utils/exportPDF.ts:26-29\n\nUsing backgroundColor: null with html2canvas allows transparency, but JPEG format doesn't support alpha channels. Transparent areas will render as black in the exported PDF.\n\n**Fix:** Either use PNG format or set explicit white background color.\n\n**Also applies to:** Back element rendering on lines 42-47.",
+          "labels": ["bug"],
+          "priority": 2
+        },
+        {
+          "title": "Add email client fallback for gradients",
+          "description": "File: src/templates/EmailTemplates.tsx:425-436\n\nlinear-gradient is not supported in many email clients (Outlook desktop uses Word rendering engine). Since gradient background is core design feature, provide solid fallback backgroundColor.\n\n**Fix:** Add backgroundColor property alongside background gradient for clients that don't support gradients.",
+          "labels": ["improvement"],
+          "priority": 3
+        },
+        {
+          "title": "Review wrangler.toml gitignore exclusion",
+          "description": "File: .gitignore:25\n\nThe wrangler.toml file contains project configuration for Cloudflare Workers and should be version controlled. Ignoring it means team members won't have access to deployment configuration, route definitions, environment settings.\n\n**Fix:** Verify if exclusion is intentional. If not, remove from gitignore. If file contains secrets, extract them to .dev.vars and commit template.",
+          "labels": ["improvement"],
+          "priority": 3
+        },
+        {
+          "title": "Fix placeholder text and URL inconsistency in CONTRIBUTING.md",
+          "description": "File: CONTRIBUTING.md:68\n\nLine 68 contains \"(example URL)\" placeholder text. Additionally, the link text shows davidtiong.com/tools/business-card-generator but actual link goes to https://davidtiong.com, creating inconsistency.\n\n**Fix:** Remove placeholder text and make link text and href consistent.",
+          "labels": ["improvement"],
+          "priority": 3
+        }
+      ]
+    }
+  ]
+}
