@@ -42,6 +42,8 @@ A modern, user-friendly web application for creating professional business cards
 - **Font Customization**: Adjust font size (0.8x - 1.2x) and choose from 10 font families
 - **Real-time Preview**: See changes instantly with fixed dimensions
 - **Test Data Button**: Quickly fill all fields with sample data for testing
+- **Data Persistence**: Card details automatically saved to browser localStorage — your data is restored when you return, and shared across all 3 card types
+- **Clear Saved Data**: One-click option to remove all saved data from the browser
 
 ## Getting Started
 

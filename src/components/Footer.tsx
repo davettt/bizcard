@@ -14,10 +14,12 @@ const Footer = () => {
             <strong>Disclaimer:</strong> This free tool is provided "as is"
             without warranty of any kind. All data is processed locally in your
             browser - we do not store or transmit your personal information.
-            Please review all content for accuracy before printing or
-            distribution. For professional printing, consult with your print
-            service provider about file requirements and color accuracy. Use at
-            your own risk.
+            Your card details are saved in your browser's local storage for
+            convenience and are never sent to a server. You can clear your saved
+            data at any time using the clear button on each page. Please review
+            all content for accuracy before printing or distribution. For
+            professional printing, consult with your print service provider
+            about file requirements and color accuracy. Use at your own risk.
           </p>
           <p className="footer-copy">
             © {copyrightYear} davidtiong.com · Free Business Tools

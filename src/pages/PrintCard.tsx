@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CardData, ColorPalette, PrintSize, TemplateId } from '../types'
 import { templateComponents, templateNames } from '../templates/printCardConfig'
@@ -27,21 +27,30 @@ const PrintCard = () => {
   const frontRef = useRef<HTMLDivElement>(null)
   const backRef = useRef<HTMLDivElement>(null)
 
-  const [cardData, setCardData] = useState<CardData>({
-    name: '',
-    title: '',
-    company: '',
-    email: '',
-    phone: '',
-    website: '',
-    address: '',
-    linkedin: '',
-    twitter: '',
-    instagram: '',
-    github: '',
-    includeBack: false,
-    backText: '',
-    fontScale: 1.0,
+  const [cardData, setCardData] = useState<CardData>(() => {
+    const defaults: CardData = {
+      name: '',
+      title: '',
+      company: '',
+      email: '',
+      phone: '',
+      website: '',
+      address: '',
+      linkedin: '',
+      twitter: '',
+      instagram: '',
+      github: '',
+      includeBack: false,
+      backText: '',
+      fontScale: 1.0,
+    }
+    const saved = localStorage.getItem('bizcard-data')
+    if (!saved) return defaults
+    try {
+      return { ...defaults, ...JSON.parse(saved) }
+    } catch {
+      return defaults
+    }
   })
 
   const [selectedTemplate, setSelectedTemplate] =
@@ -49,6 +58,15 @@ const PrintCard = () => {
   const [selectedPalette, setSelectedPalette] = useState<ColorPalette>()
   const [selectedSize, setSelectedSize] = useState<PrintSize>('3.5x2')
   const [isExporting, setIsExporting] = useState(false)
+
+  // Save card data to localStorage whenever it changes
+  useEffect(() => {
+    const existing = JSON.parse(localStorage.getItem('bizcard-data') || '{}')
+    localStorage.setItem(
+      'bizcard-data',
+      JSON.stringify({ ...existing, ...cardData })
+    )
+  }, [cardData])
 
   const handleInputChange = (
     field: keyof CardData,
@@ -125,6 +143,26 @@ const PrintCard = () => {
         'Passionate about creating intuitive user experiences that solve real problems. Available for freelance projects and consulting.',
       fontScale: 1.0,
       cornerStyle: 'rounded',
+    })
+  }
+
+  const handleClear = () => {
+    localStorage.removeItem('bizcard-data')
+    setCardData({
+      name: '',
+      title: '',
+      company: '',
+      email: '',
+      phone: '',
+      website: '',
+      address: '',
+      linkedin: '',
+      twitter: '',
+      instagram: '',
+      github: '',
+      includeBack: false,
+      backText: '',
+      fontScale: 1.0,
     })
   }
 
@@ -213,19 +251,38 @@ const PrintCard = () => {
                 border: '1px solid #bae6fd',
               }}
             >
-              <Button onClick={fillTestData} variant="secondary" fullWidth>
-                🧪 Fill Test Data
-              </Button>
-              <p
-                style={{
-                  margin: '8px 0 0 0',
-                  fontSize: '13px',
-                  color: '#0369a1',
-                  textAlign: 'center',
-                }}
-              >
-                Quickly populate all fields with sample data for testing
-              </p>
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <div style={{ flex: 1 }}>
+                  <Button onClick={fillTestData} variant="secondary" fullWidth>
+                    🧪 Fill Test Data
+                  </Button>
+                  <p
+                    style={{
+                      margin: '8px 0 0 0',
+                      fontSize: '13px',
+                      color: '#0369a1',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Populate all fields with sample data
+                  </p>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Button onClick={handleClear} variant="outline" fullWidth>
+                    Clear Saved Data
+                  </Button>
+                  <p
+                    style={{
+                      margin: '8px 0 0 0',
+                      fontSize: '13px',
+                      color: '#6b7280',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Clears your saved data across all 3 card types
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="form-card">

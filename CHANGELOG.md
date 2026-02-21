@@ -5,6 +5,22 @@ All notable changes to the Business Card Generator project will be documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-02-21
+
+### Added
+- **User data persistence**: Card details now saved to browser localStorage across all 3 card types (Print, Digital, Email Signature)
+- **Shared localStorage key**: All 3 pages share a single `bizcard-data` key — common fields (name, title, company, email, etc.) pre-populate when switching between card types
+- **Merge-on-save**: Each page only updates its own fields in localStorage, preserving page-specific data (e.g. print card address, email signature image URL) set on other pages
+- **Clear Saved Data button**: Added to all 3 pages, clears localStorage and resets all fields
+- **Updated footer disclaimer**: Now explicitly mentions local storage use — "Your card details are saved in your browser's local storage for convenience and are never sent to a server"
+
+### Changed
+- **Button layout**: Fill Test Data and Clear Saved Data buttons now displayed side by side with individual helper text beneath each for clarity
+- **Clear button helper text**: Explicitly states data is cleared across all 3 card types
+
+### Fixed
+- **localStorage initialisation**: Used `useState` lazy initialiser to read from localStorage synchronously before first render, preventing initial empty state from overwriting saved data on mount
+
 ## [1.1.0] - 2025-11-08
 
 ### Policy Changes
